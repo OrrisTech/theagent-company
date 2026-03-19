@@ -93,6 +93,25 @@
     "themeMode": "主题模式",
     "themeModeDescription": "选择界面的显示样式。"
   },
+  "kanban": {
+    "tabs": {
+      "issues": "任务列表",
+      "board": "看板",
+      "overview": "概览",
+      "configuration": "配置",
+      "budget": "预算"
+    },
+    "columns": {
+      "todo": "待办",
+      "inProgress": "进行中",
+      "review": "审核中",
+      "done": "已完成",
+      "blocked": "已阻塞",
+      "cancelled": "已取消"
+    },
+    "empty": "此列暂无任务。",
+    "dragHint": "拖拽卡片到其他列以更改状态。"
+  },
   "pages": {
     "overview": {
       "title": "总览",

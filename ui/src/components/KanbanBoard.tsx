@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
 import {
   DndContext,
   DragOverlay,
   PointerSensor,
+  KeyboardSensor,
   useSensor,
   useSensors,
   type DragStartEvent,
@@ -16,25 +18,19 @@ import {
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
+  sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import { StatusIcon } from "./StatusIcon";
 import { PriorityIcon } from "./PriorityIcon";
 import { Identity } from "./Identity";
+import {
+  DEFAULT_KANBAN_COLUMNS,
+  KANBAN_COLUMN_I18N_KEYS,
+  groupIssuesByColumn,
+  resolveDropTargetStatus,
+  type KanbanColumnDef,
+} from "@/lib/kanban";
 import type { Issue } from "@paperclipai/shared";
-
-const boardStatuses = [
-  "backlog",
-  "todo",
-  "in_progress",
-  "in_review",
-  "blocked",
-  "done",
-  "cancelled",
-];
-
-function statusLabel(status: string): string {
-  return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-}
 
 interface Agent {
   id: string;
@@ -45,30 +41,38 @@ interface KanbanBoardProps {
   issues: Issue[];
   agents?: Agent[];
   liveIssueIds?: Set<string>;
+  /** Custom column definitions. Falls back to DEFAULT_KANBAN_COLUMNS. */
+  columns?: KanbanColumnDef[];
   onUpdateIssue: (id: string, data: Record<string, unknown>) => void;
 }
 
 /* ── Droppable Column ── */
 
 function KanbanColumn({
-  status,
+  columnDef,
+  label,
   issues,
   agents,
   liveIssueIds,
 }: {
-  status: string;
+  columnDef: KanbanColumnDef;
+  label: string;
   issues: Issue[];
   agents?: Agent[];
   liveIssueIds?: Set<string>;
 }) {
-  const { setNodeRef, isOver } = useDroppable({ id: status });
+  const { setNodeRef, isOver } = useDroppable({ id: columnDef.id });
 
   return (
-    <div className="flex flex-col min-w-[260px] w-[260px] shrink-0">
+    <div
+      className="flex flex-col min-w-[260px] w-[260px] shrink-0"
+      role="region"
+      aria-label={label}
+    >
       <div className="flex items-center gap-2 px-2 py-2 mb-1">
-        <StatusIcon status={status} />
+        <StatusIcon status={columnDef.defaultStatus} />
         <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          {statusLabel(status)}
+          {label}
         </span>
         <span className="text-xs text-muted-foreground/60 ml-auto tabular-nums">
           {issues.length}
@@ -130,6 +134,8 @@ function KanbanCard({
     return agents.find((a) => a.id === id)?.name ?? null;
   };
 
+  const labels = issue.labels ?? [];
+
   return (
     <div
       ref={setNodeRef}
@@ -139,6 +145,8 @@ function KanbanCard({
       className={`rounded-md border bg-card p-2.5 cursor-grab active:cursor-grabbing transition-shadow ${
         isDragging && !isOverlay ? "opacity-30" : ""
       } ${isOverlay ? "shadow-lg ring-1 ring-primary/20" : "hover:shadow-sm"}`}
+      role="listitem"
+      aria-label={issue.title}
     >
       <Link
         to={`/issues/${issue.identifier ?? issue.id}`}
@@ -160,6 +168,32 @@ function KanbanCard({
           )}
         </div>
         <p className="text-sm leading-snug line-clamp-2 mb-2">{issue.title}</p>
+
+        {/* Labels */}
+        {labels.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-2">
+            {labels.slice(0, 3).map((label) => (
+              <span
+                key={label.id}
+                className="inline-flex items-center rounded-full border px-1.5 py-0.5 text-[10px] font-medium leading-none"
+                style={{
+                  borderColor: label.color,
+                  color: label.color,
+                  backgroundColor: `${label.color}1f`,
+                }}
+              >
+                {label.name}
+              </span>
+            ))}
+            {labels.length > 3 && (
+              <span className="text-[10px] text-muted-foreground self-center">
+                +{labels.length - 3}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Bottom row: priority + assignee */}
         <div className="flex items-center gap-2">
           <PriorityIcon priority={issue.priority} />
           {issue.assigneeAgentId && (() => {
@@ -184,31 +218,35 @@ export function KanbanBoard({
   issues,
   agents,
   liveIssueIds,
+  columns = DEFAULT_KANBAN_COLUMNS,
   onUpdateIssue,
 }: KanbanBoardProps) {
+  const { t } = useTranslation();
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
-  const columnIssues = useMemo(() => {
-    const grouped: Record<string, Issue[]> = {};
-    for (const status of boardStatuses) {
-      grouped[status] = [];
-    }
-    for (const issue of issues) {
-      if (grouped[issue.status]) {
-        grouped[issue.status].push(issue);
-      }
-    }
-    return grouped;
-  }, [issues]);
+  const columnIssues = useMemo(
+    () => groupIssuesByColumn(issues, columns),
+    [issues, columns],
+  );
 
   const activeIssue = useMemo(
     () => (activeId ? issues.find((i) => i.id === activeId) : null),
-    [activeId, issues]
+    [activeId, issues],
   );
+
+  // Build a fast lookup for card id -> status
+  const issueStatusMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const issue of issues) {
+      map.set(issue.id, issue.status);
+    }
+    return map;
+  }, [issues]);
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
@@ -223,19 +261,11 @@ export function KanbanBoard({
     const issue = issues.find((i) => i.id === issueId);
     if (!issue) return;
 
-    // Determine target status: the "over" could be a column id (status string)
-    // or another card's id. Find which column the "over" belongs to.
-    let targetStatus: string | null = null;
-
-    if (boardStatuses.includes(over.id as string)) {
-      targetStatus = over.id as string;
-    } else {
-      // It's a card - find which column it's in
-      const targetIssue = issues.find((i) => i.id === over.id);
-      if (targetIssue) {
-        targetStatus = targetIssue.status;
-      }
-    }
+    const targetStatus = resolveDropTargetStatus(
+      over.id as string,
+      columns,
+      (id) => issueStatusMap.get(id),
+    );
 
     if (targetStatus && targetStatus !== issue.status) {
       onUpdateIssue(issueId, { status: targetStatus });
@@ -243,7 +273,18 @@ export function KanbanBoard({
   }
 
   function handleDragOver(_event: DragOverEvent) {
-    // Could be used for visual feedback; keeping simple for now
+    // Visual feedback is handled via isOver in KanbanColumn
+  }
+
+  // Resolve column labels via i18n, falling back to a title-cased id
+  function columnLabel(col: KanbanColumnDef): string {
+    const i18nKey = KANBAN_COLUMN_I18N_KEYS[col.id];
+    if (i18nKey) {
+      const translated = t(i18nKey);
+      // i18next returns the key itself when missing — fall back to default label
+      if (translated !== i18nKey) return translated;
+    }
+    return col.id.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }
 
   return (
@@ -254,11 +295,12 @@ export function KanbanBoard({
       onDragEnd={handleDragEnd}
     >
       <div className="flex gap-3 overflow-x-auto pb-4 -mx-2 px-2">
-        {boardStatuses.map((status) => (
+        {columns.map((col) => (
           <KanbanColumn
-            key={status}
-            status={status}
-            issues={columnIssues[status] ?? []}
+            key={col.id}
+            columnDef={col}
+            label={columnLabel(col)}
+            issues={columnIssues[col.id] ?? []}
             agents={agents}
             liveIssueIds={liveIssueIds}
           />

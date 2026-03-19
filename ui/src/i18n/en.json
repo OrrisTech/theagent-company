@@ -93,6 +93,25 @@
     "themeMode": "Theme Mode",
     "themeModeDescription": "Choose how the interface looks."
   },
+  "kanban": {
+    "tabs": {
+      "issues": "Issues",
+      "board": "Board",
+      "overview": "Overview",
+      "configuration": "Configuration",
+      "budget": "Budget"
+    },
+    "columns": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "review": "Review",
+      "done": "Done",
+      "blocked": "Blocked",
+      "cancelled": "Cancelled"
+    },
+    "empty": "No issues in this column.",
+    "dragHint": "Drag cards between columns to change status."
+  },
   "pages": {
     "overview": {
       "title": "Overview",

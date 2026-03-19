@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams, useNavigate, useLocation, Navigate } from "@/lib/router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { PROJECT_COLORS, isUuidLike, type BudgetPolicySummary } from "@paperclipai/shared";
@@ -18,6 +19,7 @@ import { InlineEditor } from "../components/InlineEditor";
 import { StatusBadge } from "../components/StatusBadge";
 import { BudgetPolicyCard } from "../components/BudgetPolicyCard";
 import { IssuesList } from "../components/IssuesList";
+import { KanbanBoard } from "../components/KanbanBoard";
 import { PageSkeleton } from "../components/PageSkeleton";
 import { PageTabBar } from "../components/PageTabBar";
 import { projectRouteRef, cn } from "../lib/utils";
@@ -27,7 +29,7 @@ import { PluginSlotMount, PluginSlotOutlet, usePluginSlots } from "@/plugins/slo
 
 /* ── Top-level tab types ── */
 
-type ProjectBaseTab = "overview" | "list" | "configuration" | "budget";
+type ProjectBaseTab = "overview" | "list" | "board" | "configuration" | "budget";
 type ProjectPluginTab = `plugin:${string}`;
 type ProjectTab = ProjectBaseTab | ProjectPluginTab;
 
@@ -41,6 +43,7 @@ function resolveProjectTab(pathname: string, projectId: string): ProjectTab | nu
   if (projectsIdx === -1 || segments[projectsIdx + 1] !== projectId) return null;
   const tab = segments[projectsIdx + 2];
   if (tab === "overview") return "overview";
+  if (tab === "board") return "board";
   if (tab === "configuration") return "configuration";
   if (tab === "budget") return "budget";
   if (tab === "issues") return "list";
@@ -200,6 +203,60 @@ function ProjectIssuesList({ projectId, companyId }: { projectId: string; compan
   );
 }
 
+/* ── Board (kanban) tab content ── */
+
+function ProjectKanbanBoard({ projectId, companyId }: { projectId: string; companyId: string }) {
+  const queryClient = useQueryClient();
+
+  const { data: agents } = useQuery({
+    queryKey: queryKeys.agents.list(companyId),
+    queryFn: () => agentsApi.list(companyId),
+    enabled: !!companyId,
+  });
+
+  const { data: liveRuns } = useQuery({
+    queryKey: queryKeys.liveRuns(companyId),
+    queryFn: () => heartbeatsApi.liveRunsForCompany(companyId),
+    enabled: !!companyId,
+    refetchInterval: 5000,
+  });
+
+  const liveIssueIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const run of liveRuns ?? []) {
+      if (run.issueId) ids.add(run.issueId);
+    }
+    return ids;
+  }, [liveRuns]);
+
+  const { data: issues, isLoading, error } = useQuery({
+    queryKey: queryKeys.issues.listByProject(companyId, projectId),
+    queryFn: () => issuesApi.list(companyId, { projectId }),
+    enabled: !!companyId,
+  });
+
+  const updateIssue = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Record<string, unknown> }) =>
+      issuesApi.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.listByProject(companyId, projectId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.list(companyId) });
+    },
+  });
+
+  if (isLoading) return <PageSkeleton variant="issues-list" />;
+  if (error) return <p className="text-sm text-destructive">{(error as Error).message}</p>;
+
+  return (
+    <KanbanBoard
+      issues={issues ?? []}
+      agents={agents}
+      liveIssueIds={liveIssueIds}
+      onUpdateIssue={(id, data) => updateIssue.mutate({ id, data })}
+    />
+  );
+}
+
 /* ── Main project page ── */
 
 export function ProjectDetail() {
@@ -208,6 +265,7 @@ export function ProjectDetail() {
     projectId: string;
     filter?: string;
   }>();
+  const { t } = useTranslation();
   const { companies, selectedCompanyId, setSelectedCompanyId } = useCompany();
   const { closePanel } = usePanel();
   const { setBreadcrumbs } = useBreadcrumbs();
@@ -337,6 +395,10 @@ export function ProjectDetail() {
       navigate(`/projects/${canonicalProjectRef}/overview`, { replace: true });
       return;
     }
+    if (activeTab === "board") {
+      navigate(`/projects/${canonicalProjectRef}/board`, { replace: true });
+      return;
+    }
     if (activeTab === "configuration") {
       navigate(`/projects/${canonicalProjectRef}/configuration`, { replace: true });
       return;
@@ -464,6 +526,9 @@ export function ProjectDetail() {
     if (cachedTab === "overview") {
       return <Navigate to={`/projects/${canonicalProjectRef}/overview`} replace />;
     }
+    if (cachedTab === "board") {
+      return <Navigate to={`/projects/${canonicalProjectRef}/board`} replace />;
+    }
     if (cachedTab === "configuration") {
       return <Navigate to={`/projects/${canonicalProjectRef}/configuration`} replace />;
     }
@@ -491,6 +556,8 @@ export function ProjectDetail() {
     }
     if (tab === "overview") {
       navigate(`/projects/${canonicalProjectRef}/overview`);
+    } else if (tab === "board") {
+      navigate(`/projects/${canonicalProjectRef}/board`);
     } else if (tab === "budget") {
       navigate(`/projects/${canonicalProjectRef}/budget`);
     } else if (tab === "configuration") {
@@ -559,10 +626,11 @@ export function ProjectDetail() {
       <Tabs value={activeTab ?? "list"} onValueChange={(value) => handleTabChange(value as ProjectTab)}>
         <PageTabBar
           items={[
-            { value: "list", label: "Issues" },
-            { value: "overview", label: "Overview" },
-            { value: "configuration", label: "Configuration" },
-            { value: "budget", label: "Budget" },
+            { value: "list", label: t("kanban.tabs.issues") },
+            { value: "board", label: t("kanban.tabs.board") },
+            { value: "overview", label: t("kanban.tabs.overview") },
+            { value: "configuration", label: t("kanban.tabs.configuration") },
+            { value: "budget", label: t("kanban.tabs.budget") },
             ...pluginTabItems.map((item) => ({
               value: item.value,
               label: item.label,
@@ -587,6 +655,10 @@ export function ProjectDetail() {
 
       {activeTab === "list" && project?.id && resolvedCompanyId && (
         <ProjectIssuesList projectId={project.id} companyId={resolvedCompanyId} />
+      )}
+
+      {activeTab === "board" && project?.id && resolvedCompanyId && (
+        <ProjectKanbanBoard projectId={project.id} companyId={resolvedCompanyId} />
       )}
 
       {activeTab === "configuration" && (
