@@ -242,6 +242,21 @@ export type {
   PluginWebhookDeliveryRecord,
   QuotaWindow,
   ProviderQuotaResult,
+  OpenClawHealth,
+  OpenClawConfig,
+  OpenClawAgentConfig,
+  OpenClawAgentStatus,
+  OpenClawUsage,
+  OpenClawModelUsage,
+  OpenClawAgentUsage,
+  OpenClawMemoryFile,
+  OpenClawAgentMemory,
+  OpenClawDocument,
+  OpenClawDocumentContent,
+  OpenClawCollaborationEvent,
+  OpenClawOverview,
+  OpenClawRiskAlert,
+  OpenClawTeamMemberStatus,
 } from "./types/index.js";
 
 export {

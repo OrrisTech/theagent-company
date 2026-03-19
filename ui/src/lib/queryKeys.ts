@@ -107,6 +107,18 @@ export const queryKeys = {
   skills: {
     available: ["skills", "available"] as const,
   },
+  openclaw: {
+    health: ["openclaw", "health"] as const,
+    config: ["openclaw", "config"] as const,
+    agents: ["openclaw", "agents"] as const,
+    documents: ["openclaw", "documents"] as const,
+    documentContent: (path: string) => ["openclaw", "document", path] as const,
+    overview: (companyId: string) => ["openclaw", "overview", companyId] as const,
+    usage: (companyId: string) => ["openclaw", "usage", companyId] as const,
+    memory: (companyId: string, agentId: string) => ["openclaw", "memory", companyId, agentId] as const,
+    collaboration: (companyId: string, agentId?: string) =>
+      ["openclaw", "collaboration", companyId, agentId] as const,
+  },
   plugins: {
     all: ["plugins"] as const,
     examples: ["plugins", "examples"] as const,

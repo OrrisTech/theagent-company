@@ -25,23 +25,19 @@ import zh from "./zh.json";
 
 describe("i18n translation resources", () => {
   it("en.json has all required top-level sections", () => {
-    expect(Object.keys(en)).toContain("common");
-    expect(Object.keys(en)).toContain("sidebar");
-    expect(Object.keys(en)).toContain("theme");
-    expect(Object.keys(en)).toContain("branding");
-    expect(Object.keys(en)).toContain("language");
-    expect(Object.keys(en)).toContain("settings");
-    expect(Object.keys(en)).toContain("pages");
+    const required = ["common", "sidebar", "theme", "branding", "language", "settings", "pages",
+      "overview", "usage", "memory", "documents", "collaboration"];
+    for (const key of required) {
+      expect(Object.keys(en), `en.json should have section '${key}'`).toContain(key);
+    }
   });
 
   it("zh.json has all required top-level sections", () => {
-    expect(Object.keys(zh)).toContain("common");
-    expect(Object.keys(zh)).toContain("sidebar");
-    expect(Object.keys(zh)).toContain("theme");
-    expect(Object.keys(zh)).toContain("branding");
-    expect(Object.keys(zh)).toContain("language");
-    expect(Object.keys(zh)).toContain("settings");
-    expect(Object.keys(zh)).toContain("pages");
+    const required = ["common", "sidebar", "theme", "branding", "language", "settings", "pages",
+      "overview", "usage", "memory", "documents", "collaboration"];
+    for (const key of required) {
+      expect(Object.keys(zh), `zh.json should have section '${key}'`).toContain(key);
+    }
   });
 
   it("en and zh have matching keys in common section", () => {
@@ -112,6 +108,30 @@ describe("i18n translation resources", () => {
     for (const key of requiredKeys) {
       expect(en.sidebar, `sidebar should have key '${key}'`).toHaveProperty(key);
       expect(zh.sidebar, `sidebar (zh) should have key '${key}'`).toHaveProperty(key);
+    }
+  });
+
+  it("en and zh have matching keys in Phase 3 sections", () => {
+    const phase3Sections = ["overview", "usage", "memory", "documents", "collaboration"] as const;
+    for (const section of phase3Sections) {
+      const enSection = en[section] as Record<string, unknown>;
+      const zhSection = zh[section] as Record<string, unknown>;
+      // Compare flattened key sets
+      function flatKeys(obj: Record<string, unknown>, prefix = ""): string[] {
+        const keys: string[] = [];
+        for (const [k, v] of Object.entries(obj)) {
+          const path = prefix ? `${prefix}.${k}` : k;
+          if (typeof v === "object" && v !== null) {
+            keys.push(...flatKeys(v as Record<string, unknown>, path));
+          } else {
+            keys.push(path);
+          }
+        }
+        return keys;
+      }
+      const enKeys = flatKeys(enSection).sort();
+      const zhKeys = flatKeys(zhSection).sort();
+      expect(enKeys, `${section} section keys should match between en and zh`).toEqual(zhKeys);
     }
   });
 

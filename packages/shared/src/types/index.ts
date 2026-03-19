@@ -112,6 +112,23 @@ export type {
   CompanyPortabilityExportRequest,
 } from "./company-portability.js";
 export type {
+  OpenClawHealth,
+  OpenClawConfig,
+  OpenClawAgentConfig,
+  OpenClawAgentStatus,
+  OpenClawUsage,
+  OpenClawModelUsage,
+  OpenClawAgentUsage,
+  OpenClawMemoryFile,
+  OpenClawAgentMemory,
+  OpenClawDocument,
+  OpenClawDocumentContent,
+  OpenClawCollaborationEvent,
+  OpenClawOverview,
+  OpenClawRiskAlert,
+  OpenClawTeamMemberStatus,
+} from "./openclaw.js";
+export type {
   JsonSchema,
   PluginJobDeclaration,
   PluginWebhookDeclaration,
