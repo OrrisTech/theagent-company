@@ -8,27 +8,55 @@ import {
   type ReactNode,
 } from "react";
 
-type Theme = "light" | "dark";
+/** The user's chosen preference — "system" defers to the OS media query. */
+type ThemePreference = "light" | "dark" | "system";
+/** The resolved appearance actually applied to the document. */
+type ResolvedTheme = "light" | "dark";
 
 interface ThemeContextValue {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
+  /** The user's stored preference (light | dark | system). */
+  preference: ThemePreference;
+  /** The resolved theme actually applied to the document (light | dark). */
+  theme: ResolvedTheme;
+  /** Set a specific preference. */
+  setPreference: (pref: ThemePreference) => void;
+  /** Legacy toggle — cycles light → dark → system → light. */
   toggleTheme: () => void;
 }
 
 const THEME_STORAGE_KEY = "paperclip.theme";
 const DARK_THEME_COLOR = "#18181b";
 const LIGHT_THEME_COLOR = "#ffffff";
+const CYCLE: ThemePreference[] = ["light", "dark", "system"];
+
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-function resolveThemeFromDocument(): Theme {
-  if (typeof document === "undefined") return "dark";
-  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+function getSystemTheme(): ResolvedTheme {
+  if (typeof window === "undefined") return "dark";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-function applyTheme(theme: Theme) {
+function resolveTheme(pref: ThemePreference): ResolvedTheme {
+  if (pref === "system") return getSystemTheme();
+  return pref;
+}
+
+function readStoredPreference(): ThemePreference {
+  if (typeof window === "undefined") return "dark";
+  try {
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === "light" || stored === "dark" || stored === "system") return stored;
+  } catch {
+    // Ignore local storage read failures in restricted environments.
+  }
+  // Fall back to what the document currently has (set by index.html script)
+  if (document.documentElement.classList.contains("dark")) return "dark";
+  return "light";
+}
+
+function applyTheme(resolved: ResolvedTheme) {
   if (typeof document === "undefined") return;
-  const isDark = theme === "dark";
+  const isDark = resolved === "dark";
   const root = document.documentElement;
   root.classList.toggle("dark", isDark);
   root.style.colorScheme = isDark ? "dark" : "light";
@@ -39,32 +67,50 @@ function applyTheme(theme: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => resolveThemeFromDocument());
+  const [preference, setPreferenceState] = useState<ThemePreference>(() => readStoredPreference());
+  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => getSystemTheme());
 
-  const setTheme = useCallback((nextTheme: Theme) => {
-    setThemeState(nextTheme);
+  // Listen to OS color scheme changes so "system" stays in sync
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = (e: MediaQueryListEvent) => {
+      setSystemTheme(e.matches ? "dark" : "light");
+    };
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  const resolved: ResolvedTheme = preference === "system" ? systemTheme : preference;
+
+  const setPreference = useCallback((pref: ThemePreference) => {
+    setPreferenceState(pref);
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setThemeState((current) => (current === "dark" ? "light" : "dark"));
+    setPreferenceState((current) => {
+      const idx = CYCLE.indexOf(current);
+      return CYCLE[(idx + 1) % CYCLE.length]!;
+    });
   }, []);
 
+  // Apply theme whenever resolved value changes
   useEffect(() => {
-    applyTheme(theme);
+    applyTheme(resolved);
     try {
-      localStorage.setItem(THEME_STORAGE_KEY, theme);
+      localStorage.setItem(THEME_STORAGE_KEY, preference);
     } catch {
       // Ignore local storage write failures in restricted environments.
     }
-  }, [theme]);
+  }, [resolved, preference]);
 
   const value = useMemo(
     () => ({
-      theme,
-      setTheme,
+      preference,
+      theme: resolved,
+      setPreference,
       toggleTheme,
     }),
-    [theme, setTheme, toggleTheme],
+    [preference, resolved, setPreference, toggleTheme],
   );
 
   return (

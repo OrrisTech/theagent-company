@@ -1,0 +1,146 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "error": "Error",
+    "success": "Success",
+    "saving": "Saving...",
+    "noData": "No data available",
+    "comingSoon": "Coming Soon",
+    "underConstruction": "This feature is under construction.",
+    "selectCompany": "Select company"
+  },
+  "sidebar": {
+    "newIssue": "New Issue",
+    "dashboard": "Dashboard",
+    "inbox": "Inbox",
+    "overview": "Overview",
+    "projects": "Projects",
+    "board": "Board",
+    "tasks": "Tasks",
+    "goals": "Goals",
+    "reports": "Reports",
+    "team": "Team",
+    "members": "Members",
+    "orgChart": "Org Chart",
+    "workflows": "Workflows",
+    "usageBudget": "Usage & Budget",
+    "documents": "Documents",
+    "memory": "Memory",
+    "collaboration": "Collaboration",
+    "settings": "Settings",
+    "models": "Models",
+    "channels": "Channels",
+    "skills": "Skills",
+    "cronHeartbeat": "Cron & Heartbeat",
+    "branding": "Branding",
+    "language": "Language",
+    "security": "Security",
+    "agents": "Agents",
+    "work": "Work",
+    "issues": "Issues",
+    "company": "Company",
+    "org": "Org",
+    "costs": "Costs",
+    "activity": "Activity",
+    "documentation": "Documentation",
+    "live": "live"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "switchTo": "Switch to {{mode}} mode"
+  },
+  "branding": {
+    "title": "Branding",
+    "description": "Customize the look and feel of your application.",
+    "appName": "App Name",
+    "appNameDescription": "The name displayed in the sidebar and browser tab.",
+    "logo": "Logo URL",
+    "logoDescription": "URL to your logo image. Used in the sidebar and login page.",
+    "primaryColor": "Primary Color",
+    "primaryColorDescription": "The main accent color used throughout the interface.",
+    "favicon": "Favicon URL",
+    "faviconDescription": "URL to the browser tab icon.",
+    "resetToDefaults": "Reset to Defaults",
+    "saveChanges": "Save Changes",
+    "saved": "Branding settings saved.",
+    "saveFailed": "Failed to save branding settings.",
+    "preview": "Preview"
+  },
+  "language": {
+    "title": "Language",
+    "description": "Choose your preferred language.",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "appearance": "Appearance",
+    "themeMode": "Theme Mode",
+    "themeModeDescription": "Choose how the interface looks."
+  },
+  "pages": {
+    "overview": {
+      "title": "Overview",
+      "description": "Dashboard overview of your agent company."
+    },
+    "workflows": {
+      "title": "Workflows",
+      "description": "Manage and monitor automated workflows."
+    },
+    "usageBudget": {
+      "title": "Usage & Budget",
+      "description": "Track token usage and budget across your team."
+    },
+    "documents": {
+      "title": "Documents",
+      "description": "Browse and manage workspace documents."
+    },
+    "memory": {
+      "title": "Memory",
+      "description": "View and manage team member memories."
+    },
+    "collaboration": {
+      "title": "Collaboration",
+      "description": "Visualize agent-to-agent collaboration and messaging."
+    },
+    "models": {
+      "title": "Models",
+      "description": "Configure AI model providers and settings."
+    },
+    "channels": {
+      "title": "Channels",
+      "description": "Manage communication channels (Telegram, Slack, etc.)."
+    },
+    "skills": {
+      "title": "Skills",
+      "description": "Browse and manage agent skills."
+    },
+    "cronHeartbeat": {
+      "title": "Cron & Heartbeat",
+      "description": "Manage scheduled tasks and heartbeat configuration."
+    },
+    "security": {
+      "title": "Security",
+      "description": "Configure security settings and permissions."
+    },
+    "languageSettings": {
+      "title": "Language",
+      "description": "Configure language preferences."
+    }
+  }
+}

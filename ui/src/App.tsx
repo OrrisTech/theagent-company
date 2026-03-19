@@ -35,6 +35,19 @@ import { AuthPage } from "./pages/Auth";
 import { BoardClaimPage } from "./pages/BoardClaim";
 import { InviteLandingPage } from "./pages/InviteLanding";
 import { NotFoundPage } from "./pages/NotFound";
+import { Overview } from "./pages/Overview";
+import { Workflows } from "./pages/Workflows";
+import { UsageBudget } from "./pages/UsageBudget";
+import { Documents } from "./pages/Documents";
+import { Memory } from "./pages/Memory";
+import { Collaboration } from "./pages/Collaboration";
+import { ModelsSettings } from "./pages/settings/ModelsSettings";
+import { ChannelsSettings } from "./pages/settings/ChannelsSettings";
+import { SkillsSettings } from "./pages/settings/SkillsSettings";
+import { CronSettings } from "./pages/settings/CronSettings";
+import { BrandingSettings } from "./pages/settings/BrandingSettings";
+import { LanguageSettings } from "./pages/settings/LanguageSettings";
+import { SecuritySettings } from "./pages/settings/SecuritySettings";
 import { queryKeys } from "./lib/queryKeys";
 import { useCompany } from "./context/CompanyContext";
 import { useDialog } from "./context/DialogContext";
@@ -116,8 +129,6 @@ function boardRoutes() {
       <Route path="onboarding" element={<OnboardingRoutePage />} />
       <Route path="companies" element={<Companies />} />
       <Route path="company/settings" element={<CompanySettings />} />
-      <Route path="settings" element={<LegacySettingsRedirect />} />
-      <Route path="settings/*" element={<LegacySettingsRedirect />} />
       <Route path="plugins/:pluginId" element={<PluginPage />} />
       <Route path="org" element={<OrgChart />} />
       <Route path="agents" element={<Navigate to="/agents/all" replace />} />
@@ -157,6 +168,21 @@ function boardRoutes() {
       <Route path="inbox/unread" element={<Inbox />} />
       <Route path="inbox/all" element={<Inbox />} />
       <Route path="inbox/new" element={<Navigate to="/inbox/recent" replace />} />
+      {/* New pages — Phase 1 */}
+      <Route path="overview" element={<Overview />} />
+      <Route path="workflows" element={<Workflows />} />
+      <Route path="usage-budget" element={<UsageBudget />} />
+      <Route path="documents" element={<Documents />} />
+      <Route path="memory" element={<Memory />} />
+      <Route path="collaboration" element={<Collaboration />} />
+      {/* Settings sub-pages */}
+      <Route path="settings/models" element={<ModelsSettings />} />
+      <Route path="settings/channels" element={<ChannelsSettings />} />
+      <Route path="settings/skills" element={<SkillsSettings />} />
+      <Route path="settings/cron" element={<CronSettings />} />
+      <Route path="settings/branding" element={<BrandingSettings />} />
+      <Route path="settings/language" element={<LanguageSettings />} />
+      <Route path="settings/security" element={<SecuritySettings />} />
       <Route path="design-guide" element={<DesignGuide />} />
       <Route path="tests/ux/runs" element={<RunTranscriptUxLab />} />
       <Route path=":pluginRoutePath" element={<PluginPage />} />
