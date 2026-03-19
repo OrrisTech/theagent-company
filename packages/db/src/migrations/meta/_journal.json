@@ -274,6 +274,13 @@
       "when": 1774000000000,
       "tag": "0038_add_branding_config",
       "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1774100000000,
+      "tag": "0039_add_team_member_fields",
+      "breakpoints": true
     }
   ]
 }

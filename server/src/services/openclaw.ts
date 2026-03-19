@@ -19,7 +19,12 @@ import type {
   OpenClawOverview,
   OpenClawRiskAlert,
   OpenClawTeamMemberStatus,
+  OpenClawModelConfig,
+  OpenClawChannelConfig,
+  OpenClawSkillEntry,
+  OpenClawCronTask,
 } from "@paperclipai/shared";
+import { validateCron, nextCronTickFromExpression } from "./cron.js";
 
 // Default path for OpenClaw config
 const OPENCLAW_CONFIG_PATH = join(homedir(), ".openclaw", "openclaw.json");
@@ -52,6 +57,31 @@ async function pathExists(path: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+/** Write the openclaw.json config file back to disk */
+async function writeConfig(data: Record<string, unknown>): Promise<void> {
+  const { writeFile, mkdir } = await import("node:fs/promises");
+  const dir = join(homedir(), ".openclaw");
+  await mkdir(dir, { recursive: true });
+  await writeFile(OPENCLAW_CONFIG_PATH, JSON.stringify(data, null, 2), "utf-8");
+}
+
+/** Read the raw JSON config, returning {} if missing */
+async function readRawConfig(): Promise<Record<string, unknown>> {
+  const content = await safeReadFile(OPENCLAW_CONFIG_PATH);
+  if (!content) return {};
+  try {
+    return JSON.parse(content) as Record<string, unknown>;
+  } catch {
+    return {};
+  }
+}
+
+/** Mask an API key for safe display: show first 4 and last 4 chars */
+function maskApiKey(key: string): string {
+  if (key.length <= 12) return "****";
+  return `${key.slice(0, 4)}${"*".repeat(key.length - 8)}${key.slice(-4)}`;
 }
 
 /** Recursively list markdown files in a directory */
@@ -654,6 +684,289 @@ export function openclawService(db: Db) {
         }),
         teamStatus,
       };
+    },
+
+    // ---- Phase 4: Configuration management methods ----
+
+    /** List AI model configurations from openclaw.json */
+    models: async (): Promise<OpenClawModelConfig[]> => {
+      const raw = await readRawConfig();
+      const rawModels = Array.isArray(raw.models) ? raw.models : [];
+      return (rawModels as Record<string, unknown>[]).map((m, i) => ({
+        id: typeof m.id === "string" ? m.id : `model-${i}`,
+        provider: typeof m.provider === "string" ? m.provider : "unknown",
+        model: typeof m.model === "string" ? m.model : "unknown",
+        apiKey: typeof m.apiKey === "string" ? maskApiKey(m.apiKey) : undefined,
+        baseUrl: typeof m.baseUrl === "string" ? m.baseUrl : undefined,
+        maxTokens: typeof m.maxTokens === "number" ? m.maxTokens : undefined,
+        temperature: typeof m.temperature === "number" ? m.temperature : undefined,
+        isDefault: typeof m.isDefault === "boolean" ? m.isDefault : false,
+        enabled: typeof m.enabled === "boolean" ? m.enabled : true,
+      }));
+    },
+
+    /** Update the models array in openclaw.json */
+    updateModels: async (models: OpenClawModelConfig[]): Promise<OpenClawModelConfig[]> => {
+      const raw = await readRawConfig();
+      // Preserve existing API keys for entries where the key is masked
+      const existingModels = Array.isArray(raw.models) ? (raw.models as Record<string, unknown>[]) : [];
+      const existingKeyMap = new Map<string, string>();
+      for (const m of existingModels) {
+        if (typeof m.id === "string" && typeof m.apiKey === "string") {
+          existingKeyMap.set(m.id, m.apiKey);
+        }
+      }
+
+      const updatedModels = models.map((m) => {
+        const apiKey = m.apiKey && m.apiKey.includes("*")
+          ? existingKeyMap.get(m.id) ?? ""
+          : m.apiKey;
+        return { ...m, apiKey };
+      });
+
+      raw.models = updatedModels;
+      await writeConfig(raw);
+
+      // Return with masked keys
+      return updatedModels.map((m) => ({
+        ...m,
+        apiKey: m.apiKey ? maskApiKey(m.apiKey) : undefined,
+      }));
+    },
+
+    /** List communication channel configurations from openclaw.json */
+    channels: async (): Promise<OpenClawChannelConfig[]> => {
+      const raw = await readRawConfig();
+      const rawChannels = Array.isArray(raw.channels) ? raw.channels : [];
+      return (rawChannels as Record<string, unknown>[]).map((c, i) => ({
+        id: typeof c.id === "string" ? c.id : `channel-${i}`,
+        type: (typeof c.type === "string" ? c.type : "custom") as OpenClawChannelConfig["type"],
+        name: typeof c.name === "string" ? c.name : `Channel ${i}`,
+        enabled: typeof c.enabled === "boolean" ? c.enabled : true,
+        config: typeof c.config === "object" && c.config !== null
+          ? c.config as Record<string, unknown>
+          : {},
+      }));
+    },
+
+    /** Update the channels array in openclaw.json */
+    updateChannels: async (channels: OpenClawChannelConfig[]): Promise<OpenClawChannelConfig[]> => {
+      const raw = await readRawConfig();
+      raw.channels = channels;
+      await writeConfig(raw);
+      return channels;
+    },
+
+    /** Discover skills from the OpenClaw workspace skills directories */
+    skills: async (): Promise<OpenClawSkillEntry[]> => {
+      const config = await parseConfig();
+      const raw = await readRawConfig();
+
+      // Enabled/disabled state stored in openclaw.json
+      const rawSkills = Array.isArray(raw.skills) ? (raw.skills as Record<string, unknown>[]) : [];
+      const enabledMap = new Map<string, boolean>();
+      for (const s of rawSkills) {
+        if (typeof s.id === "string") {
+          enabledMap.set(s.id, typeof s.enabled === "boolean" ? s.enabled : true);
+        }
+      }
+
+      const skills: OpenClawSkillEntry[] = [];
+      if (!config.workspace) return skills;
+
+      // Scan standard skill directories
+      const skillDirs = [
+        join(config.workspace, "skills"),
+        join(config.workspace, ".claude", "skills"),
+      ];
+
+      for (const skillsRoot of skillDirs) {
+        if (!(await pathExists(skillsRoot))) continue;
+
+        try {
+          const entries = await readdir(skillsRoot, { withFileTypes: true });
+          for (const entry of entries) {
+            if (!entry.isDirectory() || entry.name.startsWith(".")) continue;
+
+            const skillDir = join(skillsRoot, entry.name);
+            const skillMdPath = join(skillDir, "SKILL.md");
+            const skillMd = await safeReadFile(skillMdPath);
+
+            // Try to extract description from SKILL.md frontmatter or first line
+            let description = "";
+            if (skillMd) {
+              const descMatch = skillMd.match(/^description:\s*(.+)$/m);
+              if (descMatch) {
+                description = descMatch[1].trim();
+              } else {
+                // Use first non-heading, non-empty line
+                const lines = skillMd.split("\n").filter((l) => l.trim() && !l.startsWith("#") && !l.startsWith("---"));
+                description = lines[0]?.trim() ?? "";
+              }
+            }
+
+            const id = entry.name;
+            skills.push({
+              id,
+              name: entry.name,
+              description,
+              path: skillDir,
+              enabled: enabledMap.get(id) ?? true,
+              skillMdContent: skillMd ?? undefined,
+            });
+          }
+        } catch {
+          // Directory unreadable — skip
+        }
+      }
+
+      return skills.sort((a, b) => a.name.localeCompare(b.name));
+    },
+
+    /** Enable or disable a skill by updating openclaw.json */
+    updateSkillEnabled: async (skillId: string, enabled: boolean): Promise<void> => {
+      const raw = await readRawConfig();
+      const rawSkills = Array.isArray(raw.skills) ? (raw.skills as Record<string, unknown>[]) : [];
+
+      const existing = rawSkills.find((s) => s.id === skillId);
+      if (existing) {
+        existing.enabled = enabled;
+      } else {
+        rawSkills.push({ id: skillId, enabled });
+      }
+
+      raw.skills = rawSkills;
+      await writeConfig(raw);
+    },
+
+    /** List cron tasks from openclaw.json with computed next-run times */
+    cronTasks: async (): Promise<OpenClawCronTask[]> => {
+      const raw = await readRawConfig();
+      const rawCron = Array.isArray(raw.cron) ? raw.cron : [];
+      const now = new Date();
+
+      return (rawCron as Record<string, unknown>[]).map((c, i) => {
+        const expression = typeof c.expression === "string" ? c.expression : "* * * * *";
+        let nextRunAt: string | undefined;
+        try {
+          const next = nextCronTickFromExpression(expression, now);
+          nextRunAt = next?.toISOString();
+        } catch {
+          // Invalid expression — skip next run calculation
+        }
+
+        return {
+          id: typeof c.id === "string" ? c.id : `cron-${i}`,
+          name: typeof c.name === "string" ? c.name : `Task ${i}`,
+          expression,
+          command: typeof c.command === "string" ? c.command : "",
+          agentId: typeof c.agentId === "string" ? c.agentId : undefined,
+          agentName: typeof c.agentName === "string" ? c.agentName : undefined,
+          enabled: typeof c.enabled === "boolean" ? c.enabled : true,
+          lastRunAt: typeof c.lastRunAt === "string" ? c.lastRunAt : undefined,
+          nextRunAt,
+          lastRunStatus: (c.lastRunStatus === "success" || c.lastRunStatus === "failure" || c.lastRunStatus === "running")
+            ? c.lastRunStatus
+            : null,
+        };
+      });
+    },
+
+    /** Create a new cron task in openclaw.json */
+    createCronTask: async (task: Omit<OpenClawCronTask, "id" | "nextRunAt" | "lastRunAt" | "lastRunStatus">): Promise<OpenClawCronTask> => {
+      // Validate cron expression
+      const cronError = validateCron(task.expression);
+      if (cronError) {
+        throw new Error(`Invalid cron expression: ${cronError}`);
+      }
+
+      const raw = await readRawConfig();
+      const rawCron = Array.isArray(raw.cron) ? (raw.cron as Record<string, unknown>[]) : [];
+
+      const id = `cron-${randomUUID().slice(0, 8)}`;
+      let nextRunAt: string | undefined;
+      try {
+        const next = nextCronTickFromExpression(task.expression, new Date());
+        nextRunAt = next?.toISOString();
+      } catch {
+        // noop
+      }
+
+      const newTask: OpenClawCronTask = {
+        id,
+        name: task.name,
+        expression: task.expression,
+        command: task.command,
+        agentId: task.agentId,
+        agentName: task.agentName,
+        enabled: task.enabled,
+        nextRunAt,
+        lastRunStatus: null,
+      };
+
+      rawCron.push(newTask as unknown as Record<string, unknown>);
+      raw.cron = rawCron;
+      await writeConfig(raw);
+
+      return newTask;
+    },
+
+    /** Update an existing cron task in openclaw.json */
+    updateCronTask: async (id: string, updates: Partial<OpenClawCronTask>): Promise<OpenClawCronTask | null> => {
+      if (updates.expression) {
+        const cronError = validateCron(updates.expression);
+        if (cronError) {
+          throw new Error(`Invalid cron expression: ${cronError}`);
+        }
+      }
+
+      const raw = await readRawConfig();
+      const rawCron = Array.isArray(raw.cron) ? (raw.cron as Record<string, unknown>[]) : [];
+      const idx = rawCron.findIndex((c) => c.id === id);
+      if (idx === -1) return null;
+
+      const existing = rawCron[idx] as Record<string, unknown>;
+      Object.assign(existing, updates);
+
+      // Recompute next run if expression changed
+      const expression = typeof existing.expression === "string" ? existing.expression : "* * * * *";
+      try {
+        const next = nextCronTickFromExpression(expression, new Date());
+        existing.nextRunAt = next?.toISOString();
+      } catch {
+        // noop
+      }
+
+      raw.cron = rawCron;
+      await writeConfig(raw);
+
+      return {
+        id,
+        name: typeof existing.name === "string" ? existing.name : "",
+        expression,
+        command: typeof existing.command === "string" ? existing.command : "",
+        agentId: typeof existing.agentId === "string" ? existing.agentId : undefined,
+        agentName: typeof existing.agentName === "string" ? existing.agentName : undefined,
+        enabled: typeof existing.enabled === "boolean" ? existing.enabled : true,
+        lastRunAt: typeof existing.lastRunAt === "string" ? existing.lastRunAt : undefined,
+        nextRunAt: typeof existing.nextRunAt === "string" ? existing.nextRunAt : undefined,
+        lastRunStatus: (existing.lastRunStatus === "success" || existing.lastRunStatus === "failure" || existing.lastRunStatus === "running")
+          ? existing.lastRunStatus as "success" | "failure" | "running"
+          : null,
+      };
+    },
+
+    /** Delete a cron task from openclaw.json */
+    deleteCronTask: async (id: string): Promise<boolean> => {
+      const raw = await readRawConfig();
+      const rawCron = Array.isArray(raw.cron) ? (raw.cron as Record<string, unknown>[]) : [];
+      const idx = rawCron.findIndex((c) => c.id === id);
+      if (idx === -1) return false;
+
+      rawCron.splice(idx, 1);
+      raw.cron = rawCron;
+      await writeConfig(raw);
+      return true;
     },
   };
 }

@@ -127,6 +127,14 @@ export type {
   OpenClawOverview,
   OpenClawRiskAlert,
   OpenClawTeamMemberStatus,
+  OpenClawModelConfig,
+  OpenClawChannelConfig,
+  OpenClawSkillEntry,
+  OpenClawCronTask,
+  OpenClawFullConfig,
+  TeamMemberEngineType,
+  TeamMemberIdentityMeta,
+  TeamMember,
 } from "./openclaw.js";
 export type {
   JsonSchema,

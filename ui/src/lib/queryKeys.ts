@@ -118,6 +118,10 @@ export const queryKeys = {
     memory: (companyId: string, agentId: string) => ["openclaw", "memory", companyId, agentId] as const,
     collaboration: (companyId: string, agentId?: string) =>
       ["openclaw", "collaboration", companyId, agentId] as const,
+    models: ["openclaw", "models"] as const,
+    channels: ["openclaw", "channels"] as const,
+    skills: ["openclaw", "skills"] as const,
+    cronTasks: ["openclaw", "cron"] as const,
   },
   plugins: {
     all: ["plugins"] as const,

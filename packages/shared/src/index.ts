@@ -5,6 +5,7 @@ export {
   AUTH_BASE_URL_MODES,
   AGENT_STATUSES,
   AGENT_ADAPTER_TYPES,
+  AGENT_ENGINE_TYPES,
   AGENT_ROLES,
   AGENT_ROLE_LABELS,
   AGENT_ICON_NAMES,
@@ -65,6 +66,7 @@ export {
   type AuthBaseUrlMode,
   type AgentStatus,
   type AgentAdapterType,
+  type AgentEngineType,
   type AgentRole,
   type AgentIconName,
   type IssueStatus,
@@ -257,6 +259,14 @@ export type {
   OpenClawOverview,
   OpenClawRiskAlert,
   OpenClawTeamMemberStatus,
+  OpenClawModelConfig,
+  OpenClawChannelConfig,
+  OpenClawSkillEntry,
+  OpenClawCronTask,
+  OpenClawFullConfig,
+  TeamMemberEngineType,
+  TeamMemberIdentityMeta,
+  TeamMember,
 } from "./types/index.js";
 
 export {

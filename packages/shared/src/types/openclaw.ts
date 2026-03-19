@@ -158,3 +158,112 @@ export interface OpenClawTeamMemberStatus {
   budgetUsedCents: number;
   budgetTotalCents: number;
 }
+
+// ---- Phase 4: Configuration management types ----
+
+/** AI model configuration entry from openclaw.json */
+export interface OpenClawModelConfig {
+  id: string;
+  provider: string;
+  model: string;
+  /** API key — masked when read, plain when written */
+  apiKey?: string;
+  baseUrl?: string;
+  maxTokens?: number;
+  temperature?: number;
+  isDefault?: boolean;
+  enabled: boolean;
+}
+
+/** Communication channel configuration from openclaw.json */
+export interface OpenClawChannelConfig {
+  id: string;
+  type: "telegram" | "slack" | "discord" | "wechat" | "feishu" | "email" | "custom";
+  name: string;
+  enabled: boolean;
+  /** Channel-specific config (bot token, webhook URL, etc.) */
+  config: Record<string, unknown>;
+}
+
+/** Skill entry discovered from OpenClaw skills directories */
+export interface OpenClawSkillEntry {
+  id: string;
+  name: string;
+  description: string;
+  /** Filesystem path to the skill directory */
+  path: string;
+  enabled: boolean;
+  /** Content of SKILL.md if present */
+  skillMdContent?: string;
+}
+
+/** Cron task entry from openclaw.json */
+export interface OpenClawCronTask {
+  id: string;
+  name: string;
+  /** Standard 5-field cron expression */
+  expression: string;
+  /** Command or workflow to execute */
+  command: string;
+  /** Agent assigned to run this task */
+  agentId?: string;
+  agentName?: string;
+  enabled: boolean;
+  lastRunAt?: string;
+  nextRunAt?: string;
+  lastRunStatus?: "success" | "failure" | "running" | null;
+}
+
+/** Full config response combining all openclaw.json sections */
+export interface OpenClawFullConfig {
+  workspace: string | null;
+  gateway: { url: string; port: number } | null;
+  agents: OpenClawAgentConfig[];
+  models: OpenClawModelConfig[];
+  channels: OpenClawChannelConfig[];
+  skills: OpenClawSkillEntry[];
+  cron: OpenClawCronTask[];
+}
+
+// ---- Phase 4: Unified Team Member types ----
+
+/** Engine type determines how identity/memory/capabilities are stored */
+export type TeamMemberEngineType = "openclaw" | "claude_local" | "codex_local" | "http" | "process";
+
+/** Identity metadata stored as JSONB in agents table */
+export interface TeamMemberIdentityMeta {
+  /** Source of avatar image */
+  avatarSource?: string;
+  /** Custom metadata fields */
+  [key: string]: unknown;
+}
+
+/** Unified team member representation combining all four layers */
+export interface TeamMember {
+  id: string;
+  companyId: string;
+  // Identity layer
+  name: string;
+  soul: string | null;
+  icon: string | null;
+  identityMeta: TeamMemberIdentityMeta | null;
+  // Organization layer
+  role: string;
+  title: string | null;
+  reportsTo: string | null;
+  status: string;
+  budgetMonthlyCents: number;
+  spentMonthlyCents: number;
+  permissions: Record<string, unknown>;
+  // Capabilities layer
+  capabilities: string | null;
+  // Engine layer
+  engineType: TeamMemberEngineType;
+  adapterType: string;
+  adapterConfig: Record<string, unknown>;
+  runtimeConfig: Record<string, unknown>;
+  // Timestamps
+  lastHeartbeatAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}

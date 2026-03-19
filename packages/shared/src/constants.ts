@@ -34,6 +34,15 @@ export const AGENT_ADAPTER_TYPES = [
 ] as const;
 export type AgentAdapterType = (typeof AGENT_ADAPTER_TYPES)[number];
 
+export const AGENT_ENGINE_TYPES = [
+  "openclaw",
+  "claude_local",
+  "codex_local",
+  "http",
+  "process",
+] as const;
+export type AgentEngineType = (typeof AGENT_ENGINE_TYPES)[number];
+
 export const AGENT_ROLES = [
   "ceo",
   "cto",

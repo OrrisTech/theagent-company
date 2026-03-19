@@ -22,6 +22,12 @@ export const agents = pgTable(
     status: text("status").notNull().default("idle"),
     reportsTo: uuid("reports_to").references((): AnyPgColumn => agents.id),
     capabilities: text("capabilities"),
+    /** Personality/speaking style/behavioral guidelines (maps to SOUL.md for openclaw engine) */
+    soul: text("soul"),
+    /** Extra identity metadata stored as JSON */
+    identityMeta: jsonb("identity_meta").$type<Record<string, unknown>>(),
+    /** Engine type: openclaw, claude_local, codex_local, http, process */
+    engineType: text("engine_type").notNull().default("process"),
     adapterType: text("adapter_type").notNull().default("process"),
     adapterConfig: jsonb("adapter_config").$type<Record<string, unknown>>().notNull().default({}),
     runtimeConfig: jsonb("runtime_config").$type<Record<string, unknown>>().notNull().default({}),

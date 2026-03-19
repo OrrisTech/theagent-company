@@ -26,7 +26,8 @@ import zh from "./zh.json";
 describe("i18n translation resources", () => {
   it("en.json has all required top-level sections", () => {
     const required = ["common", "sidebar", "theme", "branding", "language", "settings", "pages",
-      "overview", "usage", "memory", "documents", "collaboration"];
+      "overview", "usage", "memory", "documents", "collaboration",
+      "models", "channels", "skills", "cron", "teamMember"];
     for (const key of required) {
       expect(Object.keys(en), `en.json should have section '${key}'`).toContain(key);
     }
@@ -34,7 +35,8 @@ describe("i18n translation resources", () => {
 
   it("zh.json has all required top-level sections", () => {
     const required = ["common", "sidebar", "theme", "branding", "language", "settings", "pages",
-      "overview", "usage", "memory", "documents", "collaboration"];
+      "overview", "usage", "memory", "documents", "collaboration",
+      "models", "channels", "skills", "cron", "teamMember"];
     for (const key of required) {
       expect(Object.keys(zh), `zh.json should have section '${key}'`).toContain(key);
     }
@@ -108,6 +110,43 @@ describe("i18n translation resources", () => {
     for (const key of requiredKeys) {
       expect(en.sidebar, `sidebar should have key '${key}'`).toHaveProperty(key);
       expect(zh.sidebar, `sidebar (zh) should have key '${key}'`).toHaveProperty(key);
+    }
+  });
+
+  it("en.json has Phase 4 sections (models, channels, skills, cron, teamMember)", () => {
+    const phase4Sections = ["models", "channels", "skills", "cron", "teamMember"];
+    for (const key of phase4Sections) {
+      expect(Object.keys(en), `en.json should have section '${key}'`).toContain(key);
+    }
+  });
+
+  it("zh.json has Phase 4 sections (models, channels, skills, cron, teamMember)", () => {
+    const phase4Sections = ["models", "channels", "skills", "cron", "teamMember"];
+    for (const key of phase4Sections) {
+      expect(Object.keys(zh), `zh.json should have section '${key}'`).toContain(key);
+    }
+  });
+
+  it("en and zh have matching keys in Phase 4 sections", () => {
+    const phase4Sections = ["models", "channels", "skills", "cron", "teamMember"] as const;
+    for (const section of phase4Sections) {
+      const enSection = en[section] as Record<string, unknown>;
+      const zhSection = zh[section] as Record<string, unknown>;
+      function flatKeys(obj: Record<string, unknown>, prefix = ""): string[] {
+        const keys: string[] = [];
+        for (const [k, v] of Object.entries(obj)) {
+          const path = prefix ? `${prefix}.${k}` : k;
+          if (typeof v === "object" && v !== null) {
+            keys.push(...flatKeys(v as Record<string, unknown>, path));
+          } else {
+            keys.push(path);
+          }
+        }
+        return keys;
+      }
+      const enKeys = flatKeys(enSection).sort();
+      const zhKeys = flatKeys(zhSection).sort();
+      expect(enKeys, `${section} section keys should match between en and zh`).toEqual(zhKeys);
     }
   });
 

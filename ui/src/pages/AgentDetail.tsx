@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams, useNavigate, Link, Navigate, useBeforeUnload } from "@/lib/router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { agentsApi, type AgentKey, type ClaudeLoginResult, type AvailableSkill } from "../api/agents";
@@ -187,9 +188,10 @@ function scrollToContainerBottom(container: ScrollContainer, behavior: ScrollBeh
   container.scrollTo({ top: container.scrollHeight, behavior });
 }
 
-type AgentDetailView = "dashboard" | "configuration" | "skills" | "runs" | "budget";
+type AgentDetailView = "dashboard" | "member" | "configuration" | "skills" | "runs" | "budget";
 
 function parseAgentDetailView(value: string | null): AgentDetailView {
+  if (value === "member") return "member";
   if (value === "configure" || value === "configuration") return "configuration";
   if (value === "skills") return value;
   if (value === "budget") return value;
@@ -861,6 +863,7 @@ export function AgentDetail() {
           <PageTabBar
             items={[
               { value: "dashboard", label: "Dashboard" },
+              { value: "member", label: "Team Member" },
               { value: "configuration", label: "Configuration" },
               // { value: "skills", label: "Skills" }, // TODO: bring back later
               { value: "runs", label: "Runs" },
@@ -982,6 +985,10 @@ export function AgentDetail() {
           />
         </div>
       ) : null}
+
+      {activeView === "member" && (
+        <TeamMemberTab agent={agent} companyId={resolvedCompanyId ?? ""} />
+      )}
     </div>
   );
 }
@@ -2804,6 +2811,263 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
               </div>
             ))}
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---- Team Member Tab (Phase 4: Unified 4-layer model) ---- */
+
+function TeamMemberTab({ agent, companyId }: { agent: Agent; companyId: string }) {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const [tab, setTab] = useState<"identity" | "organization" | "capabilities" | "engine">("identity");
+  const [form, setForm] = useState<Partial<Agent> | null>(null);
+  const current = { ...agent, ...form };
+
+  const mutation = useMutation({
+    mutationFn: (data: Partial<Agent>) =>
+      agentsApi.update(agent.id, data as Record<string, unknown>),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.detail(agent.id) });
+      setForm(null);
+    },
+  });
+
+  function handleChange(field: string, value: unknown) {
+    setForm({ ...(form ?? {}), [field]: value });
+  }
+
+  function handleSave() {
+    if (!form) return;
+    mutation.mutate(form);
+  }
+
+  const tabItems = [
+    { value: "identity" as const, label: t("teamMember.tabs.identity") },
+    { value: "organization" as const, label: t("teamMember.tabs.organization") },
+    { value: "capabilities" as const, label: t("teamMember.tabs.capabilities") },
+    { value: "engine" as const, label: t("teamMember.tabs.engine") },
+  ];
+
+  return (
+    <div className="max-w-3xl space-y-6">
+      {/* Sub-tab bar */}
+      <div className="flex gap-1 border-b border-border">
+        {tabItems.map((item) => (
+          <button
+            key={item.value}
+            onClick={() => setTab(item.value)}
+            className={cn(
+              "px-3 py-2 text-sm font-medium border-b-2 transition-colors",
+              tab === item.value
+                ? "border-primary text-foreground"
+                : "border-transparent text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Identity tab */}
+      {tab === "identity" && (
+        <div className="rounded-lg border border-border bg-card p-6 space-y-5">
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.identity.name")}</label>
+            <input
+              type="text"
+              value={current.name}
+              onChange={(e) => handleChange("name", e.target.value)}
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.identity.soul")}</label>
+            <p className="text-xs text-muted-foreground mt-0.5">{t("teamMember.identity.soulDescription")}</p>
+            <textarea
+              value={current.soul ?? ""}
+              onChange={(e) => handleChange("soul", e.target.value || null)}
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[120px]"
+              placeholder={t("teamMember.identity.soulPlaceholder")}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.identity.avatar")}</label>
+            <div className="mt-1 flex items-center gap-3">
+              {current.icon && (
+                <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center text-lg">
+                  {current.icon}
+                </div>
+              )}
+              <input
+                type="text"
+                value={current.icon ?? ""}
+                onChange={(e) => handleChange("icon", e.target.value || null)}
+                className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                placeholder="Icon name..."
+              />
+            </div>
+          </div>
+          {companyId && (
+            <div>
+              <label className="block text-sm font-medium">{t("teamMember.identity.memory")}</label>
+              <div className="mt-1">
+                <Link
+                  to="/memory"
+                  className="text-sm text-primary hover:underline"
+                >
+                  {t("teamMember.identity.viewMemory")} →
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Organization tab */}
+      {tab === "organization" && (
+        <div className="rounded-lg border border-border bg-card p-6 space-y-5">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium">{t("teamMember.organization.role")}</label>
+              <input
+                type="text"
+                value={current.role}
+                onChange={(e) => handleChange("role", e.target.value)}
+                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">{t("teamMember.organization.title")}</label>
+              <input
+                type="text"
+                value={current.title ?? ""}
+                onChange={(e) => handleChange("title", e.target.value || null)}
+                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.organization.status")}</label>
+            <div className="mt-1">
+              <Badge variant={current.status === "active" || current.status === "idle" ? "default" : "secondary"}>
+                {current.status}
+              </Badge>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium">{t("teamMember.organization.budget")}</label>
+              <div className="mt-1 text-sm">
+                {formatCents(current.budgetMonthlyCents)}
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium">{t("teamMember.organization.spent")}</label>
+              <div className="mt-1 text-sm">
+                {formatCents(current.spentMonthlyCents)}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Capabilities tab */}
+      {tab === "capabilities" && (
+        <div className="rounded-lg border border-border bg-card p-6 space-y-5">
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.capabilities.jobDescription")}</label>
+            <textarea
+              value={current.capabilities ?? ""}
+              onChange={(e) => handleChange("capabilities", e.target.value || null)}
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[120px]"
+              placeholder={t("teamMember.capabilities.jobDescriptionPlaceholder")}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.capabilities.skills")}</label>
+            <p className="mt-1 text-sm text-muted-foreground">
+              <Link to="/settings/skills" className="text-primary hover:underline">
+                {t("teamMember.capabilities.skills")}
+              </Link>
+              {" — "}
+              {t("skills.description")}
+            </p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.capabilities.channels")}</label>
+            <p className="mt-1 text-sm text-muted-foreground">
+              <Link to="/settings/channels" className="text-primary hover:underline">
+                {t("teamMember.capabilities.channels")}
+              </Link>
+              {" — "}
+              {t("channels.description")}
+            </p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.capabilities.cronTasks")}</label>
+            <p className="mt-1 text-sm text-muted-foreground">
+              <Link to="/settings/cron" className="text-primary hover:underline">
+                {t("teamMember.capabilities.cronTasks")}
+              </Link>
+              {" — "}
+              {t("cron.description")}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Engine tab */}
+      {tab === "engine" && (
+        <div className="rounded-lg border border-border bg-card p-6 space-y-5">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium">{t("teamMember.engine.engineType")}</label>
+              <select
+                value={current.engineType ?? "process"}
+                onChange={(e) => handleChange("engineType", e.target.value)}
+                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              >
+                {(["openclaw", "claude_local", "codex_local", "http", "process"] as const).map((type) => (
+                  <option key={type} value={type}>
+                    {t(`teamMember.engineTypes.${type}`)}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium">{t("teamMember.engine.adapterType")}</label>
+              <div className="mt-1 text-sm text-muted-foreground">
+                {adapterLabels[current.adapterType] ?? current.adapterType}
+              </div>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.engine.adapterConfig")}</label>
+            <pre className="mt-1 rounded-md border border-border bg-muted/30 p-3 text-xs font-mono max-h-48 overflow-auto">
+              {JSON.stringify(current.adapterConfig, null, 2)}
+            </pre>
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.engine.runtimeConfig")}</label>
+            <pre className="mt-1 rounded-md border border-border bg-muted/30 p-3 text-xs font-mono max-h-48 overflow-auto">
+              {JSON.stringify(current.runtimeConfig, null, 2)}
+            </pre>
+          </div>
+        </div>
+      )}
+
+      {/* Save button */}
+      {form !== null && (
+        <div className="flex items-center justify-end gap-2">
+          <Button variant="outline" size="sm" onClick={() => setForm(null)}>
+            {t("common.cancel")}
+          </Button>
+          <Button size="sm" onClick={handleSave} disabled={mutation.isPending}>
+            {mutation.isPending ? t("common.saving") : t("teamMember.saveChanges")}
+          </Button>
         </div>
       )}
     </div>

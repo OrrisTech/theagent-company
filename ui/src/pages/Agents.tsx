@@ -31,6 +31,22 @@ const adapterLabels: Record<string, string> = {
   http: "HTTP",
 };
 
+const engineLabels: Record<string, string> = {
+  openclaw: "OpenClaw",
+  claude_local: "Claude",
+  codex_local: "Codex",
+  http: "HTTP",
+  process: "Process",
+};
+
+/** Build a concise engine label like "openclaw · claude-opus-4" */
+function engineLabel(agent: Agent): string {
+  const engine = engineLabels[agent.engineType ?? "process"] ?? agent.engineType ?? "Process";
+  const adapter = adapterLabels[agent.adapterType] ?? agent.adapterType;
+  if (engine === adapter) return engine;
+  return `${engine} · ${adapter}`;
+}
+
 const roleLabels = AGENT_ROLE_LABELS as Record<string, string>;
 
 type FilterTab = "all" | "active" | "paused" | "error";
@@ -257,8 +273,8 @@ export function Agents() {
                           liveCount={liveRunByAgent.get(agent.id)!.liveCount}
                         />
                       )}
-                      <span className="text-xs text-muted-foreground font-mono w-14 text-right">
-                        {adapterLabels[agent.adapterType] ?? agent.adapterType}
+                      <span className="text-xs text-muted-foreground font-mono w-24 text-right truncate" title={engineLabel(agent)}>
+                        {engineLabel(agent)}
                       </span>
                       <span className="text-xs text-muted-foreground w-16 text-right">
                         {agent.lastHeartbeatAt ? relativeTime(agent.lastHeartbeatAt) : "—"}
@@ -358,8 +374,8 @@ function OrgTreeNode({
             )}
             {agent && (
               <>
-                <span className="text-xs text-muted-foreground font-mono w-14 text-right">
-                  {adapterLabels[agent.adapterType] ?? agent.adapterType}
+                <span className="text-xs text-muted-foreground font-mono w-24 text-right truncate" title={engineLabel(agent)}>
+                  {engineLabel(agent)}
                 </span>
                 <span className="text-xs text-muted-foreground w-16 text-right">
                   {agent.lastHeartbeatAt ? relativeTime(agent.lastHeartbeatAt) : "—"}

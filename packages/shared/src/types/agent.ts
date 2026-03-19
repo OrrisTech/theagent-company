@@ -1,5 +1,6 @@
 import type {
   AgentAdapterType,
+  AgentEngineType,
   PauseReason,
   AgentRole,
   AgentStatus,
@@ -20,6 +21,9 @@ export interface Agent {
   status: AgentStatus;
   reportsTo: string | null;
   capabilities: string | null;
+  soul: string | null;
+  identityMeta: Record<string, unknown> | null;
+  engineType: AgentEngineType;
   adapterType: AgentAdapterType;
   adapterConfig: Record<string, unknown>;
   runtimeConfig: Record<string, unknown>;

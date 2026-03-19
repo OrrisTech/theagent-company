@@ -222,6 +222,163 @@
     "session": "会话",
     "parentSession": "父会话"
   },
+  "models": {
+    "title": "模型",
+    "description": "配置 AI 模型供应商和设置。",
+    "noModels": "未找到模型配置。",
+    "noModelsHint": "在 ~/.openclaw/openclaw.json 中添加模型条目以配置 AI 供应商。",
+    "addModel": "添加模型",
+    "editModel": "编辑模型",
+    "deleteModel": "删除模型",
+    "provider": "供应商",
+    "model": "模型",
+    "apiKey": "API 密钥",
+    "baseUrl": "Base URL",
+    "maxTokens": "最大 Token 数",
+    "temperature": "温度",
+    "isDefault": "默认模型",
+    "enabled": "已启用",
+    "disabled": "已禁用",
+    "saveChanges": "保存更改",
+    "saved": "模型配置已保存。",
+    "saveFailed": "保存模型配置失败。",
+    "confirmDelete": "确定要删除此模型吗？",
+    "masked": "API 密钥已脱敏显示",
+    "providerPlaceholder": "例如: anthropic, openai, google",
+    "modelPlaceholder": "例如: claude-opus-4, gpt-4o"
+  },
+  "channels": {
+    "title": "渠道",
+    "description": "管理通信渠道（Telegram、Slack 等）。",
+    "noChannels": "未配置渠道。",
+    "noChannelsHint": "在 ~/.openclaw/openclaw.json 中添加渠道条目。",
+    "addChannel": "添加渠道",
+    "editChannel": "编辑渠道",
+    "deleteChannel": "删除渠道",
+    "channelType": "类型",
+    "channelName": "名称",
+    "enabled": "已启用",
+    "disabled": "已禁用",
+    "config": "配置",
+    "saveChanges": "保存更改",
+    "saved": "渠道配置已保存。",
+    "saveFailed": "保存渠道配置失败。",
+    "confirmDelete": "确定要删除此渠道吗？",
+    "types": {
+      "telegram": "Telegram",
+      "slack": "Slack",
+      "discord": "Discord",
+      "wechat": "微信",
+      "feishu": "飞书",
+      "email": "邮件",
+      "custom": "自定义"
+    }
+  },
+  "skills": {
+    "title": "技能",
+    "description": "浏览和管理 OpenClaw 工作空间中的 Agent 技能。",
+    "noSkills": "工作空间中未找到技能。",
+    "noSkillsHint": "在 OpenClaw workspace/skills/ 目录中添加技能文件夹。",
+    "enabled": "已启用",
+    "disabled": "已禁用",
+    "enableSkill": "启用",
+    "disableSkill": "禁用",
+    "viewSkillMd": "查看 SKILL.md",
+    "noSkillMd": "此技能没有 SKILL.md 文件。",
+    "skillPath": "路径",
+    "toggleFailed": "更新技能状态失败。"
+  },
+  "cron": {
+    "title": "定时任务",
+    "description": "管理定时任务和心跳配置。",
+    "noTasks": "未配置定时任务。",
+    "noTasksHint": "在 ~/.openclaw/openclaw.json 中添加定时任务条目或在下方创建。",
+    "addTask": "添加任务",
+    "editTask": "编辑任务",
+    "deleteTask": "删除任务",
+    "taskName": "任务名称",
+    "expression": "Cron 表达式",
+    "expressionHint": "标准 5 字段 cron（分 时 日 月 星期）",
+    "command": "命令",
+    "agent": "Agent",
+    "enabled": "已启用",
+    "disabled": "已禁用",
+    "nextRun": "下次执行",
+    "lastRun": "上次执行",
+    "lastStatus": "上次状态",
+    "status": {
+      "success": "成功",
+      "failure": "失败",
+      "running": "运行中"
+    },
+    "saved": "定时任务已保存。",
+    "saveFailed": "保存定时任务失败。",
+    "deleted": "定时任务已删除。",
+    "deleteFailed": "删除定时任务失败。",
+    "confirmDelete": "确定要删除此定时任务吗？",
+    "invalidExpression": "无效的 Cron 表达式"
+  },
+  "teamMember": {
+    "title": "团队成员",
+    "tabs": {
+      "identity": "身份",
+      "organization": "组织",
+      "capabilities": "能力",
+      "engine": "引擎"
+    },
+    "identity": {
+      "name": "名称",
+      "soul": "灵魂",
+      "soulDescription": "性格、说话风格和行为准则",
+      "soulPlaceholder": "描述性格、沟通风格和行为准则...",
+      "avatar": "头像",
+      "memory": "记忆",
+      "viewMemory": "查看记忆",
+      "noSoul": "尚未定义灵魂/性格。"
+    },
+    "organization": {
+      "role": "角色",
+      "title": "职位",
+      "reportsTo": "汇报对象",
+      "budget": "月度预算",
+      "spent": "本月花费",
+      "permissions": "权限",
+      "status": "状态"
+    },
+    "capabilities": {
+      "jobDescription": "工作职责",
+      "jobDescriptionPlaceholder": "描述此团队成员的工作内容...",
+      "skills": "技能",
+      "channels": "渠道",
+      "cronTasks": "定时任务"
+    },
+    "engine": {
+      "engineType": "引擎类型",
+      "adapterType": "适配器类型",
+      "provider": "供应商",
+      "model": "模型",
+      "adapterConfig": "适配器配置",
+      "runtimeConfig": "运行时配置"
+    },
+    "engineTypes": {
+      "openclaw": "OpenClaw",
+      "claude_local": "Claude（本地）",
+      "codex_local": "Codex（本地）",
+      "http": "HTTP API",
+      "process": "进程"
+    },
+    "saveChanges": "保存更改",
+    "saved": "团队成员已更新。",
+    "saveFailed": "更新团队成员失败。",
+    "list": {
+      "title": "团队成员",
+      "addMember": "添加成员",
+      "engine": "引擎",
+      "monthlySpend": "本月花费",
+      "noMembers": "暂无团队成员。",
+      "noMembersHint": "创建你的第一个 AI 团队成员开始使用。"
+    }
+  },
   "pages": {
     "overview": {
       "title": "总览",

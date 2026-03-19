@@ -8,6 +8,10 @@ import type {
   OpenClawDocumentContent,
   OpenClawCollaborationEvent,
   OpenClawOverview,
+  OpenClawModelConfig,
+  OpenClawChannelConfig,
+  OpenClawSkillEntry,
+  OpenClawCronTask,
 } from "@paperclipai/shared";
 import { api } from "./client";
 
@@ -38,4 +42,25 @@ export const openclawApi = {
       `/companies/${companyId}/openclaw/collaboration${qs ? `?${qs}` : ""}`,
     );
   },
+
+  // Configuration management (Phase 4)
+  models: () => api.get<OpenClawModelConfig[]>("/openclaw/models"),
+  updateModels: (models: OpenClawModelConfig[]) =>
+    api.put<OpenClawModelConfig[]>("/openclaw/models", models),
+
+  channels: () => api.get<OpenClawChannelConfig[]>("/openclaw/channels"),
+  updateChannels: (channels: OpenClawChannelConfig[]) =>
+    api.put<OpenClawChannelConfig[]>("/openclaw/channels", channels),
+
+  skills: () => api.get<OpenClawSkillEntry[]>("/openclaw/skills"),
+  updateSkillEnabled: (id: string, enabled: boolean) =>
+    api.patch<{ id: string; enabled: boolean }>(`/openclaw/skills/${id}`, { enabled }),
+
+  cronTasks: () => api.get<OpenClawCronTask[]>("/openclaw/cron"),
+  createCronTask: (task: Omit<OpenClawCronTask, "id" | "nextRunAt" | "lastRunAt" | "lastRunStatus">) =>
+    api.post<OpenClawCronTask>("/openclaw/cron", task),
+  updateCronTask: (id: string, updates: Partial<OpenClawCronTask>) =>
+    api.put<OpenClawCronTask>(`/openclaw/cron/${id}`, updates),
+  deleteCronTask: (id: string) =>
+    api.delete<{ success: boolean }>(`/openclaw/cron/${id}`),
 };
