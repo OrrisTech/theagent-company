@@ -179,6 +179,7 @@ describe("i18n translation resources", () => {
       "overview", "workflows", "usageBudget", "documents",
       "memory", "collaboration", "models", "channels",
       "skills", "cronHeartbeat", "security", "languageSettings",
+      "notifications", "performance", "teamCollab",
     ];
     for (const page of requiredPages) {
       expect(en.pages, `pages should have key '${page}'`).toHaveProperty(page);

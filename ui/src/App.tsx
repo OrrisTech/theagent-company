@@ -43,6 +43,9 @@ import { UsageBudget } from "./pages/UsageBudget";
 import { Documents } from "./pages/Documents";
 import { Memory } from "./pages/Memory";
 import { Collaboration } from "./pages/Collaboration";
+import { Notifications } from "./pages/Notifications";
+import { PerformanceDashboard } from "./pages/PerformanceDashboard";
+import { TeamCollaboration } from "./pages/TeamCollaboration";
 import { ModelsSettings } from "./pages/settings/ModelsSettings";
 import { ChannelsSettings } from "./pages/settings/ChannelsSettings";
 import { SkillsSettings } from "./pages/settings/SkillsSettings";
@@ -180,6 +183,10 @@ function boardRoutes() {
       <Route path="documents" element={<Documents />} />
       <Route path="memory" element={<Memory />} />
       <Route path="collaboration" element={<Collaboration />} />
+      {/* Phase 6 — Team Collaboration Enhancement */}
+      <Route path="notifications" element={<Notifications />} />
+      <Route path="performance" element={<PerformanceDashboard />} />
+      <Route path="team-collaboration" element={<TeamCollaboration />} />
       {/* Settings sub-pages */}
       <Route path="settings/models" element={<ModelsSettings />} />
       <Route path="settings/channels" element={<ChannelsSettings />} />

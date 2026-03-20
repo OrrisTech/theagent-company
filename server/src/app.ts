@@ -26,6 +26,7 @@ import { instanceSettingsRoutes } from "./routes/instance-settings.js";
 import { brandingRoutes } from "./routes/branding.js";
 import { openclawRoutes } from "./routes/openclaw.js";
 import { workflowRoutes } from "./routes/workflows.js";
+import { collaborationRoutes } from "./routes/collaboration.js";
 import { llmRoutes } from "./routes/llms.js";
 import { assetRoutes } from "./routes/assets.js";
 import { accessRoutes } from "./routes/access.js";
@@ -155,6 +156,7 @@ export async function createApp(
   api.use(brandingRoutes(db));
   api.use(openclawRoutes(db));
   api.use(workflowRoutes(db));
+  api.use(collaborationRoutes(db));
   const hostServicesDisposers = new Map<string, () => void>();
   const workerManager = createPluginWorkerManager();
   const pluginRegistry = pluginRegistryService(db);

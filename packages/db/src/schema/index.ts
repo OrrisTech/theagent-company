@@ -60,3 +60,15 @@ export {
   workflowStepRuns,
   workflowTemplates,
 } from "./workflows.js";
+export {
+  teamMessages,
+  dailyReports,
+  peerReviews,
+  escalationRules,
+  escalationEvents,
+  notifications,
+  performanceSnapshots,
+  onboardingFlows,
+  feedbackEntries,
+} from "./collaboration.js";
+export type { OnboardingStepRecord } from "./collaboration.js";

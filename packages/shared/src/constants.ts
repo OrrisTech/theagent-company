@@ -725,3 +725,86 @@ export const PLUGIN_BRIDGE_ERROR_CODES = [
   "UNKNOWN",
 ] as const;
 export type PluginBridgeErrorCode = (typeof PLUGIN_BRIDGE_ERROR_CODES)[number];
+
+// ---------------------------------------------------------------------------
+// Phase 6 — Team Collaboration Enhancement
+// ---------------------------------------------------------------------------
+
+/** Delivery statuses for agent-to-agent messages. */
+export const MESSAGE_STATUSES = ["sent", "delivered", "read"] as const;
+export type MessageStatus = (typeof MESSAGE_STATUSES)[number];
+
+/** Generation statuses for daily standup reports. */
+export const DAILY_REPORT_STATUSES = ["pending", "generating", "generated", "failed"] as const;
+export type DailyReportStatus = (typeof DAILY_REPORT_STATUSES)[number];
+
+/** Review lifecycle statuses for peer reviews. */
+export const PEER_REVIEW_STATUSES = [
+  "pending",
+  "in_review",
+  "approved",
+  "rejected",
+  "revision_requested",
+] as const;
+export type PeerReviewStatus = (typeof PEER_REVIEW_STATUSES)[number];
+
+/** Possible decisions a reviewer can make. */
+export const PEER_REVIEW_DECISIONS = ["approved", "rejected", "revision_requested"] as const;
+export type PeerReviewDecision = (typeof PEER_REVIEW_DECISIONS)[number];
+
+/** Trigger conditions for escalation rules. */
+export const ESCALATION_TRIGGER_TYPES = [
+  "budget_exceeded",
+  "retries_failed",
+  "sensitive_operation",
+  "agent_uncertain",
+  "custom",
+] as const;
+export type EscalationTriggerType = (typeof ESCALATION_TRIGGER_TYPES)[number];
+
+/** Lifecycle statuses for escalation events. */
+export const ESCALATION_STATUSES = ["open", "acknowledged", "resolved", "dismissed"] as const;
+export type EscalationStatus = (typeof ESCALATION_STATUSES)[number];
+
+/** Types of notifications in the unified inbox. */
+export const NOTIFICATION_TYPES = [
+  "approval_needed",
+  "workflow_failed",
+  "budget_warning",
+  "escalation",
+  "peer_review",
+  "onboarding",
+  "feedback",
+  "info",
+] as const;
+export type NotificationType = (typeof NOTIFICATION_TYPES)[number];
+
+/** Priority levels for notifications. */
+export const NOTIFICATION_PRIORITIES = ["low", "medium", "high", "urgent"] as const;
+export type NotificationPriority = (typeof NOTIFICATION_PRIORITIES)[number];
+
+/** Delivery channels for notifications. */
+export const NOTIFICATION_CHANNELS = ["web", "email", "telegram", "slack"] as const;
+export type NotificationChannel = (typeof NOTIFICATION_CHANNELS)[number];
+
+/** Categories for human feedback on agent output. */
+export const FEEDBACK_CATEGORIES = ["soul", "capabilities", "workflow", "general"] as const;
+export type FeedbackCategory = (typeof FEEDBACK_CATEGORIES)[number];
+
+/** Processing statuses for feedback entries. */
+export const FEEDBACK_STATUSES = [
+  "pending",
+  "suggestion_generated",
+  "accepted",
+  "rejected",
+  "applied",
+] as const;
+export type FeedbackStatus = (typeof FEEDBACK_STATUSES)[number];
+
+/** Overall onboarding flow statuses. */
+export const ONBOARDING_STATUSES = ["pending", "in_progress", "completed", "failed"] as const;
+export type OnboardingStatus = (typeof ONBOARDING_STATUSES)[number];
+
+/** Individual onboarding step statuses. */
+export const ONBOARDING_STEP_STATUSES = ["pending", "running", "completed", "skipped", "failed"] as const;
+export type OnboardingStepStatus = (typeof ONBOARDING_STEP_STATUSES)[number];

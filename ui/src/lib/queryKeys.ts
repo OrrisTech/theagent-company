@@ -132,6 +132,32 @@ export const queryKeys = {
     runDetail: (runId: string) => ["workflows", "runs", runId] as const,
     templates: ["workflow-templates"] as const,
   },
+  collaboration: {
+    messages: (companyId: string, agentId?: string) =>
+      ["collaboration", "messages", companyId, agentId] as const,
+    dailyReports: (companyId: string, agentId?: string) =>
+      ["collaboration", "daily-reports", companyId, agentId] as const,
+    peerReviews: (companyId: string, status?: string) =>
+      ["collaboration", "peer-reviews", companyId, status] as const,
+    escalationRules: (companyId: string) =>
+      ["collaboration", "escalation-rules", companyId] as const,
+    escalationEvents: (companyId: string, status?: string) =>
+      ["collaboration", "escalations", companyId, status] as const,
+    notifications: (companyId: string, unreadOnly?: boolean) =>
+      ["collaboration", "notifications", companyId, unreadOnly] as const,
+    notificationCounts: (companyId: string) =>
+      ["collaboration", "notification-counts", companyId] as const,
+    performance: (companyId: string, from?: string, to?: string) =>
+      ["collaboration", "performance", companyId, from, to] as const,
+    performanceSnapshots: (companyId: string, agentId?: string) =>
+      ["collaboration", "performance-snapshots", companyId, agentId] as const,
+    onboarding: (companyId: string) =>
+      ["collaboration", "onboarding", companyId] as const,
+    onboardingFlow: (companyId: string, agentId: string) =>
+      ["collaboration", "onboarding", companyId, agentId] as const,
+    feedback: (companyId: string, agentId?: string) =>
+      ["collaboration", "feedback", companyId, agentId] as const,
+  },
   plugins: {
     all: ["plugins"] as const,
     examples: ["plugins", "examples"] as const,
