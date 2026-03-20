@@ -108,7 +108,7 @@ const priorityColors: Record<string, string> = {
   critical: "#ef4444",
   high: "#f97316",
   medium: "#eab308",
-  low: "#6b7280",
+  low: "#94a3b8", // slate-400: better contrast on both light and dark backgrounds
 };
 
 const priorityOrder = ["critical", "high", "medium", "low"] as const;
@@ -163,8 +163,8 @@ const statusColors: Record<string, string> = {
   in_review: "#a855f7",
   done: "#10b981",
   blocked: "#ef4444",
-  cancelled: "#6b7280",
-  backlog: "#64748b",
+  cancelled: "#94a3b8", // slate-400: better contrast on dark backgrounds
+  backlog: "#94a3b8", // slate-400: better contrast on dark backgrounds
 };
 
 const statusLabels: Record<string, string> = {

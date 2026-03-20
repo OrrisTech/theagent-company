@@ -69,7 +69,7 @@ export function Workflows() {
 
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
 
-  const { data: workflows, isLoading } = useQuery({
+  const { data: workflows, isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.workflows.list,
     queryFn: () => workflowApi.list(),
   });
@@ -91,6 +91,9 @@ export function Workflows() {
       queryClient.invalidateQueries({ queryKey: queryKeys.workflows.list });
       pushToast({ title: t("pages.workflows.duplicated") });
     },
+    onError: () => {
+      pushToast({ title: t("common.unexpectedError"), tone: "error" });
+    },
   });
 
   const runMutation = useMutation({
@@ -98,6 +101,9 @@ export function Workflows() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.workflows.list });
       pushToast({ title: t("pages.workflows.runStarted") });
+    },
+    onError: () => {
+      pushToast({ title: t("common.unexpectedError"), tone: "error" });
     },
   });
 
@@ -137,8 +143,19 @@ export function Workflows() {
         </div>
       )}
 
+      {/* Error state */}
+      {!isLoading && error && (
+        <div className="border rounded-lg p-12 text-center">
+          <XCircle className="h-12 w-12 mx-auto text-destructive mb-4" />
+          <p className="text-sm text-muted-foreground">{t("common.errorLoadingData")}</p>
+          <Button variant="outline" className="mt-4" onClick={() => refetch()}>
+            {t("common.retry")}
+          </Button>
+        </div>
+      )}
+
       {/* Empty state */}
-      {!isLoading && (!workflows || workflows.length === 0) && (
+      {!isLoading && !error && (!workflows || workflows.length === 0) && (
         <div className="border rounded-lg p-12 text-center">
           <Workflow className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
           <h3 className="text-lg font-medium">{t("pages.workflows.noWorkflows")}</h3>
@@ -152,9 +169,9 @@ export function Workflows() {
 
       {/* Workflow list */}
       {workflows && workflows.length > 0 && (
-        <div className="border rounded-lg divide-y">
+        <div className="border rounded-lg divide-y overflow-x-auto">
           {/* Table header */}
-          <div className="grid grid-cols-[1fr_100px_80px_140px_80px_60px] gap-4 px-4 py-3 text-sm font-medium text-muted-foreground bg-muted/50">
+          <div className="min-w-[640px] grid grid-cols-[1fr_100px_80px_140px_80px_60px] gap-4 px-4 py-3 text-sm font-medium text-muted-foreground bg-muted/50">
             <div>{t("pages.workflows.workflowName")}</div>
             <div>{t("pages.workflows.status")}</div>
             <div>{t("pages.workflows.steps")}</div>
@@ -166,7 +183,7 @@ export function Workflows() {
           {workflows.map((wf: WorkflowSummary) => (
             <div
               key={wf.id}
-              className="grid grid-cols-[1fr_100px_80px_140px_80px_60px] gap-4 px-4 py-3 items-center hover:bg-muted/30 cursor-pointer transition-colors"
+              className="min-w-[640px] grid grid-cols-[1fr_100px_80px_140px_80px_60px] gap-4 px-4 py-3 items-center hover:bg-muted/30 cursor-pointer transition-colors"
               onClick={() => navigate(`/workflows/${wf.id}`)}
               role="button"
               tabIndex={0}

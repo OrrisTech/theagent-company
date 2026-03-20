@@ -140,6 +140,9 @@ function DailyReportsPanel({ companyId }: { companyId: string }) {
       queryClient.invalidateQueries({ queryKey: ["collaboration", "daily-reports"] });
       pushToast({ title: t("pages.teamCollab.reportsGenerated") });
     },
+    onError: () => {
+      pushToast({ title: t("common.unexpectedError"), tone: "error" });
+    },
   });
 
   return (

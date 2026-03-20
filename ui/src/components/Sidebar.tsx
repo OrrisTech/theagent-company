@@ -21,6 +21,9 @@ import {
   Palette,
   Globe,
   Shield,
+  Bell,
+  BarChart3,
+  MessagesSquare,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -131,6 +134,9 @@ export function Sidebar() {
           <SidebarNavItem to="/documents" label={t("sidebar.documents")} icon={FileText} />
           <SidebarNavItem to="/memory" label={t("sidebar.memory")} icon={Brain} />
           <SidebarNavItem to="/collaboration" label={t("sidebar.collaboration")} icon={Link2} />
+          <SidebarNavItem to="/notifications" label={t("sidebar.notifications")} icon={Bell} />
+          <SidebarNavItem to="/performance" label={t("sidebar.performance")} icon={BarChart3} />
+          <SidebarNavItem to="/team-collaboration" label={t("sidebar.teamCollab")} icon={MessagesSquare} />
           <SidebarNavItem to="/activity" label={t("sidebar.activity")} icon={History} />
         </SidebarSection>
 

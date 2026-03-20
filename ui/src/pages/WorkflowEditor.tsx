@@ -240,7 +240,7 @@ export function WorkflowEditor() {
 
       {/* Workflow metadata */}
       <div className="border rounded-lg p-4 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="text-sm font-medium">{t("pages.workflows.workflowName")}</label>
             <input
@@ -272,7 +272,7 @@ export function WorkflowEditor() {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="text-sm font-medium">{t("pages.workflows.maxConcurrency")}</label>
             <input
@@ -345,7 +345,7 @@ export function WorkflowEditor() {
             {/* Step detail — expanded */}
             {expandedStep === index && (
               <div className="border-t px-4 py-4 space-y-3">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
                     <label className="text-sm font-medium">{t("pages.workflows.stepName")}</label>
                     <input
@@ -382,7 +382,7 @@ export function WorkflowEditor() {
                 />
 
                 {/* Common step settings */}
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div>
                     <label className="text-sm font-medium">{t("pages.workflows.stepTimeout")}</label>
                     <input
@@ -558,7 +558,7 @@ function StepConfigEditor({
               onChange={(e) => set("prompt", e.target.value)}
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <label className="text-sm font-medium">{t("pages.workflows.promptConfig.skillId")}</label>
               <input className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm"
@@ -577,7 +577,7 @@ function StepConfigEditor({
 
     case "skill":
       return (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="text-sm font-medium">{t("pages.workflows.skillConfig.skillId")}</label>
             <input className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm"
@@ -596,7 +596,7 @@ function StepConfigEditor({
     case "api":
       return (
         <div className="space-y-3">
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             <div>
               <label className="text-sm font-medium">{t("pages.workflows.apiConfig.method")}</label>
               <select className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm"
@@ -626,7 +626,7 @@ function StepConfigEditor({
 
     case "cli":
       return (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="text-sm font-medium">{t("pages.workflows.cliConfig.command")}</label>
             <input className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm font-mono"
@@ -655,7 +655,7 @@ function StepConfigEditor({
 
     case "condition":
       return (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div>
             <label className="text-sm font-medium">{t("pages.workflows.conditionConfig.expression")}</label>
             <input className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm font-mono"
@@ -679,7 +679,7 @@ function StepConfigEditor({
 
     case "loop":
       return (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className="col-span-2">
             <label className="text-sm font-medium">{t("pages.workflows.loopConfig.collection")}</label>
             <input className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm font-mono"

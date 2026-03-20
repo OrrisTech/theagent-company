@@ -104,7 +104,8 @@ describe("i18n translation resources", () => {
     const requiredKeys = [
       "overview", "projects", "team", "members", "orgChart",
       "workflows", "usageBudget", "documents", "memory",
-      "collaboration", "settings", "models", "channels",
+      "collaboration", "notifications", "performance", "teamCollab",
+      "settings", "models", "channels",
       "skills", "cronHeartbeat", "branding", "language", "security",
     ];
     for (const key of requiredKeys) {
@@ -172,6 +173,35 @@ describe("i18n translation resources", () => {
       const zhKeys = flatKeys(zhSection).sort();
       expect(enKeys, `${section} section keys should match between en and zh`).toEqual(zhKeys);
     }
+  });
+
+  it("common section has error handling keys", () => {
+    const errorKeys = ["errorLoadingData", "retry", "unexpectedError", "errorBoundaryTitle", "errorBoundaryDescription", "refreshPage"];
+    for (const key of errorKeys) {
+      expect(en.common, `en common should have '${key}'`).toHaveProperty(key);
+      expect(zh.common, `zh common should have '${key}'`).toHaveProperty(key);
+    }
+  });
+
+  it("all top-level sections have matching deep keys between en and zh", () => {
+    function flatKeys(obj: Record<string, unknown>, prefix = ""): string[] {
+      const keys: string[] = [];
+      for (const [k, v] of Object.entries(obj)) {
+        const path = prefix ? `${prefix}.${k}` : k;
+        if (typeof v === "object" && v !== null) {
+          keys.push(...flatKeys(v as Record<string, unknown>, path));
+        } else {
+          keys.push(path);
+        }
+      }
+      return keys;
+    }
+    const enKeys = flatKeys(en as Record<string, unknown>).sort();
+    const zhKeys = flatKeys(zh as Record<string, unknown>).sort();
+    const missingInZh = enKeys.filter((k) => !zhKeys.includes(k));
+    const missingInEn = zhKeys.filter((k) => !enKeys.includes(k));
+    expect(missingInZh, "Keys in en but missing in zh").toEqual([]);
+    expect(missingInEn, "Keys in zh but missing in en").toEqual([]);
   });
 
   it("pages section covers all placeholder pages", () => {

@@ -67,7 +67,7 @@ export function Notifications() {
   const isTypeFilter = !["all", "unread"].includes(activeFilter);
   const unreadOnly = activeFilter === "unread";
 
-  const { data: items = [], isLoading } = useQuery({
+  const { data: items = [], isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.collaboration.notifications(selectedCompanyId ?? "", unreadOnly),
     queryFn: () =>
       notificationApi.list({
@@ -90,6 +90,9 @@ export function Notifications() {
       queryClient.invalidateQueries({ queryKey: ["collaboration", "notifications"] });
       queryClient.invalidateQueries({ queryKey: ["collaboration", "notification-counts"] });
     },
+    onError: () => {
+      pushToast({ title: t("common.unexpectedError"), tone: "error" });
+    },
   });
 
   const markAllReadMutation = useMutation({
@@ -99,6 +102,9 @@ export function Notifications() {
       queryClient.invalidateQueries({ queryKey: ["collaboration", "notification-counts"] });
       pushToast({ title: t("pages.notifications.allMarkedRead") });
     },
+    onError: () => {
+      pushToast({ title: t("common.unexpectedError"), tone: "error" });
+    },
   });
 
   const dismissMutation = useMutation({
@@ -106,6 +112,9 @@ export function Notifications() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["collaboration", "notifications"] });
       queryClient.invalidateQueries({ queryKey: ["collaboration", "notification-counts"] });
+    },
+    onError: () => {
+      pushToast({ title: t("common.unexpectedError"), tone: "error" });
     },
   });
 
@@ -161,6 +170,12 @@ export function Notifications() {
       {isLoading ? (
         <div className="py-10 text-center text-sm text-muted-foreground">
           {t("common.loading")}
+        </div>
+      ) : error ? (
+        <div className="py-10 text-center">
+          <AlertTriangle className="mx-auto mb-2 h-8 w-8 text-destructive" />
+          <p className="text-sm text-muted-foreground">{t("common.errorLoadingData")}</p>
+          <button onClick={() => refetch()} className="mt-2 text-sm text-primary underline">{t("common.retry")}</button>
         </div>
       ) : filteredItems.length === 0 ? (
         <div className="py-10 text-center">

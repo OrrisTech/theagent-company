@@ -1337,7 +1337,7 @@ export function OnboardingWizard() {
           {/* Right half — ASCII art (hidden on mobile) */}
           <div
             className={cn(
-              "hidden md:block overflow-hidden bg-[#1d1d1d] transition-[width,opacity] duration-500 ease-in-out",
+              "hidden md:block overflow-hidden bg-foreground/95 transition-[width,opacity] duration-500 ease-in-out",
               step === 1 ? "w-1/2 opacity-100" : "w-0 opacity-0"
             )}
           >

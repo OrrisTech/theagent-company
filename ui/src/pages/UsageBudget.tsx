@@ -25,7 +25,7 @@ export function UsageBudget() {
   const [activeTab, setActiveTab] = useState("member");
 
   // OpenClaw usage data (aggregated from cost_events)
-  const { data: usage, isLoading } = useQuery({
+  const { data: usage, isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.openclaw.usage(selectedCompanyId ?? ""),
     queryFn: () => openclawApi.usage(selectedCompanyId!),
     enabled: !!selectedCompanyId,
@@ -48,6 +48,16 @@ export function UsageBudget() {
 
   if (isLoading) {
     return <UsageSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-3 p-10 text-center">
+        <AlertTriangle className="h-8 w-8 text-destructive" />
+        <p className="text-sm text-muted-foreground">{t("common.errorLoadingData")}</p>
+        <button onClick={() => refetch()} className="text-sm text-primary underline">{t("common.retry")}</button>
+      </div>
+    );
   }
 
   const budgetCents = selectedCompany?.budgetMonthlyCents ?? 0;
@@ -197,36 +207,38 @@ function MemberBreakdown({ usage }: { usage: OpenClawUsage | undefined }) {
   return (
     <Card className="rounded-lg">
       <CardContent>
-        <div className="space-y-4">
-          <div className="grid grid-cols-[1fr_100px_100px_100px] gap-2 text-xs font-medium text-muted-foreground border-b pb-2">
-            <span>{t("usage.member")}</span>
-            <span className="text-right">{t("usage.cost")}</span>
-            <span className="text-right">{t("usage.inputTokens")}</span>
-            <span className="text-right">{t("usage.outputTokens")}</span>
+        <div className="overflow-x-auto">
+          <div className="min-w-[480px] space-y-4">
+            <div className="grid grid-cols-[1fr_100px_100px_100px] gap-2 text-xs font-medium text-muted-foreground border-b pb-2">
+              <span>{t("usage.member")}</span>
+              <span className="text-right">{t("usage.cost")}</span>
+              <span className="text-right">{t("usage.inputTokens")}</span>
+              <span className="text-right">{t("usage.outputTokens")}</span>
+            </div>
+            {sorted.map((agent) => {
+              const percent = maxCost > 0 ? (agent.costCents / maxCost) * 100 : 0;
+              return (
+                <div key={agent.agentId} className="space-y-1">
+                  <div className="grid grid-cols-[1fr_100px_100px_100px] gap-2 text-sm">
+                    <span className="font-medium truncate">{agent.agentName}</span>
+                    <span className="text-right font-mono">{formatCents(agent.costCents)}</span>
+                    <span className="text-right font-mono text-muted-foreground">
+                      {formatTokens(agent.inputTokens)}
+                    </span>
+                    <span className="text-right font-mono text-muted-foreground">
+                      {formatTokens(agent.outputTokens)}
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-primary/60 transition-all"
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          {sorted.map((agent) => {
-            const percent = maxCost > 0 ? (agent.costCents / maxCost) * 100 : 0;
-            return (
-              <div key={agent.agentId} className="space-y-1">
-                <div className="grid grid-cols-[1fr_100px_100px_100px] gap-2 text-sm">
-                  <span className="font-medium truncate">{agent.agentName}</span>
-                  <span className="text-right font-mono">{formatCents(agent.costCents)}</span>
-                  <span className="text-right font-mono text-muted-foreground">
-                    {formatTokens(agent.inputTokens)}
-                  </span>
-                  <span className="text-right font-mono text-muted-foreground">
-                    {formatTokens(agent.outputTokens)}
-                  </span>
-                </div>
-                <div className="h-1.5 w-full rounded-full bg-muted">
-                  <div
-                    className="h-full rounded-full bg-primary/60 transition-all"
-                    style={{ width: `${percent}%` }}
-                  />
-                </div>
-              </div>
-            );
-          })}
         </div>
       </CardContent>
     </Card>
@@ -246,38 +258,40 @@ function ProjectBreakdown({ projects }: { projects: CostByProject[] }) {
   return (
     <Card className="rounded-lg">
       <CardContent>
-        <div className="space-y-4">
-          <div className="grid grid-cols-[1fr_100px_100px_100px] gap-2 text-xs font-medium text-muted-foreground border-b pb-2">
-            <span>{t("usage.project")}</span>
-            <span className="text-right">{t("usage.cost")}</span>
-            <span className="text-right">{t("usage.inputTokens")}</span>
-            <span className="text-right">{t("usage.outputTokens")}</span>
+        <div className="overflow-x-auto">
+          <div className="min-w-[480px] space-y-4">
+            <div className="grid grid-cols-[1fr_100px_100px_100px] gap-2 text-xs font-medium text-muted-foreground border-b pb-2">
+              <span>{t("usage.project")}</span>
+              <span className="text-right">{t("usage.cost")}</span>
+              <span className="text-right">{t("usage.inputTokens")}</span>
+              <span className="text-right">{t("usage.outputTokens")}</span>
+            </div>
+            {sorted.map((proj) => {
+              const percent = maxCost > 0 ? (proj.costCents / maxCost) * 100 : 0;
+              return (
+                <div key={proj.projectId ?? "unassigned"} className="space-y-1">
+                  <div className="grid grid-cols-[1fr_100px_100px_100px] gap-2 text-sm">
+                    <span className="font-medium truncate">
+                      {proj.projectName ?? t("documents.uncategorized")}
+                    </span>
+                    <span className="text-right font-mono">{formatCents(proj.costCents)}</span>
+                    <span className="text-right font-mono text-muted-foreground">
+                      {formatTokens(proj.inputTokens)}
+                    </span>
+                    <span className="text-right font-mono text-muted-foreground">
+                      {formatTokens(proj.outputTokens)}
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-blue-500/60 transition-all"
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          {sorted.map((proj) => {
-            const percent = maxCost > 0 ? (proj.costCents / maxCost) * 100 : 0;
-            return (
-              <div key={proj.projectId ?? "unassigned"} className="space-y-1">
-                <div className="grid grid-cols-[1fr_100px_100px_100px] gap-2 text-sm">
-                  <span className="font-medium truncate">
-                    {proj.projectName ?? t("documents.uncategorized")}
-                  </span>
-                  <span className="text-right font-mono">{formatCents(proj.costCents)}</span>
-                  <span className="text-right font-mono text-muted-foreground">
-                    {formatTokens(proj.inputTokens)}
-                  </span>
-                  <span className="text-right font-mono text-muted-foreground">
-                    {formatTokens(proj.outputTokens)}
-                  </span>
-                </div>
-                <div className="h-1.5 w-full rounded-full bg-muted">
-                  <div
-                    className="h-full rounded-full bg-blue-500/60 transition-all"
-                    style={{ width: `${percent}%` }}
-                  />
-                </div>
-              </div>
-            );
-          })}
         </div>
       </CardContent>
     </Card>

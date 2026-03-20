@@ -132,9 +132,9 @@ const statusDotColor: Record<string, string> = {
   paused: "#facc15",
   idle: "#facc15",
   error: "#f87171",
-  terminated: "#a3a3a3",
+  terminated: "#94a3b8", // slate-400: visible on both light and dark backgrounds
 };
-const defaultDotColor = "#a3a3a3";
+const defaultDotColor = "#94a3b8";
 
 // ── Main component ──────────────────────────────────────────────────────
 

@@ -55,7 +55,7 @@ export function PerformanceDashboard() {
   const { selectedCompanyId } = useCompany();
   const [dateRange] = useState<{ from?: string; to?: string }>({});
 
-  const { data: summary, isLoading } = useQuery({
+  const { data: summary, isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.collaboration.performance(selectedCompanyId ?? "", dateRange.from, dateRange.to),
     queryFn: () => performanceApi.summary(dateRange),
     enabled: !!selectedCompanyId,
@@ -71,6 +71,12 @@ export function PerformanceDashboard() {
 
       {isLoading ? (
         <div className="py-10 text-center text-sm text-muted-foreground">{t("common.loading")}</div>
+      ) : error ? (
+        <div className="py-10 text-center">
+          <BarChart3 className="mx-auto mb-2 h-8 w-8 text-destructive" />
+          <p className="text-sm text-muted-foreground">{t("common.errorLoadingData")}</p>
+          <button onClick={() => refetch()} className="mt-2 text-sm text-primary underline">{t("common.retry")}</button>
+        </div>
       ) : !summary ? (
         <div className="py-10 text-center">
           <BarChart3 className="mx-auto mb-2 h-8 w-8 text-muted-foreground/40" />

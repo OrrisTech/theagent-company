@@ -19,7 +19,13 @@
     "noData": "暂无数据",
     "comingSoon": "即将推出",
     "underConstruction": "此功能正在建设中。",
-    "selectCompany": "选择公司"
+    "selectCompany": "选择公司",
+    "errorLoadingData": "加载数据失败，请重试。",
+    "retry": "重试",
+    "unexpectedError": "发生了意外错误。",
+    "errorBoundaryTitle": "出错了",
+    "errorBoundaryDescription": "此部分发生了意外错误，请尝试刷新页面。",
+    "refreshPage": "刷新页面"
   },
   "sidebar": {
     "newIssue": "新建任务",
@@ -39,6 +45,9 @@
     "documents": "文档",
     "memory": "记忆",
     "collaboration": "协作",
+    "notifications": "通知",
+    "performance": "绩效",
+    "teamCollab": "团队协作",
     "settings": "设置",
     "models": "模型",
     "channels": "渠道",

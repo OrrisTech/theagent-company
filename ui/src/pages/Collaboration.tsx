@@ -63,7 +63,7 @@ export function Collaboration() {
   });
 
   // Fetch collaboration events
-  const { data: events, isLoading } = useQuery({
+  const { data: events, isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.openclaw.collaboration(selectedCompanyId ?? "", agentFilter),
     queryFn: () => openclawApi.collaboration(selectedCompanyId!, agentFilter, 100),
     enabled: !!selectedCompanyId,
@@ -134,6 +134,11 @@ export function Collaboration() {
               {[...Array(5)].map((_, i) => (
                 <div key={i} className="h-16 animate-pulse rounded-md bg-muted" />
               ))}
+            </div>
+          ) : error ? (
+            <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">
+              <p className="text-sm text-destructive">{t("common.errorLoadingData")}</p>
+              <button onClick={() => refetch()} className="text-sm text-primary underline">{t("common.retry")}</button>
             </div>
           ) : !events?.length ? (
             <div className="flex items-center justify-center py-16">

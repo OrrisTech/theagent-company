@@ -19,7 +19,13 @@
     "noData": "No data available",
     "comingSoon": "Coming Soon",
     "underConstruction": "This feature is under construction.",
-    "selectCompany": "Select company"
+    "selectCompany": "Select company",
+    "errorLoadingData": "Failed to load data. Please try again.",
+    "retry": "Retry",
+    "unexpectedError": "An unexpected error occurred.",
+    "errorBoundaryTitle": "Something went wrong",
+    "errorBoundaryDescription": "An unexpected error occurred in this section. Try refreshing the page.",
+    "refreshPage": "Refresh Page"
   },
   "sidebar": {
     "newIssue": "New Issue",
@@ -39,6 +45,9 @@
     "documents": "Documents",
     "memory": "Memory",
     "collaboration": "Collaboration",
+    "notifications": "Notifications",
+    "performance": "Performance",
+    "teamCollab": "Team Collab",
     "settings": "Settings",
     "models": "Models",
     "channels": "Channels",

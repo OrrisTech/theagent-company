@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { BookOpen, Settings } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate, useParams } from "@/lib/router";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { CompanyRail } from "./CompanyRail";
 import { Sidebar } from "./Sidebar";
 import { InstanceSidebar } from "./InstanceSidebar";
@@ -398,7 +399,9 @@ export function Layout() {
                   requestedPrefix={companyPrefix ?? selectedCompany?.issuePrefix}
                 />
               ) : (
-                <Outlet />
+                <ErrorBoundary>
+                  <Outlet />
+                </ErrorBoundary>
               )}
             </main>
             <PropertiesPanel />
