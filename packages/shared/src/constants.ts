@@ -291,6 +291,7 @@ export const LIVE_EVENT_TYPES = [
   "heartbeat.run.event",
   "heartbeat.run.log",
   "agent.status",
+  "agent.trace",
   "activity.logged",
   "plugin.ui.updated",
   "plugin.worker.crashed",
@@ -808,3 +809,55 @@ export type OnboardingStatus = (typeof ONBOARDING_STATUSES)[number];
 /** Individual onboarding step statuses. */
 export const ONBOARDING_STEP_STATUSES = ["pending", "running", "completed", "skipped", "failed"] as const;
 export type OnboardingStepStatus = (typeof ONBOARDING_STEP_STATUSES)[number];
+
+// ---------------------------------------------------------------------------
+// Phase 8 — Agent Engineering Hardening
+// ---------------------------------------------------------------------------
+
+/** Retention priority levels for context compression. */
+export const RETENTION_PRIORITIES = ["critical", "high", "medium", "low"] as const;
+
+/** Known untrusted data sources for source-sink security. */
+export const UNTRUSTED_SOURCES = [
+  "web_fetch",
+  "email",
+  "webhook",
+  "user_input",
+  "api_response",
+  "file_upload",
+] as const;
+
+/** Operations that require explicit human confirmation. */
+export const SENSITIVE_OPERATIONS = [
+  "external_api_call",
+  "send_message",
+  "delete_resource",
+  "modify_permissions",
+  "execute_command",
+  "financial_transaction",
+] as const;
+
+/** Agent execution trace event types. */
+export const AGENT_EVENT_TYPES = [
+  "tool_start",
+  "tool_end",
+  "turn_start",
+  "turn_end",
+  "step_start",
+  "step_end",
+  "error",
+  "provider_switch",
+  "context_compressed",
+] as const;
+
+/** Default context budget for workflow execution (characters). */
+export const CONTEXT_BUDGET_DEFAULT_TOTAL_CHARS = 100_000;
+
+/** Default maximum characters per step output before compression. */
+export const CONTEXT_BUDGET_DEFAULT_STEP_CHARS = 10_000;
+
+/** Default retryable HTTP status codes for provider fallback. */
+export const PROVIDER_FALLBACK_RETRYABLE_CODES = [429, 503] as const;
+
+/** Maximum retries across all providers in the fallback chain. */
+export const PROVIDER_FALLBACK_MAX_RETRIES = 3;

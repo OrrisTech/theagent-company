@@ -156,6 +156,14 @@ export {
   type FeedbackStatus,
   type OnboardingStatus,
   type OnboardingStepStatus,
+  RETENTION_PRIORITIES,
+  UNTRUSTED_SOURCES,
+  SENSITIVE_OPERATIONS,
+  AGENT_EVENT_TYPES,
+  CONTEXT_BUDGET_DEFAULT_TOTAL_CHARS,
+  CONTEXT_BUDGET_DEFAULT_STEP_CHARS,
+  PROVIDER_FALLBACK_RETRYABLE_CODES,
+  PROVIDER_FALLBACK_MAX_RETRIES,
 } from "./constants.js";
 
 export type {
@@ -353,6 +361,26 @@ export type {
   FeedbackEntry,
   CreateFeedbackInput,
   ApplyFeedbackInput,
+  RetentionPriority,
+  ContextBudget,
+  CompressedOutput,
+  SystemPromptLayers,
+  SoulInjectionInput,
+  SoulInjectionResult,
+  UntrustedSource,
+  UntrustedContent,
+  SensitiveOperation,
+  SecurityAuditEntry,
+  ProviderEntry,
+  ProviderFallbackConfig,
+  ProviderCallResult,
+  ProviderSwitchEvent,
+  SkillACI,
+  AgentEventType,
+  AgentTraceEvent,
+  EvalTestType,
+  EvalCaseResult,
+  EvalRunSummary,
 } from "./types/index.js";
 
 export {

@@ -189,6 +189,28 @@ export type {
   ApplyFeedbackInput,
 } from "./collaboration.js";
 export type {
+  RetentionPriority,
+  ContextBudget,
+  CompressedOutput,
+  SystemPromptLayers,
+  SoulInjectionInput,
+  SoulInjectionResult,
+  UntrustedSource,
+  UntrustedContent,
+  SensitiveOperation,
+  SecurityAuditEntry,
+  ProviderEntry,
+  ProviderFallbackConfig,
+  ProviderCallResult,
+  ProviderSwitchEvent,
+  SkillACI,
+  AgentEventType,
+  AgentTraceEvent,
+  EvalTestType,
+  EvalCaseResult,
+  EvalRunSummary,
+} from "./agent-engineering.js";
+export type {
   JsonSchema,
   PluginJobDeclaration,
   PluginWebhookDeclaration,

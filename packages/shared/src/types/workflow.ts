@@ -168,6 +168,8 @@ export interface WorkflowStep {
   fallbackOutput: string | null;
   /** Whether this step is a checkpoint for resume-from-failure. */
   isCheckpoint: boolean;
+  /** Retention priority for context compression (critical > high > medium > low). */
+  retentionPriority: string | null;
   createdAt: Date;
 }
 
@@ -260,6 +262,8 @@ export interface WorkflowTemplateStep {
   retries?: number;
   fallbackOutput?: string;
   isCheckpoint?: boolean;
+  /** Retention priority for context compression. */
+  retentionPriority?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -286,6 +290,8 @@ export interface CreateWorkflowStepInput {
   retries?: number;
   fallbackOutput?: string;
   isCheckpoint?: boolean;
+  /** Retention priority for context compression (critical > high > medium > low). */
+  retentionPriority?: string;
 }
 
 /** Input for updating a workflow (creates a new version). */

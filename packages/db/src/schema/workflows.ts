@@ -119,6 +119,8 @@ export const workflowSteps = pgTable(
     fallbackOutput: text("fallback_output"),
     /** Whether this step is a checkpoint for resume-from-failure. */
     isCheckpoint: boolean("is_checkpoint").notNull().default(false),
+    /** Retention priority for context compression (critical > high > medium > low). */
+    retentionPriority: text("retention_priority").default("medium"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => ({

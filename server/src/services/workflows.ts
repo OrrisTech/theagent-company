@@ -28,6 +28,12 @@ import {
 } from "@paperclipai/shared";
 import { notFound, badRequest, conflict, unprocessable } from "../errors.js";
 import { logger } from "../middleware/logger.js";
+import {
+  compressStepOutput,
+  evictLowPriorityOutputs,
+  DEFAULT_CONTEXT_BUDGET,
+} from "./context-compression.js";
+import type { RetentionPriority, ContextBudget } from "@paperclipai/shared";
 
 const log = logger.child({ module: "workflow-service" });
 
@@ -233,6 +239,7 @@ export function workflowService(db: Db) {
           retries: step.retries ?? null,
           fallbackOutput: step.fallbackOutput ?? null,
           isCheckpoint: step.isCheckpoint ?? false,
+          retentionPriority: step.retentionPriority ?? "medium",
         })),
       );
     }
@@ -294,6 +301,7 @@ export function workflowService(db: Db) {
             retries: step.retries ?? null,
             fallbackOutput: step.fallbackOutput ?? null,
             isCheckpoint: step.isCheckpoint ?? false,
+            retentionPriority: step.retentionPriority ?? "medium",
           })),
         );
       }
@@ -603,7 +611,34 @@ export function workflowService(db: Db) {
 
         // Execute regular steps (prompt, skill, api, cli, tool_use, workflow)
         const result = await executeStep(step, stepOutputs, run.params, runId);
-        stepOutputs.set(currentStep, result.output);
+
+        // Context compression: compress oversized step outputs before passing forward.
+        // Checkpoint stores full data; inter-step transfer only passes summaries.
+        const priority = (step.retentionPriority as RetentionPriority) ?? "medium";
+        const compressed = compressStepOutput(result.output, priority, DEFAULT_CONTEXT_BUDGET);
+        stepOutputs.set(currentStep, compressed.wasCompressed ? compressed.summary : result.output);
+
+        if (compressed.wasCompressed) {
+          log.info(
+            { runId, stepIndex: currentStep, originalSize: compressed.originalSize, compressedSize: compressed.compressedSize },
+            "Step output compressed to fit context budget",
+          );
+        }
+
+        // Evict low-priority outputs if total context is over budget
+        const stringOutputs = new Map<number, string>();
+        for (const [k, v] of stepOutputs.entries()) {
+          stringOutputs.set(k, typeof v === "string" ? v : JSON.stringify(v));
+        }
+        const stepPriorities = new Map<number, RetentionPriority>();
+        for (const s of steps) {
+          stepPriorities.set(s.stepIndex, (s.retentionPriority as RetentionPriority) ?? "medium");
+        }
+        const evicted = evictLowPriorityOutputs(stringOutputs, stepPriorities, DEFAULT_CONTEXT_BUDGET);
+        for (const [k, v] of evicted.entries()) {
+          stepOutputs.set(k, v);
+        }
+
         totalCost += result.costCents ?? 0;
 
         // Update checkpoint if this step is marked as one
