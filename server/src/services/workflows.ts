@@ -240,6 +240,7 @@ export function workflowService(db: Db) {
           fallbackOutput: step.fallbackOutput ?? null,
           isCheckpoint: step.isCheckpoint ?? false,
           retentionPriority: step.retentionPriority ?? "medium",
+          roleLabel: step.roleLabel ?? null,
         })),
       );
     }

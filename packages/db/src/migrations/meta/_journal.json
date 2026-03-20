@@ -302,6 +302,13 @@
       "when": 1774400000000,
       "tag": "0042_add_retention_priority",
       "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1774500000000,
+      "tag": "0043_add_role_label",
+      "breakpoints": true
     }
   ]
 }

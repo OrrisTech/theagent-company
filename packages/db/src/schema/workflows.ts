@@ -121,6 +121,8 @@ export const workflowSteps = pgTable(
     isCheckpoint: boolean("is_checkpoint").notNull().default(false),
     /** Retention priority for context compression (critical > high > medium > low). */
     retentionPriority: text("retention_priority").default("medium"),
+    /** Optional role label displayed on step cards (e.g. '写手', '主编'). */
+    roleLabel: text("role_label"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => ({

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import {
   Activity,
   AlertTriangle,
@@ -7,49 +8,40 @@ import {
   Clock,
   Coins,
   LayoutDashboard,
+  Loader2,
+  Pause,
+  Play,
   ShieldAlert,
-  Users,
-  Wifi,
-  WifiOff,
+  Timer,
+  TrendingUp,
+  Workflow,
   XCircle,
-  Zap,
 } from "lucide-react";
 import type { OpenClawOverview, OpenClawRiskAlert } from "@paperclipai/shared";
+import type { WorkflowDashboardOverview } from "@paperclipai/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCompany } from "../context/CompanyContext";
 import { openclawApi } from "../api/openclaw";
+import { dashboardApi } from "../api/dashboard";
 import { queryKeys } from "../lib/queryKeys";
 import { cn, formatCents, formatTokens } from "../lib/utils";
 
-// Map gateway status to icon and color
-function GatewayBadge({ status }: { status: string }) {
-  const { t } = useTranslation();
+// ---- Helpers ----
 
-  if (status === "connected") {
-    return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
-        <Wifi className="h-3 w-3" />
-        {t("overview.connected")}
-      </span>
-    );
-  }
-  if (status === "disconnected") {
-    return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-700 dark:bg-red-900/30 dark:text-red-400">
-        <WifiOff className="h-3 w-3" />
-        {t("overview.disconnected")}
-      </span>
-    );
-  }
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-      <Activity className="h-3 w-3" />
-      {t("overview.unknown")}
-    </span>
-  );
+function formatDuration(ms: number | null | undefined): string {
+  if (ms == null || ms === 0) return "\u2014";
+  if (ms < 1000) return `${ms}ms`;
+  if (ms < 60_000) return `${(ms / 1000).toFixed(1)}s`;
+  return `${Math.floor(ms / 60_000)}m ${Math.round((ms % 60_000) / 1000)}s`;
 }
 
-// Severity badge for risk alerts
+function formatCostCents(cents: number | null | undefined): string {
+  if (cents == null) return "\u2014";
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
+// ---- Sub-components ----
+
 function SeverityBadge({ severity }: { severity: OpenClawRiskAlert["severity"] }) {
   const { t } = useTranslation();
   const colors = {
@@ -65,31 +57,38 @@ function SeverityBadge({ severity }: { severity: OpenClawRiskAlert["severity"] }
   );
 }
 
-// Alert type icon
-function AlertIcon({ type }: { type: OpenClawRiskAlert["type"] }) {
-  switch (type) {
-    case "budget_warning":
-      return <Coins className="h-4 w-4 text-orange-500" />;
-    case "stalled_agent":
-      return <Clock className="h-4 w-4 text-yellow-500" />;
-    case "failed_workflow":
-      return <XCircle className="h-4 w-4 text-red-500" />;
-    case "gateway_down":
-      return <WifiOff className="h-4 w-4 text-red-500" />;
-    default:
-      return <AlertTriangle className="h-4 w-4 text-muted-foreground" />;
+function RunStatusIcon({ status }: { status: string }) {
+  switch (status) {
+    case "succeeded": return <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0" />;
+    case "failed": return <XCircle className="h-4 w-4 text-destructive shrink-0" />;
+    case "running": return <Loader2 className="h-4 w-4 text-blue-500 animate-spin shrink-0" />;
+    case "paused": return <Pause className="h-4 w-4 text-amber-500 shrink-0" />;
+    case "cancelled": return <XCircle className="h-4 w-4 text-muted-foreground shrink-0" />;
+    default: return <Clock className="h-4 w-4 text-muted-foreground shrink-0" />;
   }
 }
+
+// ---- Main component ----
 
 export function Overview() {
   const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
+  const navigate = useNavigate();
 
-  const { data, isLoading, error } = useQuery({
+  // Existing OpenClaw overview (health, risk alerts, team status)
+  const { data: openclawData, isLoading: openclawLoading } = useQuery({
     queryKey: queryKeys.openclaw.overview(selectedCompanyId ?? ""),
     queryFn: () => openclawApi.overview(selectedCompanyId!),
     enabled: !!selectedCompanyId,
-    refetchInterval: 30_000, // Refresh every 30s
+    refetchInterval: 30_000,
+  });
+
+  // Workflow-centric dashboard data
+  const { data: wfData, isLoading: wfLoading } = useQuery({
+    queryKey: queryKeys.workflowOverview(selectedCompanyId ?? ""),
+    queryFn: () => dashboardApi.workflowOverview(selectedCompanyId!),
+    enabled: !!selectedCompanyId,
+    refetchInterval: 10_000,
   });
 
   if (!selectedCompanyId) {
@@ -100,21 +99,8 @@ export function Overview() {
     );
   }
 
-  if (isLoading) {
+  if (openclawLoading && wfLoading) {
     return <OverviewSkeleton />;
-  }
-
-  if (error || !data) {
-    return (
-      <div className="mx-auto max-w-5xl p-6">
-        <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-6 text-center">
-          <ShieldAlert className="mx-auto mb-2 h-8 w-8 text-destructive" />
-          <p className="text-sm text-destructive">
-            {error?.message ?? t("common.error")}
-          </p>
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -125,82 +111,168 @@ export function Overview() {
         <h1 className="text-2xl font-bold">{t("overview.title")}</h1>
       </div>
 
-      {/* Top stat cards */}
+      {/* Quick stats — workflow-centric */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Gateway status */}
-        <StatCard
-          title={t("overview.gateway")}
-          value={<GatewayBadge status={data.health.gatewayStatus} />}
-          icon={data.health.gatewayStatus === "connected" ? Wifi : WifiOff}
-          className={data.health.gatewayStatus === "connected" ? "" : "border-destructive/30"}
+        <QuickStatCard
+          title={t("overview.workflowsToday")}
+          value={String(wfData?.quickStats.workflowsToday ?? 0)}
+          icon={Workflow}
         />
-
-        {/* Active team members */}
-        <StatCard
-          title={t("overview.teamMembers")}
-          value={`${data.activeAgents} / ${data.totalAgents}`}
-          subtitle={t("overview.active")}
-          icon={Users}
+        <QuickStatCard
+          title={t("overview.successRate")}
+          value={`${wfData?.quickStats.successRate ?? 0}%`}
+          icon={TrendingUp}
+          className={
+            (wfData?.quickStats.successRate ?? 100) < 70
+              ? "border-red-300 dark:border-red-700"
+              : ""
+          }
         />
-
-        {/* Pending approvals */}
-        <StatCard
-          title={t("overview.pendingApprovals")}
-          value={String(data.pendingApprovals)}
-          subtitle={t("overview.awaitingReview")}
-          icon={CheckCircle2}
-          className={data.pendingApprovals > 0 ? "border-yellow-300 dark:border-yellow-700" : ""}
+        <QuickStatCard
+          title={t("overview.avgDuration")}
+          value={formatDuration(wfData?.quickStats.avgDurationMs)}
+          icon={Timer}
         />
-
-        {/* Today cost */}
-        <StatCard
-          title={t("overview.costToday")}
-          value={formatCents(data.todayStats.totalCostCents)}
-          subtitle={`${formatTokens(data.todayStats.totalTokens)} tokens`}
+        <QuickStatCard
+          title={t("overview.totalCostToday")}
+          value={formatCostCents(wfData?.quickStats.totalCostCents)}
           icon={Coins}
         />
       </div>
 
-      {/* Today's stats row */}
+      {/* Active Workflows section */}
       <Card className="rounded-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
-            <Zap className="h-4 w-4" />
-            {t("overview.todayStats")}
+            <Play className="h-4 w-4" />
+            {t("overview.activeWorkflows")}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-6 sm:grid-cols-3">
-            <div>
-              <div className="text-2xl font-bold">{data.todayStats.completedTasks}</div>
-              <div className="text-sm text-muted-foreground">{t("overview.completedTasks")}</div>
+          {!wfData?.activeRuns.length ? (
+            <p className="text-sm text-muted-foreground">{t("overview.noActiveWorkflows")}</p>
+          ) : (
+            <div className="space-y-3">
+              {wfData.activeRuns.map((run) => {
+                const progress = run.stepsTotal > 0
+                  ? Math.round((run.stepsCompleted / run.stepsTotal) * 100)
+                  : 0;
+                return (
+                  <div
+                    key={run.id}
+                    className="flex items-center gap-3 rounded-md border bg-card p-3 cursor-pointer hover:bg-muted/30 transition-colors"
+                    onClick={() => navigate(`/workflows/runs/${run.id}`)}
+                  >
+                    <RunStatusIcon status={run.status} />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium truncate">{run.workflowName}</div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="h-1.5 flex-1 max-w-32 rounded-full bg-muted overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-blue-500 transition-all"
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                        <span className="text-[11px] text-muted-foreground">
+                          {run.stepsCompleted}/{run.stepsTotal}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-xs text-muted-foreground shrink-0">
+                      {formatDuration(run.totalDurationMs)}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <div>
-              <div className="text-2xl font-bold">{formatTokens(data.todayStats.totalTokens)}</div>
-              <div className="text-sm text-muted-foreground">{t("overview.tokensUsed")}</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold">{formatCents(data.todayStats.totalCostCents)}</div>
-              <div className="text-sm text-muted-foreground">{t("overview.costToday")}</div>
-            </div>
-          </div>
+          )}
         </CardContent>
       </Card>
 
-      {/* Risk alerts */}
-      <Card className="rounded-lg">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <AlertTriangle className="h-4 w-4" />
-            {t("overview.riskAlerts")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {data.riskAlerts.length === 0 ? (
-            <p className="text-sm text-muted-foreground">{t("overview.noAlerts")}</p>
-          ) : (
+      <div className="grid gap-4 md:grid-cols-2">
+        {/* Recent completions */}
+        <Card className="rounded-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <CheckCircle2 className="h-4 w-4" />
+              {t("overview.recentCompletions")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {!wfData?.recentCompletions.length ? (
+              <p className="text-sm text-muted-foreground">{t("overview.noRecentCompletions")}</p>
+            ) : (
+              <div className="space-y-2">
+                {wfData.recentCompletions.map((run) => (
+                  <div
+                    key={run.id}
+                    className="flex items-center gap-2 py-1.5 cursor-pointer hover:bg-muted/30 rounded px-2 -mx-2 transition-colors"
+                    onClick={() => navigate(`/workflows/runs/${run.id}`)}
+                  >
+                    <RunStatusIcon status={run.status} />
+                    <span className="text-sm truncate flex-1">{run.workflowName}</span>
+                    <span className="text-[11px] text-muted-foreground shrink-0">
+                      {formatDuration(run.totalDurationMs)}
+                    </span>
+                    <span className="text-[11px] text-muted-foreground shrink-0">
+                      {formatCostCents(run.totalCostCents)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Pending approvals */}
+        <Card className="rounded-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Pause className="h-4 w-4" />
+              {t("overview.pendingApprovals")}
+              {wfData?.pendingApprovalSteps.length ? (
+                <span className="ml-auto rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 text-xs font-medium">
+                  {wfData.pendingApprovalSteps.length}
+                </span>
+              ) : null}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {!wfData?.pendingApprovalSteps.length ? (
+              <p className="text-sm text-muted-foreground">{t("overview.noPendingApprovals")}</p>
+            ) : (
+              <div className="space-y-2">
+                {wfData.pendingApprovalSteps.map((step) => (
+                  <div
+                    key={step.stepRunId}
+                    className="flex items-center gap-2 py-1.5 cursor-pointer hover:bg-muted/30 rounded px-2 -mx-2 transition-colors"
+                    onClick={() => navigate(`/workflows/runs/${step.runId}`)}
+                  >
+                    <Pause className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                    <span className="text-sm truncate flex-1">{step.workflowName}</span>
+                    <span className="text-[11px] text-muted-foreground shrink-0">
+                      {t("overview.step")} {step.stepIndex + 1}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Risk alerts — reworded for workflow context */}
+      {openclawData && openclawData.riskAlerts.length > 0 && (
+        <Card className="rounded-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <AlertTriangle className="h-4 w-4" />
+              {t("overview.riskAlerts")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
             <div className="space-y-3">
-              {data.riskAlerts.map((alert) => (
+              {openclawData.riskAlerts.map((alert) => (
                 <div
                   key={alert.id}
                   className="flex items-start gap-3 rounded-md border bg-card p-3"
@@ -218,33 +290,12 @@ export function Overview() {
                 </div>
               ))}
             </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Team status */}
-      <Card className="rounded-lg">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Users className="h-4 w-4" />
-            {t("overview.teamStatus")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {data.teamStatus.length === 0 ? (
-            <p className="text-sm text-muted-foreground">{t("overview.noTeamMembers")}</p>
-          ) : (
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {data.teamStatus.map((member) => (
-                <TeamMemberCard key={member.agentId} member={member} />
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       {/* OpenClaw config notice */}
-      {!data.health.configFound && (
+      {openclawData && !openclawData.health.configFound && (
         <div className="rounded-lg border border-dashed border-muted-foreground/30 bg-muted/50 p-4 text-center">
           <p className="text-sm font-medium text-muted-foreground">
             {t("overview.noOpenClawConfig")}
@@ -260,16 +311,14 @@ export function Overview() {
 
 // ---- Sub-components ----
 
-function StatCard({
+function QuickStatCard({
   title,
   value,
-  subtitle,
   icon: Icon,
   className,
 }: {
   title: string;
-  value: React.ReactNode;
-  subtitle?: string;
+  value: string;
   icon: React.ComponentType<{ className?: string }>;
   className?: string;
 }) {
@@ -280,9 +329,6 @@ function StatCard({
           <div>
             <p className="text-sm text-muted-foreground">{title}</p>
             <div className="mt-1 text-2xl font-bold">{value}</div>
-            {subtitle && (
-              <p className="text-xs text-muted-foreground">{subtitle}</p>
-            )}
           </div>
           <Icon className="h-8 w-8 text-muted-foreground/30" />
         </div>
@@ -291,82 +337,19 @@ function StatCard({
   );
 }
 
-function TeamMemberCard({
-  member,
-}: {
-  member: OpenClawOverview["teamStatus"][number];
-}) {
-  const { t } = useTranslation();
-
-  const statusColors: Record<string, string> = {
-    active: "bg-green-500",
-    idle: "bg-green-500",
-    running: "bg-blue-500",
-    paused: "bg-yellow-500",
-    error: "bg-red-500",
-  };
-
-  const budgetPercent =
-    member.budgetTotalCents > 0
-      ? Math.min(100, Math.round((member.budgetUsedCents / member.budgetTotalCents) * 100))
-      : 0;
-
-  return (
-    <div className="rounded-lg border bg-card p-3 space-y-2">
-      <div className="flex items-center gap-2">
-        {/* Status indicator dot */}
-        <span
-          className={cn(
-            "h-2.5 w-2.5 rounded-full",
-            statusColors[member.status] ?? "bg-muted-foreground",
-          )}
-        />
-        {/* Avatar or icon */}
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-sm font-medium">
-          {member.icon ?? member.name.charAt(0).toUpperCase()}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="truncate text-sm font-medium">{member.name}</div>
-          <div className="truncate text-xs text-muted-foreground">
-            {member.title ?? member.role}
-          </div>
-        </div>
-      </div>
-
-      {/* Current task */}
-      {member.currentTask && (
-        <div className="text-xs text-muted-foreground truncate">
-          <span className="font-medium">{t("overview.currentTask")}:</span>{" "}
-          {member.currentTask}
-        </div>
-      )}
-
-      {/* Budget progress */}
-      {member.budgetTotalCents > 0 && (
-        <div>
-          <div className="flex justify-between text-xs text-muted-foreground mb-1">
-            <span>{t("overview.budget")}</span>
-            <span>
-              {formatCents(member.budgetUsedCents)} / {formatCents(member.budgetTotalCents)}
-            </span>
-          </div>
-          <div className="h-1.5 w-full rounded-full bg-muted">
-            <div
-              className={cn(
-                "h-full rounded-full transition-all",
-                budgetPercent >= 90
-                  ? "bg-red-500"
-                  : budgetPercent >= 70
-                    ? "bg-yellow-500"
-                    : "bg-green-500",
-              )}
-              style={{ width: `${budgetPercent}%` }}
-            />
-          </div>
-        </div>
-      )}
-    </div>
-  );
+function AlertIcon({ type }: { type: OpenClawRiskAlert["type"] }) {
+  switch (type) {
+    case "budget_warning":
+      return <Coins className="h-4 w-4 text-orange-500" />;
+    case "stalled_agent":
+      return <Clock className="h-4 w-4 text-yellow-500" />;
+    case "failed_workflow":
+      return <XCircle className="h-4 w-4 text-red-500" />;
+    case "gateway_down":
+      return <Activity className="h-4 w-4 text-red-500" />;
+    default:
+      return <AlertTriangle className="h-4 w-4 text-muted-foreground" />;
+  }
 }
 
 function OverviewSkeleton() {
@@ -378,8 +361,11 @@ function OverviewSkeleton() {
           <div key={i} className="h-24 animate-pulse rounded-lg border bg-muted" />
         ))}
       </div>
-      <div className="h-32 animate-pulse rounded-lg border bg-muted" />
       <div className="h-48 animate-pulse rounded-lg border bg-muted" />
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="h-40 animate-pulse rounded-lg border bg-muted" />
+        <div className="h-40 animate-pulse rounded-lg border bg-muted" />
+      </div>
     </div>
   );
 }

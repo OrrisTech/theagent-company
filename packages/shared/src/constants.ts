@@ -672,6 +672,17 @@ export const WORKFLOW_DEFAULT_SYSTEM_CONCURRENCY = 10;
 /** Maximum concurrent workflow runs per agent (default). */
 export const WORKFLOW_DEFAULT_AGENT_CONCURRENCY = 3;
 
+/**
+ * Default role labels for common step types.
+ * Used as suggestion when the user hasn't explicitly set a role label.
+ */
+export const WORKFLOW_DEFAULT_ROLE_LABELS: Record<string, string> = {
+  prompt: "助手",
+  skill: "专家",
+  approval: "审核员",
+  api: "执行器",
+};
+
 /** Statuses for inbound webhook deliveries. */
 export const PLUGIN_WEBHOOK_DELIVERY_STATUSES = [
   "pending",

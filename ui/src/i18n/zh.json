@@ -64,7 +64,8 @@
     "costs": "费用",
     "activity": "动态",
     "documentation": "文档",
-    "live": "运行中"
+    "live": "运行中",
+    "advanced": "高级"
   },
   "theme": {
     "light": "浅色",
@@ -152,7 +153,17 @@
       "medium": "中",
       "high": "高",
       "critical": "严重"
-    }
+    },
+    "workflowsToday": "今日工作流",
+    "successRate": "成功率",
+    "avgDuration": "平均耗时",
+    "totalCostToday": "今日费用",
+    "activeWorkflows": "运行中的工作流",
+    "noActiveWorkflows": "当前没有正在运行的工作流。",
+    "recentCompletions": "最近完成",
+    "noRecentCompletions": "暂无已完成的工作流。",
+    "noPendingApprovals": "没有等待审批的步骤。",
+    "step": "步骤"
   },
   "usage": {
     "title": "用量与预算",
@@ -521,7 +532,20 @@
       "duplicated": "工作流已复制",
       "runStarted": "工作流已开始执行",
       "saveFailed": "保存工作流失败",
-      "deleteFailed": "删除工作流失败"
+      "deleteFailed": "删除工作流失败",
+      "roleLabel": "角色标签",
+      "roleLabelPlaceholder": "例如：写手、主编、设计师",
+      "progressLabel": "已完成 {{completed}} / {{total}} 步",
+      "stepNumber": "步骤 {{n}}",
+      "startedAt": "开始时间",
+      "finishedAt": "结束时间",
+      "retryAttempt": "重试 #{{n}}",
+      "approvedBy": "审批人",
+      "rejectedBy": "拒绝人",
+      "stepPending": "此步骤尚未开始。",
+      "skipStep": "跳过",
+      "manualFill": "手动填入",
+      "runNotFound": "未找到执行记录"
     },
     "usageBudget": {
       "title": "用量与预算",

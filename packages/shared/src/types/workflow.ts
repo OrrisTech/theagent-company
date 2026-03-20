@@ -170,6 +170,8 @@ export interface WorkflowStep {
   isCheckpoint: boolean;
   /** Retention priority for context compression (critical > high > medium > low). */
   retentionPriority: string | null;
+  /** Optional role label displayed on step cards (e.g. '写手', '主编'). */
+  roleLabel: string | null;
   createdAt: Date;
 }
 
@@ -264,6 +266,8 @@ export interface WorkflowTemplateStep {
   isCheckpoint?: boolean;
   /** Retention priority for context compression. */
   retentionPriority?: string;
+  /** Optional role label displayed on step cards (e.g. '写手', '主编'). */
+  roleLabel?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -292,6 +296,8 @@ export interface CreateWorkflowStepInput {
   isCheckpoint?: boolean;
   /** Retention priority for context compression (critical > high > medium > low). */
   retentionPriority?: string;
+  /** Optional role label displayed on step cards (e.g. '写手', '主编'). */
+  roleLabel?: string;
 }
 
 /** Input for updating a workflow (creates a new version). */

@@ -14,5 +14,12 @@ export function dashboardRoutes(db: Db) {
     res.json(summary);
   });
 
+  router.get("/companies/:companyId/dashboard/workflow-overview", async (req, res) => {
+    const companyId = req.params.companyId as string;
+    assertCompanyAccess(req, companyId);
+    const overview = await svc.workflowOverview(companyId);
+    res.json(overview);
+  });
+
   return router;
 }

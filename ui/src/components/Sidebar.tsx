@@ -24,6 +24,7 @@ import {
   Bell,
   BarChart3,
   MessagesSquare,
+  Sparkles,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -112,20 +113,22 @@ export function Sidebar() {
           />
         </div>
 
+        {/* Workflows — first citizen, right after Overview */}
+        <SidebarSection label={t("sidebar.workflows")}>
+          <SidebarNavItem to="/workflows" label={t("sidebar.workflows")} icon={Workflow} />
+        </SidebarSection>
+
         {/* Projects section */}
         <SidebarProjects />
 
-        {/* Team section */}
+        {/* Team section — advanced feature */}
         <SidebarSection label={t("sidebar.team")}>
           <SidebarNavItem to="/agents/all" label={t("sidebar.members")} icon={Users} />
           <SidebarNavItem to="/org" label={t("sidebar.orgChart")} icon={Network} />
-        </SidebarSection>
-
-        {/* Workflows */}
-        <SidebarSection label={t("sidebar.work")}>
-          <SidebarNavItem to="/workflows" label={t("sidebar.workflows")} icon={Workflow} />
-          <SidebarNavItem to="/issues" label={t("sidebar.issues")} icon={CircleDot} />
-          <SidebarNavItem to="/goals" label={t("sidebar.goals")} icon={Target} />
+          <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+            <Sparkles className="h-2.5 w-2.5" />
+            {t("sidebar.advanced")}
+          </span>
         </SidebarSection>
 
         {/* Operations */}

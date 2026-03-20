@@ -64,7 +64,8 @@
     "costs": "Costs",
     "activity": "Activity",
     "documentation": "Documentation",
-    "live": "live"
+    "live": "live",
+    "advanced": "Advanced"
   },
   "theme": {
     "light": "Light",
@@ -152,7 +153,17 @@
       "medium": "Medium",
       "high": "High",
       "critical": "Critical"
-    }
+    },
+    "workflowsToday": "Workflows Today",
+    "successRate": "Success Rate",
+    "avgDuration": "Avg Duration",
+    "totalCostToday": "Cost Today",
+    "activeWorkflows": "Active Workflows",
+    "noActiveWorkflows": "No workflows running right now.",
+    "recentCompletions": "Recent Completions",
+    "noRecentCompletions": "No completed workflows yet.",
+    "noPendingApprovals": "No steps waiting for approval.",
+    "step": "Step"
   },
   "usage": {
     "title": "Usage & Budget",
@@ -521,7 +532,20 @@
       "duplicated": "Workflow duplicated",
       "runStarted": "Workflow run started",
       "saveFailed": "Failed to save workflow",
-      "deleteFailed": "Failed to delete workflow"
+      "deleteFailed": "Failed to delete workflow",
+      "roleLabel": "Role Label",
+      "roleLabelPlaceholder": "e.g. Writer, Editor, Designer",
+      "progressLabel": "{{completed}} of {{total}} steps completed",
+      "stepNumber": "Step {{n}}",
+      "startedAt": "Started",
+      "finishedAt": "Finished",
+      "retryAttempt": "Retry #{{n}}",
+      "approvedBy": "Approved by",
+      "rejectedBy": "Rejected by",
+      "stepPending": "This step hasn't started yet.",
+      "skipStep": "Skip",
+      "manualFill": "Manual Fill",
+      "runNotFound": "Run not found"
     },
     "usageBudget": {
       "title": "Usage & Budget",

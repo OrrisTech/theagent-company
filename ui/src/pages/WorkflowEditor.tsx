@@ -54,6 +54,7 @@ interface StepFormData {
   retries: string;
   fallbackOutput: string;
   isCheckpoint: boolean;
+  roleLabel: string;
 }
 
 function emptyStep(): StepFormData {
@@ -66,6 +67,7 @@ function emptyStep(): StepFormData {
     retries: "",
     fallbackOutput: "",
     isCheckpoint: false,
+    roleLabel: "",
   };
 }
 
@@ -124,6 +126,7 @@ export function WorkflowEditor() {
           retries: s.retries?.toString() ?? "",
           fallbackOutput: s.fallbackOutput ?? "",
           isCheckpoint: s.isCheckpoint,
+          roleLabel: s.roleLabel ?? "",
         })));
       }
     }
@@ -181,6 +184,7 @@ export function WorkflowEditor() {
       retries: s.retries ? parseInt(s.retries) : undefined,
       fallbackOutput: s.fallbackOutput || undefined,
       isCheckpoint: s.isCheckpoint,
+      roleLabel: s.roleLabel || undefined,
     };
   }
 
@@ -318,7 +322,11 @@ export function WorkflowEditor() {
                 {index + 1}
               </span>
               <div className="flex-1 min-w-0">
-                <span className="font-medium">{step.name || `Step ${index + 1}`}</span>
+                {step.roleLabel ? (
+                  <span className="font-medium">{step.roleLabel}: {step.name || `Step ${index + 1}`}</span>
+                ) : (
+                  <span className="font-medium">{step.name || `Step ${index + 1}`}</span>
+                )}
                 <Badge variant="outline" className="ml-2 text-xs">
                   {t(`pages.workflows.stepTypes.${step.type}`)}
                 </Badge>
@@ -345,13 +353,22 @@ export function WorkflowEditor() {
             {/* Step detail — expanded */}
             {expandedStep === index && (
               <div className="border-t px-4 py-4 space-y-3">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div>
                     <label className="text-sm font-medium">{t("pages.workflows.stepName")}</label>
                     <input
                       className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm"
                       value={step.name}
                       onChange={(e) => updateStep(index, { name: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">{t("pages.workflows.roleLabel")}</label>
+                    <input
+                      className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm"
+                      value={step.roleLabel}
+                      onChange={(e) => updateStep(index, { roleLabel: e.target.value })}
+                      placeholder={t("pages.workflows.roleLabelPlaceholder")}
                     />
                   </div>
                   <div>
