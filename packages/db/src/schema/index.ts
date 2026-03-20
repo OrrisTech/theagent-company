@@ -52,3 +52,11 @@ export { pluginJobs, pluginJobRuns } from "./plugin_jobs.js";
 export { pluginWebhookDeliveries } from "./plugin_webhooks.js";
 export { pluginLogs } from "./plugin_logs.js";
 export { brandingConfig } from "./branding_config.js";
+export {
+  workflows,
+  workflowVersions,
+  workflowSteps,
+  workflowRuns,
+  workflowStepRuns,
+  workflowTemplates,
+} from "./workflows.js";

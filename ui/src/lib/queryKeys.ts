@@ -123,6 +123,15 @@ export const queryKeys = {
     skills: ["openclaw", "skills"] as const,
     cronTasks: ["openclaw", "cron"] as const,
   },
+  workflows: {
+    list: ["workflows"] as const,
+    detail: (id: string) => ["workflows", id] as const,
+    versions: (id: string) => ["workflows", id, "versions"] as const,
+    versionSteps: (wfId: string, vId: string) => ["workflows", wfId, "versions", vId, "steps"] as const,
+    runs: (id: string) => ["workflows", id, "runs"] as const,
+    runDetail: (runId: string) => ["workflows", "runs", runId] as const,
+    templates: ["workflow-templates"] as const,
+  },
   plugins: {
     all: ["plugins"] as const,
     examples: ["plugins", "examples"] as const,

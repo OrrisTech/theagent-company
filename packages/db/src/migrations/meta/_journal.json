@@ -281,6 +281,13 @@
       "when": 1774100000000,
       "tag": "0039_add_team_member_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1774200000000,
+      "tag": "0040_add_workflow_tables",
+      "breakpoints": true
     }
   ]
 }

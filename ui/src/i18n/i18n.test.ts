@@ -184,8 +184,8 @@ describe("i18n translation resources", () => {
       expect(en.pages, `pages should have key '${page}'`).toHaveProperty(page);
       expect(zh.pages, `pages (zh) should have key '${page}'`).toHaveProperty(page);
       // Each page should have title and description
-      const enPage = (en.pages as Record<string, Record<string, string>>)[page]!;
-      const zhPage = (zh.pages as Record<string, Record<string, string>>)[page]!;
+      const enPage = (en.pages as unknown as Record<string, Record<string, unknown>>)[page]!;
+      const zhPage = (zh.pages as unknown as Record<string, Record<string, unknown>>)[page]!;
       expect(enPage).toHaveProperty("title");
       expect(enPage).toHaveProperty("description");
       expect(zhPage).toHaveProperty("title");

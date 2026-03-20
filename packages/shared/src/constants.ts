@@ -611,6 +611,66 @@ export const PLUGIN_JOB_RUN_TRIGGERS = [
 ] as const;
 export type PluginJobRunTrigger = (typeof PLUGIN_JOB_RUN_TRIGGERS)[number];
 
+// ---------------------------------------------------------------------------
+// Workflow System — see docs/product/PRD.md §2.2 for the specification
+// ---------------------------------------------------------------------------
+
+/** Step types available in a workflow definition. */
+export const WORKFLOW_STEP_TYPES = [
+  "prompt",
+  "skill",
+  "api",
+  "cli",
+  "tool_use",
+  "approval",
+  "condition",
+  "loop",
+  "workflow",
+] as const;
+export type WorkflowStepType = (typeof WORKFLOW_STEP_TYPES)[number];
+
+/** Lifecycle statuses for a workflow definition. */
+export const WORKFLOW_STATUSES = ["draft", "active", "archived"] as const;
+export type WorkflowStatus = (typeof WORKFLOW_STATUSES)[number];
+
+/** Statuses for a workflow run (execution instance). */
+export const WORKFLOW_RUN_STATUSES = [
+  "pending",
+  "running",
+  "paused",
+  "succeeded",
+  "failed",
+  "cancelled",
+] as const;
+export type WorkflowRunStatus = (typeof WORKFLOW_RUN_STATUSES)[number];
+
+/** Statuses for an individual step within a workflow run. */
+export const WORKFLOW_STEP_RUN_STATUSES = [
+  "pending",
+  "running",
+  "succeeded",
+  "failed",
+  "skipped",
+  "waiting_approval",
+  "cancelled",
+] as const;
+export type WorkflowStepRunStatus = (typeof WORKFLOW_STEP_RUN_STATUSES)[number];
+
+/** What triggered a particular workflow run. */
+export const WORKFLOW_RUN_TRIGGERS = [
+  "manual",
+  "task",
+  "cron",
+  "event",
+] as const;
+export type WorkflowRunTrigger = (typeof WORKFLOW_RUN_TRIGGERS)[number];
+
+/** Maximum concurrent workflow runs at the system level (default). */
+export const WORKFLOW_DEFAULT_SYSTEM_CONCURRENCY = 10;
+
+/** Maximum concurrent workflow runs per agent (default). */
+export const WORKFLOW_DEFAULT_AGENT_CONCURRENCY = 3;
+
 /** Statuses for inbound webhook deliveries. */
 export const PLUGIN_WEBHOOK_DELIVERY_STATUSES = [
   "pending",

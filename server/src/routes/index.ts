@@ -15,3 +15,4 @@ export { accessRoutes } from "./access.js";
 export { instanceSettingsRoutes } from "./instance-settings.js";
 export { brandingRoutes } from "./branding.js";
 export { openclawRoutes } from "./openclaw.js";
+export { workflowRoutes } from "./workflows.js";

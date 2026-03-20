@@ -37,6 +37,8 @@ import { InviteLandingPage } from "./pages/InviteLanding";
 import { NotFoundPage } from "./pages/NotFound";
 import { Overview } from "./pages/Overview";
 import { Workflows } from "./pages/Workflows";
+import { WorkflowEditor } from "./pages/WorkflowEditor";
+import { WorkflowRunDetail } from "./pages/WorkflowRunDetail";
 import { UsageBudget } from "./pages/UsageBudget";
 import { Documents } from "./pages/Documents";
 import { Memory } from "./pages/Memory";
@@ -172,6 +174,8 @@ function boardRoutes() {
       {/* New pages — Phase 1 */}
       <Route path="overview" element={<Overview />} />
       <Route path="workflows" element={<Workflows />} />
+      <Route path="workflows/:workflowId" element={<WorkflowEditor />} />
+      <Route path="workflows/runs/:runId" element={<WorkflowRunDetail />} />
       <Route path="usage-budget" element={<UsageBudget />} />
       <Route path="documents" element={<Documents />} />
       <Route path="memory" element={<Memory />} />
