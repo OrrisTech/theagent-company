@@ -345,8 +345,16 @@ export function App() {
           <Route path="companies" element={<UnprefixedBoardRedirect />} />
           <Route path="issues" element={<UnprefixedBoardRedirect />} />
           <Route path="issues/:issueId" element={<UnprefixedBoardRedirect />} />
+          {/* Settings: new TAC settings pages redirect to company-prefixed routes */}
+          <Route path="settings/models" element={<UnprefixedBoardRedirect />} />
+          <Route path="settings/channels" element={<UnprefixedBoardRedirect />} />
+          <Route path="settings/skills" element={<UnprefixedBoardRedirect />} />
+          <Route path="settings/cron" element={<UnprefixedBoardRedirect />} />
+          <Route path="settings/branding" element={<UnprefixedBoardRedirect />} />
+          <Route path="settings/language" element={<UnprefixedBoardRedirect />} />
+          <Route path="settings/security" element={<UnprefixedBoardRedirect />} />
+          {/* Legacy settings catch-all (must come AFTER specific settings routes) */}
           <Route path="settings" element={<LegacySettingsRedirect />} />
-          <Route path="settings/*" element={<LegacySettingsRedirect />} />
           <Route path="agents" element={<UnprefixedBoardRedirect />} />
           <Route path="agents/new" element={<UnprefixedBoardRedirect />} />
           <Route path="agents/:agentId" element={<UnprefixedBoardRedirect />} />
@@ -360,6 +368,19 @@ export function App() {
           <Route path="projects/:projectId/issues/:filter" element={<UnprefixedBoardRedirect />} />
           <Route path="projects/:projectId/configuration" element={<UnprefixedBoardRedirect />} />
           <Route path="tests/ux/runs" element={<UnprefixedBoardRedirect />} />
+          {/* New TAC pages */}
+          <Route path="workflows" element={<UnprefixedBoardRedirect />} />
+          <Route path="workflows/:workflowId" element={<UnprefixedBoardRedirect />} />
+          <Route path="workflows/runs/:runId" element={<UnprefixedBoardRedirect />} />
+          <Route path="usage-budget" element={<UnprefixedBoardRedirect />} />
+          <Route path="documents" element={<UnprefixedBoardRedirect />} />
+          <Route path="memory" element={<UnprefixedBoardRedirect />} />
+          <Route path="collaboration" element={<UnprefixedBoardRedirect />} />
+          <Route path="notifications" element={<UnprefixedBoardRedirect />} />
+          <Route path="performance" element={<UnprefixedBoardRedirect />} />
+          <Route path="team-collaboration" element={<UnprefixedBoardRedirect />} />
+          <Route path="org" element={<UnprefixedBoardRedirect />} />
+          <Route path="activity" element={<UnprefixedBoardRedirect />} />
           <Route path=":companyPrefix" element={<Layout />}>
             {boardRoutes()}
           </Route>
