@@ -144,22 +144,54 @@ async function parseConfig(): Promise<{
 
   try {
     const parsed = JSON.parse(content) as Record<string, unknown>;
-    const workspace = typeof parsed.workspace === "string" ? parsed.workspace : null;
 
-    // Parse gateway config
+    // Workspace: try top-level, then agents.defaults.workspace
+    let workspace = typeof parsed.workspace === "string" ? parsed.workspace : null;
+    if (!workspace) {
+      const agentSection = parsed.agents as Record<string, unknown> | undefined;
+      const defaults = agentSection?.defaults as Record<string, unknown> | undefined;
+      if (typeof defaults?.workspace === "string") {
+        workspace = defaults.workspace;
+      }
+    }
+
+    // Parse gateway config — supports both { url, port } and { port, mode }
     const gw = parsed.gateway as Record<string, unknown> | undefined;
-    const gatewayUrl = typeof gw?.url === "string" ? gw.url : null;
+    let gatewayUrl = typeof gw?.url === "string" ? gw.url : null;
     const gatewayPort = typeof gw?.port === "number" ? gw.port : 0;
+    // If no explicit URL but we have a port, construct localhost URL
+    if (!gatewayUrl && gatewayPort > 0) {
+      gatewayUrl = "http://127.0.0.1";
+    }
 
-    // Parse agents array
-    const rawAgents = Array.isArray(parsed.agents) ? parsed.agents : [];
-    const agentConfigs: OpenClawAgentConfig[] = rawAgents.map((a: Record<string, unknown>, i: number) => ({
-      id: typeof a.id === "string" ? a.id : `agent-${i}`,
-      name: typeof a.name === "string" ? a.name : `Agent ${i}`,
-      model: typeof a.model === "string" ? a.model : null,
-      provider: typeof a.provider === "string" ? a.provider : null,
-      status: (a.status === "active" || a.status === "paused") ? a.status : "unknown" as const,
-    }));
+    // Parse agents — support both array format and object format (real openclaw.json)
+    const agentConfigs: OpenClawAgentConfig[] = [];
+    if (Array.isArray(parsed.agents)) {
+      // Array format: [{ id, name, model, ... }]
+      for (const [i, a] of (parsed.agents as Record<string, unknown>[]).entries()) {
+        agentConfigs.push({
+          id: typeof a.id === "string" ? a.id : `agent-${i}`,
+          name: typeof a.name === "string" ? a.name : `Agent ${i}`,
+          model: typeof a.model === "string" ? a.model : null,
+          provider: typeof a.provider === "string" ? a.provider : null,
+          status: (a.status === "active" || a.status === "paused") ? a.status : "unknown" as const,
+        });
+      }
+    } else if (parsed.agents && typeof parsed.agents === "object") {
+      // Object format: { defaults: { model: { primary: "..." } } }
+      const agentSection = parsed.agents as Record<string, unknown>;
+      const defaults = agentSection.defaults as Record<string, unknown> | undefined;
+      if (defaults) {
+        const modelSection = defaults.model as Record<string, unknown> | undefined;
+        agentConfigs.push({
+          id: "default",
+          name: "Default Agent",
+          model: typeof modelSection?.primary === "string" ? modelSection.primary : null,
+          provider: null,
+          status: "active" as const,
+        });
+      }
+    }
 
     return { raw: parsed, workspace, gatewayUrl, gatewayPort, agents: agentConfigs };
   } catch {
@@ -691,18 +723,66 @@ export function openclawService(db: Db) {
     /** List AI model configurations from openclaw.json */
     models: async (): Promise<OpenClawModelConfig[]> => {
       const raw = await readRawConfig();
-      const rawModels = Array.isArray(raw.models) ? raw.models : [];
-      return (rawModels as Record<string, unknown>[]).map((m, i) => ({
-        id: typeof m.id === "string" ? m.id : `model-${i}`,
-        provider: typeof m.provider === "string" ? m.provider : "unknown",
-        model: typeof m.model === "string" ? m.model : "unknown",
-        apiKey: typeof m.apiKey === "string" ? maskApiKey(m.apiKey) : undefined,
-        baseUrl: typeof m.baseUrl === "string" ? m.baseUrl : undefined,
-        maxTokens: typeof m.maxTokens === "number" ? m.maxTokens : undefined,
-        temperature: typeof m.temperature === "number" ? m.temperature : undefined,
-        isDefault: typeof m.isDefault === "boolean" ? m.isDefault : false,
-        enabled: typeof m.enabled === "boolean" ? m.enabled : true,
-      }));
+      const modelsSection = raw.models as Record<string, unknown> | undefined;
+
+      // Support array format (TAC managed) or object format (real openclaw.json)
+      if (Array.isArray(modelsSection)) {
+        return (modelsSection as Record<string, unknown>[]).map((m, i) => ({
+          id: typeof m.id === "string" ? m.id : `model-${i}`,
+          provider: typeof m.provider === "string" ? m.provider : "unknown",
+          model: typeof m.model === "string" ? m.model : "unknown",
+          apiKey: typeof m.apiKey === "string" ? maskApiKey(m.apiKey) : undefined,
+          baseUrl: typeof m.baseUrl === "string" ? m.baseUrl : undefined,
+          maxTokens: typeof m.maxTokens === "number" ? m.maxTokens : undefined,
+          temperature: typeof m.temperature === "number" ? m.temperature : undefined,
+          isDefault: typeof m.isDefault === "boolean" ? m.isDefault : false,
+          enabled: typeof m.enabled === "boolean" ? m.enabled : true,
+        }));
+      }
+
+      // Object format: { providers: { anthropic: { ... }, zai: { models: [...] } } }
+      // Also read agents.defaults.model for the primary/fallback config
+      const results: OpenClawModelConfig[] = [];
+      const providers = modelsSection?.providers as Record<string, Record<string, unknown>> | undefined;
+      const agentsSection = raw.agents as Record<string, unknown> | undefined;
+      const defaults = agentsSection?.defaults as Record<string, unknown> | undefined;
+      const defaultModel = defaults?.model as Record<string, unknown> | undefined;
+      const primaryModelId = typeof defaultModel?.primary === "string" ? defaultModel.primary : null;
+
+      // Built-in Anthropic provider (implied)
+      const authSection = raw.auth as Record<string, unknown> | undefined;
+      const profiles = authSection?.profiles as Record<string, Record<string, unknown>> | undefined;
+      if (profiles?.["anthropic:default"]) {
+        results.push({
+          id: "anthropic-default",
+          provider: "anthropic",
+          model: primaryModelId?.startsWith("anthropic/") ? primaryModelId.split("/")[1] : "claude-opus-4",
+          isDefault: primaryModelId?.startsWith("anthropic/") ?? true,
+          enabled: true,
+        });
+      }
+
+      // Custom providers from models.providers
+      if (providers) {
+        for (const [providerName, providerConfig] of Object.entries(providers)) {
+          const providerModels = Array.isArray(providerConfig.models) ? providerConfig.models : [];
+          const baseUrl = typeof providerConfig.baseUrl === "string" ? providerConfig.baseUrl : undefined;
+          for (const [i, m] of (providerModels as Record<string, unknown>[]).entries()) {
+            const modelId = typeof m.id === "string" ? m.id : `${providerName}-model-${i}`;
+            results.push({
+              id: `${providerName}-${modelId}`,
+              provider: providerName,
+              model: modelId,
+              baseUrl,
+              maxTokens: typeof m.maxTokens === "number" ? m.maxTokens : undefined,
+              isDefault: primaryModelId === `${providerName}/${modelId}`,
+              enabled: true,
+            });
+          }
+        }
+      }
+
+      return results;
     },
 
     /** Update the models array in openclaw.json */
@@ -737,16 +817,37 @@ export function openclawService(db: Db) {
     /** List communication channel configurations from openclaw.json */
     channels: async (): Promise<OpenClawChannelConfig[]> => {
       const raw = await readRawConfig();
-      const rawChannels = Array.isArray(raw.channels) ? raw.channels : [];
-      return (rawChannels as Record<string, unknown>[]).map((c, i) => ({
-        id: typeof c.id === "string" ? c.id : `channel-${i}`,
-        type: (typeof c.type === "string" ? c.type : "custom") as OpenClawChannelConfig["type"],
-        name: typeof c.name === "string" ? c.name : `Channel ${i}`,
-        enabled: typeof c.enabled === "boolean" ? c.enabled : true,
-        config: typeof c.config === "object" && c.config !== null
-          ? c.config as Record<string, unknown>
-          : {},
-      }));
+      const channelsSection = raw.channels;
+
+      // Support array format (TAC managed)
+      if (Array.isArray(channelsSection)) {
+        return (channelsSection as Record<string, unknown>[]).map((c, i) => ({
+          id: typeof c.id === "string" ? c.id : `channel-${i}`,
+          type: (typeof c.type === "string" ? c.type : "custom") as OpenClawChannelConfig["type"],
+          name: typeof c.name === "string" ? c.name : `Channel ${i}`,
+          enabled: typeof c.enabled === "boolean" ? c.enabled : true,
+          config: typeof c.config === "object" && c.config !== null
+            ? c.config as Record<string, unknown>
+            : {},
+        }));
+      }
+
+      // Object format: { telegram: { enabled, botToken, ... }, discord: { ... } }
+      if (channelsSection && typeof channelsSection === "object") {
+        const results: OpenClawChannelConfig[] = [];
+        for (const [channelType, channelConfig] of Object.entries(channelsSection as Record<string, Record<string, unknown>>)) {
+          results.push({
+            id: channelType,
+            type: channelType as OpenClawChannelConfig["type"],
+            name: channelType.charAt(0).toUpperCase() + channelType.slice(1),
+            enabled: typeof channelConfig.enabled === "boolean" ? channelConfig.enabled : true,
+            config: channelConfig,
+          });
+        }
+        return results;
+      }
+
+      return [];
     },
 
     /** Update the channels array in openclaw.json */
@@ -763,11 +864,21 @@ export function openclawService(db: Db) {
       const raw = await readRawConfig();
 
       // Enabled/disabled state stored in openclaw.json
-      const rawSkills = Array.isArray(raw.skills) ? (raw.skills as Record<string, unknown>[]) : [];
+      // Support array format: [{ id, enabled }] or object format: { entries: { skillName: { ... } } }
       const enabledMap = new Map<string, boolean>();
-      for (const s of rawSkills) {
-        if (typeof s.id === "string") {
-          enabledMap.set(s.id, typeof s.enabled === "boolean" ? s.enabled : true);
+      const skillsSection = raw.skills as Record<string, unknown> | unknown[] | undefined;
+      if (Array.isArray(skillsSection)) {
+        for (const s of skillsSection as Record<string, unknown>[]) {
+          if (typeof s.id === "string") {
+            enabledMap.set(s.id, typeof s.enabled === "boolean" ? s.enabled : true);
+          }
+        }
+      } else if (skillsSection && typeof skillsSection === "object") {
+        const entries = (skillsSection as Record<string, unknown>).entries as Record<string, Record<string, unknown>> | undefined;
+        if (entries) {
+          for (const [skillId, skillConfig] of Object.entries(entries)) {
+            enabledMap.set(skillId, typeof skillConfig.enabled === "boolean" ? skillConfig.enabled : true);
+          }
         }
       }
 
@@ -775,9 +886,12 @@ export function openclawService(db: Db) {
       if (!config.workspace) return skills;
 
       // Scan standard skill directories
+      const home = homedir();
       const skillDirs = [
         join(config.workspace, "skills"),
         join(config.workspace, ".claude", "skills"),
+        join(home, ".openclaw", "skills"),
+        join(home, ".agents", "skills"),
       ];
 
       for (const skillsRoot of skillDirs) {
