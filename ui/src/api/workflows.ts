@@ -36,14 +36,16 @@ export interface WorkflowMutationResult {
   newVersion?: WorkflowVersion;
 }
 
+/** API client for workflow operations. */
 export const workflowApi = {
   // Workflow CRUD
-  list: () => api.get<WorkflowSummary[]>("/workflows"),
+  list: (companyId?: string) =>
+    api.get<WorkflowSummary[]>(`/workflows${companyId ? `?companyId=${companyId}` : ""}`),
   get: (id: string) => api.get<WorkflowDetail>(`/workflows/${id}`),
-  create: (input: CreateWorkflowInput) =>
-    api.post<WorkflowMutationResult>("/workflows", input),
-  update: (id: string, input: UpdateWorkflowInput) =>
-    api.put<WorkflowMutationResult>(`/workflows/${id}`, input),
+  create: (input: CreateWorkflowInput, companyId?: string) =>
+    api.post<WorkflowMutationResult>(`/workflows${companyId ? `?companyId=${companyId}` : ""}`, input),
+  update: (id: string, input: UpdateWorkflowInput, companyId?: string) =>
+    api.put<WorkflowMutationResult>(`/workflows/${id}${companyId ? `?companyId=${companyId}` : ""}`, input),
   delete: (id: string) => api.delete<{ ok: boolean }>(`/workflows/${id}`),
   duplicate: (id: string) =>
     api.post<WorkflowMutationResult>(`/workflows/${id}/duplicate`, {}),

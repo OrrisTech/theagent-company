@@ -18,6 +18,7 @@ export function SkillsSettings() {
   const { data: skills, isLoading } = useQuery({
     queryKey: queryKeys.openclaw.skills,
     queryFn: () => openclawApi.skills(),
+    retry: 1,
   });
 
   const toggleMutation = useMutation({

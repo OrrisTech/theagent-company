@@ -37,9 +37,10 @@ export function Documents() {
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
 
   // Fetch documents list
-  const { data: documents, isLoading } = useQuery({
+  const { data: documents, isLoading, isError, refetch } = useQuery({
     queryKey: queryKeys.openclaw.documents,
     queryFn: () => openclawApi.documents(),
+    retry: 1,
   });
 
   // Fetch selected document content
@@ -47,6 +48,7 @@ export function Documents() {
     queryKey: queryKeys.openclaw.documentContent(selectedDoc ?? ""),
     queryFn: () => openclawApi.documentContent(selectedDoc!),
     enabled: !!selectedDoc,
+    retry: 1,
   });
 
   // Save document mutation
@@ -106,6 +108,22 @@ export function Documents() {
         <div className="h-8 w-48 animate-pulse rounded bg-muted" />
         <div className="h-10 animate-pulse rounded-lg bg-muted" />
         <div className="h-64 animate-pulse rounded-lg border bg-muted" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="mx-auto max-w-6xl space-y-6 p-6">
+        <div className="flex items-center gap-3">
+          <FileText className="h-6 w-6 text-muted-foreground" />
+          <h1 className="text-2xl font-bold">{t("documents.title")}</h1>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed p-10 text-center">
+          <FolderOpen className="h-8 w-8 text-muted-foreground/50" />
+          <p className="text-sm text-muted-foreground">{t("common.errorLoadingData", "Failed to load data")}</p>
+          <button onClick={() => refetch()} className="text-sm text-primary underline">{t("common.retry", "Retry")}</button>
+        </div>
       </div>
     );
   }

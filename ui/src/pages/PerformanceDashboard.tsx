@@ -57,7 +57,8 @@ export function PerformanceDashboard() {
 
   const { data: summary, isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.collaboration.performance(selectedCompanyId ?? "", dateRange.from, dateRange.to),
-    queryFn: () => performanceApi.summary(dateRange),
+    queryFn: () => performanceApi.summary(selectedCompanyId ?? undefined, dateRange),
+    retry: 1,
     enabled: !!selectedCompanyId,
   });
 

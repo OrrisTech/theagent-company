@@ -32,6 +32,7 @@ export function ModelsSettings() {
   const { data: models, isLoading } = useQuery({
     queryKey: queryKeys.openclaw.models,
     queryFn: () => openclawApi.models(),
+    retry: 1,
   });
 
   const [form, setForm] = useState<OpenClawModelConfig[] | null>(null);

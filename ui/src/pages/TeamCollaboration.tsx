@@ -85,7 +85,8 @@ function MessagesPanel({ companyId }: { companyId: string }) {
   const { t } = useTranslation();
   const { data: messages = [], isLoading } = useQuery({
     queryKey: queryKeys.collaboration.messages(companyId),
-    queryFn: () => messagingApi.list({ limit: 50 }),
+    queryFn: () => messagingApi.list(companyId, { limit: 50 }),
+    retry: 1,
     enabled: !!companyId,
   });
 
@@ -130,12 +131,13 @@ function DailyReportsPanel({ companyId }: { companyId: string }) {
 
   const { data: reports = [], isLoading } = useQuery({
     queryKey: queryKeys.collaboration.dailyReports(companyId),
-    queryFn: () => dailyReportApi.list({ limit: 30 }),
+    queryFn: () => dailyReportApi.list(companyId, { limit: 30 }),
+    retry: 1,
     enabled: !!companyId,
   });
 
   const generateMutation = useMutation({
-    mutationFn: () => dailyReportApi.generate(),
+    mutationFn: () => dailyReportApi.generate(undefined, companyId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["collaboration", "daily-reports"] });
       pushToast({ title: t("pages.teamCollab.reportsGenerated") });
@@ -232,7 +234,8 @@ function PeerReviewsPanel({ companyId }: { companyId: string }) {
   const { t } = useTranslation();
   const { data: reviews = [], isLoading } = useQuery({
     queryKey: queryKeys.collaboration.peerReviews(companyId),
-    queryFn: () => peerReviewApi.list({ limit: 50 }),
+    queryFn: () => peerReviewApi.list(companyId, { limit: 50 }),
+    retry: 1,
     enabled: !!companyId,
   });
 
@@ -278,7 +281,8 @@ function EscalationsPanel({ companyId }: { companyId: string }) {
 
   const { data: events = [], isLoading } = useQuery({
     queryKey: queryKeys.collaboration.escalationEvents(companyId),
-    queryFn: () => escalationApi.listEvents({ limit: 50 }),
+    queryFn: () => escalationApi.listEvents(companyId, { limit: 50 }),
+    retry: 1,
     enabled: !!companyId,
   });
 
@@ -343,7 +347,8 @@ function OnboardingPanel({ companyId }: { companyId: string }) {
   const { t } = useTranslation();
   const { data: flows = [], isLoading } = useQuery({
     queryKey: queryKeys.collaboration.onboarding(companyId),
-    queryFn: () => onboardingApi.list(),
+    queryFn: () => onboardingApi.list(companyId),
+    retry: 1,
     enabled: !!companyId,
   });
 
@@ -401,7 +406,8 @@ function FeedbackPanel({ companyId }: { companyId: string }) {
 
   const { data: entries = [], isLoading } = useQuery({
     queryKey: queryKeys.collaboration.feedback(companyId),
-    queryFn: () => feedbackApi.list({ limit: 50 }),
+    queryFn: () => feedbackApi.list(companyId, { limit: 50 }),
+    retry: 1,
     enabled: !!companyId,
   });
 

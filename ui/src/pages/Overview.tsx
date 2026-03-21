@@ -81,6 +81,7 @@ export function Overview() {
     queryFn: () => openclawApi.overview(selectedCompanyId!),
     enabled: !!selectedCompanyId,
     refetchInterval: 30_000,
+    retry: 1,
   });
 
   // Workflow-centric dashboard data
@@ -89,6 +90,7 @@ export function Overview() {
     queryFn: () => dashboardApi.workflowOverview(selectedCompanyId!),
     enabled: !!selectedCompanyId,
     refetchInterval: 10_000,
+    retry: 1,
   });
 
   if (!selectedCompanyId) {

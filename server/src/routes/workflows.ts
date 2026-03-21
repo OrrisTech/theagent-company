@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request } from "express";
 import type { Db } from "@paperclipai/db";
 import { workflowService } from "../services/workflows.js";
 import type {
@@ -35,13 +35,18 @@ export function workflowRoutes(db: Db) {
   const router = Router();
   const svc = workflowService(db);
 
-  // Helper to get company ID from the actor context
-  function getCompanyId(req: Express.Request): string {
-    const actor = (req as unknown as { actor: { companyId?: string } }).actor;
-    return actor?.companyId ?? "";
+  // Helper to get company ID from the actor context or query param
+  function getCompanyId(req: Request): string {
+    // Prefer explicit query param (set by frontend), then actor context
+    if (req.query.companyId && typeof req.query.companyId === "string") {
+      return req.query.companyId;
+    }
+    const actor = (req as unknown as { actor: { companyId?: string; companyIds?: string[] } }).actor;
+    // Agent keys have singular companyId; board sessions have companyIds array
+    return actor?.companyId ?? actor?.companyIds?.[0] ?? "";
   }
 
-  function getUserId(req: Express.Request): string | undefined {
+  function getUserId(req: Request): string | undefined {
     const actor = (req as unknown as { actor: { userId?: string } }).actor;
     return actor?.userId;
   }

@@ -59,6 +59,7 @@ export function CronSettings() {
   const { data: tasks, isLoading } = useQuery({
     queryKey: queryKeys.openclaw.cronTasks,
     queryFn: () => openclawApi.cronTasks(),
+    retry: 1,
   });
 
   const createMutation = useMutation({

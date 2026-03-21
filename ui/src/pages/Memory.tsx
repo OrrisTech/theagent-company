@@ -54,6 +54,7 @@ export function Memory() {
     queryKey: queryKeys.agents.list(selectedCompanyId ?? ""),
     queryFn: () => api.get<Agent[]>(`/companies/${selectedCompanyId}/agents`),
     enabled: !!selectedCompanyId,
+    retry: 1,
   });
 
   // Fetch memory for selected agent
@@ -61,6 +62,7 @@ export function Memory() {
     queryKey: queryKeys.openclaw.memory(selectedCompanyId ?? "", selectedAgentId ?? ""),
     queryFn: () => openclawApi.memory(selectedCompanyId!, selectedAgentId!),
     enabled: !!selectedCompanyId && !!selectedAgentId,
+    retry: 1,
   });
 
   if (!selectedCompanyId) {

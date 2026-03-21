@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { workflowApi } from "../api/workflows";
+import { useCompany } from "../context/CompanyContext";
 import { useToast } from "../context/ToastContext";
 import { queryKeys } from "../lib/queryKeys";
 import type { WorkflowSummary, WorkflowRunStatus, WorkflowStatus } from "@paperclipai/shared";
@@ -69,9 +70,13 @@ export function Workflows() {
 
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
 
+  const { selectedCompanyId } = useCompany();
+
   const { data: workflows, isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.workflows.list,
-    queryFn: () => workflowApi.list(),
+    queryFn: () => workflowApi.list(selectedCompanyId ?? undefined),
+    enabled: !!selectedCompanyId,
+    retry: 1,
   });
 
   const deleteMutation = useMutation({

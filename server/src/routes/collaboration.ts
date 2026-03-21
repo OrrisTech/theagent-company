@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request } from "express";
 import type { Db } from "@paperclipai/db";
 import { collaborationService } from "../services/collaboration.js";
 import type {
@@ -25,12 +25,16 @@ export function collaborationRoutes(db: Db) {
   const svc = collaborationService(db);
 
   // Helper to extract actor context from the request
-  function getCompanyId(req: Express.Request): string {
-    const actor = (req as unknown as { actor: { companyId?: string } }).actor;
-    return actor?.companyId ?? "";
+  function getCompanyId(req: Request): string {
+    // Prefer explicit query param (set by frontend), then actor context
+    if (req.query.companyId && typeof req.query.companyId === "string") {
+      return req.query.companyId;
+    }
+    const actor = (req as unknown as { actor: { companyId?: string; companyIds?: string[] } }).actor;
+    return actor?.companyId ?? actor?.companyIds?.[0] ?? "";
   }
 
-  function getUserId(req: Express.Request): string | undefined {
+  function getUserId(req: Request): string | undefined {
     const actor = (req as unknown as { actor: { userId?: string } }).actor;
     return actor?.userId;
   }

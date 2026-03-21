@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { workflowApi } from "../api/workflows";
+import { useCompany } from "../context/CompanyContext";
 import type { WorkflowDetail } from "../api/workflows";
 import { useToast } from "../context/ToastContext";
 import { queryKeys } from "../lib/queryKeys";
@@ -82,6 +83,7 @@ export function WorkflowEditor() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { pushToast } = useToast();
+  const { selectedCompanyId } = useCompany();
 
   const isNew = workflowId === "new";
 
@@ -139,7 +141,7 @@ export function WorkflowEditor() {
       description: description || undefined,
       maxConcurrency: maxConcurrency ? parseInt(maxConcurrency) : undefined,
       steps: steps.map(stepToInput),
-    }),
+    }, selectedCompanyId ?? undefined),
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.workflows.list });
       pushToast({ title: t("pages.workflows.saved") });
@@ -156,7 +158,7 @@ export function WorkflowEditor() {
       maxConcurrency: maxConcurrency ? parseInt(maxConcurrency) : undefined,
       steps: steps.map(stepToInput),
       versionLabel: versionLabel || undefined,
-    }),
+    }, selectedCompanyId ?? undefined),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.workflows.detail(workflowId!) });
       queryClient.invalidateQueries({ queryKey: queryKeys.workflows.list });

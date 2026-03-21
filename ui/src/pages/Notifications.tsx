@@ -70,17 +70,19 @@ export function Notifications() {
   const { data: items = [], isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.collaboration.notifications(selectedCompanyId ?? "", unreadOnly),
     queryFn: () =>
-      notificationApi.list({
+      notificationApi.list(selectedCompanyId ?? undefined, {
         unreadOnly: unreadOnly || undefined,
         type: isTypeFilter ? activeFilter : undefined,
         limit: 100,
       }),
     enabled: !!selectedCompanyId,
+    retry: 1,
   });
 
   const { data: counts } = useQuery({
     queryKey: queryKeys.collaboration.notificationCounts(selectedCompanyId ?? ""),
-    queryFn: () => notificationApi.counts(),
+    queryFn: () => notificationApi.counts(selectedCompanyId ?? undefined),
+    retry: 1,
     enabled: !!selectedCompanyId,
   });
 
@@ -96,7 +98,7 @@ export function Notifications() {
   });
 
   const markAllReadMutation = useMutation({
-    mutationFn: () => notificationApi.markAllRead(),
+    mutationFn: () => notificationApi.markAllRead(selectedCompanyId ?? undefined),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["collaboration", "notifications"] });
       queryClient.invalidateQueries({ queryKey: ["collaboration", "notification-counts"] });

@@ -24,22 +24,34 @@ import type {
 import { api } from "./client";
 
 // ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Build query string from params, always including companyId when provided. */
+function qs(
+  companyId: string | undefined,
+  extra?: Record<string, string | number | boolean | undefined>,
+): string {
+  const params = new URLSearchParams();
+  if (companyId) params.set("companyId", companyId);
+  if (extra) {
+    for (const [k, v] of Object.entries(extra)) {
+      if (v !== undefined && v !== "") params.set(k, String(v));
+    }
+  }
+  const s = params.toString();
+  return s ? `?${s}` : "";
+}
+
+// ---------------------------------------------------------------------------
 // 1. Messaging
 // ---------------------------------------------------------------------------
 
 export const messagingApi = {
-  list: (opts?: { agentId?: string; withAgentId?: string; issueId?: string; limit?: number; offset?: number }) => {
-    const params = new URLSearchParams();
-    if (opts?.agentId) params.set("agentId", opts.agentId);
-    if (opts?.withAgentId) params.set("withAgentId", opts.withAgentId);
-    if (opts?.issueId) params.set("issueId", opts.issueId);
-    if (opts?.limit) params.set("limit", String(opts.limit));
-    if (opts?.offset) params.set("offset", String(opts.offset));
-    const qs = params.toString();
-    return api.get<TeamMessage[]>(`/collaboration/messages${qs ? `?${qs}` : ""}`);
-  },
-  send: (fromAgentId: string, input: SendMessageInput) =>
-    api.post<TeamMessage>("/collaboration/messages", { ...input, fromAgentId }),
+  list: (companyId?: string, opts?: { agentId?: string; withAgentId?: string; issueId?: string; limit?: number; offset?: number }) =>
+    api.get<TeamMessage[]>(`/collaboration/messages${qs(companyId, opts)}`),
+  send: (fromAgentId: string, input: SendMessageInput, companyId?: string) =>
+    api.post<TeamMessage>(`/collaboration/messages${qs(companyId)}`, { ...input, fromAgentId }),
   markRead: (id: string) => api.patch<TeamMessage>(`/collaboration/messages/${id}/read`, {}),
 };
 
@@ -48,17 +60,10 @@ export const messagingApi = {
 // ---------------------------------------------------------------------------
 
 export const dailyReportApi = {
-  list: (opts?: { agentId?: string; from?: string; to?: string; limit?: number }) => {
-    const params = new URLSearchParams();
-    if (opts?.agentId) params.set("agentId", opts.agentId);
-    if (opts?.from) params.set("from", opts.from);
-    if (opts?.to) params.set("to", opts.to);
-    if (opts?.limit) params.set("limit", String(opts.limit));
-    const qs = params.toString();
-    return api.get<DailyReport[]>(`/collaboration/daily-reports${qs ? `?${qs}` : ""}`);
-  },
-  generate: (input?: { agentId?: string; reportDate?: string }) =>
-    api.post<DailyReport | DailyReport[]>("/collaboration/daily-reports/generate", input ?? {}),
+  list: (companyId?: string, opts?: { agentId?: string; from?: string; to?: string; limit?: number }) =>
+    api.get<DailyReport[]>(`/collaboration/daily-reports${qs(companyId, opts)}`),
+  generate: (input?: { agentId?: string; reportDate?: string }, companyId?: string) =>
+    api.post<DailyReport | DailyReport[]>(`/collaboration/daily-reports/generate${qs(companyId)}`, input ?? {}),
 };
 
 // ---------------------------------------------------------------------------
@@ -66,18 +71,10 @@ export const dailyReportApi = {
 // ---------------------------------------------------------------------------
 
 export const peerReviewApi = {
-  list: (opts?: { issueId?: string; authorAgentId?: string; reviewerAgentId?: string; status?: string; limit?: number }) => {
-    const params = new URLSearchParams();
-    if (opts?.issueId) params.set("issueId", opts.issueId);
-    if (opts?.authorAgentId) params.set("authorAgentId", opts.authorAgentId);
-    if (opts?.reviewerAgentId) params.set("reviewerAgentId", opts.reviewerAgentId);
-    if (opts?.status) params.set("status", opts.status);
-    if (opts?.limit) params.set("limit", String(opts.limit));
-    const qs = params.toString();
-    return api.get<PeerReview[]>(`/collaboration/peer-reviews${qs ? `?${qs}` : ""}`);
-  },
-  create: (input: CreatePeerReviewInput) =>
-    api.post<PeerReview>("/collaboration/peer-reviews", input),
+  list: (companyId?: string, opts?: { issueId?: string; authorAgentId?: string; reviewerAgentId?: string; status?: string; limit?: number }) =>
+    api.get<PeerReview[]>(`/collaboration/peer-reviews${qs(companyId, opts)}`),
+  create: (input: CreatePeerReviewInput, companyId?: string) =>
+    api.post<PeerReview>(`/collaboration/peer-reviews${qs(companyId)}`, input),
   submit: (id: string, input: SubmitPeerReviewInput) =>
     api.post<PeerReview>(`/collaboration/peer-reviews/${id}/submit`, input),
 };
@@ -87,22 +84,17 @@ export const peerReviewApi = {
 // ---------------------------------------------------------------------------
 
 export const escalationApi = {
-  listRules: () => api.get<EscalationRule[]>("/collaboration/escalation-rules"),
-  createRule: (input: CreateEscalationRuleInput) =>
-    api.post<EscalationRule>("/collaboration/escalation-rules", input),
+  listRules: (companyId?: string) =>
+    api.get<EscalationRule[]>(`/collaboration/escalation-rules${qs(companyId)}`),
+  createRule: (input: CreateEscalationRuleInput, companyId?: string) =>
+    api.post<EscalationRule>(`/collaboration/escalation-rules${qs(companyId)}`, input),
   updateRule: (id: string, input: UpdateEscalationRuleInput) =>
     api.put<EscalationRule>(`/collaboration/escalation-rules/${id}`, input),
   deleteRule: (id: string) =>
     api.delete<{ ok: boolean }>(`/collaboration/escalation-rules/${id}`),
 
-  listEvents: (opts?: { status?: string; sourceAgentId?: string; limit?: number }) => {
-    const params = new URLSearchParams();
-    if (opts?.status) params.set("status", opts.status);
-    if (opts?.sourceAgentId) params.set("sourceAgentId", opts.sourceAgentId);
-    if (opts?.limit) params.set("limit", String(opts.limit));
-    const qs = params.toString();
-    return api.get<EscalationEvent[]>(`/collaboration/escalations${qs ? `?${qs}` : ""}`);
-  },
+  listEvents: (companyId?: string, opts?: { status?: string; sourceAgentId?: string; limit?: number }) =>
+    api.get<EscalationEvent[]>(`/collaboration/escalations${qs(companyId, opts)}`),
   resolve: (id: string, input: ResolveEscalationInput) =>
     api.post<EscalationEvent>(`/collaboration/escalations/${id}/resolve`, input),
 };
@@ -112,20 +104,15 @@ export const escalationApi = {
 // ---------------------------------------------------------------------------
 
 export const notificationApi = {
-  list: (opts?: { unreadOnly?: boolean; type?: string; limit?: number; offset?: number }) => {
-    const params = new URLSearchParams();
-    if (opts?.unreadOnly) params.set("unreadOnly", "true");
-    if (opts?.type) params.set("type", opts.type);
-    if (opts?.limit) params.set("limit", String(opts.limit));
-    if (opts?.offset) params.set("offset", String(opts.offset));
-    const qs = params.toString();
-    return api.get<Notification[]>(`/collaboration/notifications${qs ? `?${qs}` : ""}`);
-  },
-  counts: () => api.get<NotificationCounts>("/collaboration/notifications/counts"),
-  create: (input: CreateNotificationInput) =>
-    api.post<Notification>("/collaboration/notifications", input),
+  list: (companyId?: string, opts?: { unreadOnly?: boolean; type?: string; limit?: number; offset?: number }) =>
+    api.get<Notification[]>(`/collaboration/notifications${qs(companyId, opts)}`),
+  counts: (companyId?: string) =>
+    api.get<NotificationCounts>(`/collaboration/notifications/counts${qs(companyId)}`),
+  create: (input: CreateNotificationInput, companyId?: string) =>
+    api.post<Notification>(`/collaboration/notifications${qs(companyId)}`, input),
   markRead: (id: string) => api.patch<Notification>(`/collaboration/notifications/${id}/read`, {}),
-  markAllRead: () => api.post<{ ok: boolean }>("/collaboration/notifications/read-all", {}),
+  markAllRead: (companyId?: string) =>
+    api.post<{ ok: boolean }>(`/collaboration/notifications/read-all${qs(companyId)}`, {}),
   dismiss: (id: string) => api.patch<Notification>(`/collaboration/notifications/${id}/dismiss`, {}),
 };
 
@@ -134,22 +121,10 @@ export const notificationApi = {
 // ---------------------------------------------------------------------------
 
 export const performanceApi = {
-  summary: (opts?: { from?: string; to?: string }) => {
-    const params = new URLSearchParams();
-    if (opts?.from) params.set("from", opts.from);
-    if (opts?.to) params.set("to", opts.to);
-    const qs = params.toString();
-    return api.get<PerformanceSummary>(`/collaboration/performance${qs ? `?${qs}` : ""}`);
-  },
-  snapshots: (opts?: { agentId?: string; from?: string; to?: string; limit?: number }) => {
-    const params = new URLSearchParams();
-    if (opts?.agentId) params.set("agentId", opts.agentId);
-    if (opts?.from) params.set("from", opts.from);
-    if (opts?.to) params.set("to", opts.to);
-    if (opts?.limit) params.set("limit", String(opts.limit));
-    const qs = params.toString();
-    return api.get<PerformanceSnapshot[]>(`/collaboration/performance/snapshots${qs ? `?${qs}` : ""}`);
-  },
+  summary: (companyId?: string, opts?: { from?: string; to?: string }) =>
+    api.get<PerformanceSummary>(`/collaboration/performance${qs(companyId, opts)}`),
+  snapshots: (companyId?: string, opts?: { agentId?: string; from?: string; to?: string; limit?: number }) =>
+    api.get<PerformanceSnapshot[]>(`/collaboration/performance/snapshots${qs(companyId, opts)}`),
 };
 
 // ---------------------------------------------------------------------------
@@ -157,10 +132,12 @@ export const performanceApi = {
 // ---------------------------------------------------------------------------
 
 export const onboardingApi = {
-  list: () => api.get<OnboardingFlow[]>("/collaboration/onboarding"),
-  get: (agentId: string) => api.get<OnboardingFlow | null>(`/collaboration/onboarding/${agentId}`),
-  start: (input: StartOnboardingInput) =>
-    api.post<OnboardingFlow>("/collaboration/onboarding", input),
+  list: (companyId?: string) =>
+    api.get<OnboardingFlow[]>(`/collaboration/onboarding${qs(companyId)}`),
+  get: (agentId: string, companyId?: string) =>
+    api.get<OnboardingFlow | null>(`/collaboration/onboarding/${agentId}${qs(companyId)}`),
+  start: (input: StartOnboardingInput, companyId?: string) =>
+    api.post<OnboardingFlow>(`/collaboration/onboarding${qs(companyId)}`, input),
   updateStep: (flowId: string, stepName: string, status: string, detail?: string) =>
     api.patch<OnboardingFlow>(`/collaboration/onboarding/${flowId}/steps/${stepName}`, { status, detail }),
 };
@@ -170,17 +147,10 @@ export const onboardingApi = {
 // ---------------------------------------------------------------------------
 
 export const feedbackApi = {
-  list: (opts?: { agentId?: string; category?: string; status?: string; limit?: number }) => {
-    const params = new URLSearchParams();
-    if (opts?.agentId) params.set("agentId", opts.agentId);
-    if (opts?.category) params.set("category", opts.category);
-    if (opts?.status) params.set("status", opts.status);
-    if (opts?.limit) params.set("limit", String(opts.limit));
-    const qs = params.toString();
-    return api.get<FeedbackEntry[]>(`/collaboration/feedback${qs ? `?${qs}` : ""}`);
-  },
-  create: (input: CreateFeedbackInput) =>
-    api.post<FeedbackEntry>("/collaboration/feedback", input),
+  list: (companyId?: string, opts?: { agentId?: string; category?: string; status?: string; limit?: number }) =>
+    api.get<FeedbackEntry[]>(`/collaboration/feedback${qs(companyId, opts)}`),
+  create: (input: CreateFeedbackInput, companyId?: string) =>
+    api.post<FeedbackEntry>(`/collaboration/feedback${qs(companyId)}`, input),
   apply: (id: string, input: ApplyFeedbackInput) =>
     api.post<FeedbackEntry>(`/collaboration/feedback/${id}/apply`, input),
 };

@@ -67,6 +67,7 @@ export function Collaboration() {
     queryKey: queryKeys.openclaw.collaboration(selectedCompanyId ?? "", agentFilter),
     queryFn: () => openclawApi.collaboration(selectedCompanyId!, agentFilter, 100),
     enabled: !!selectedCompanyId,
+    retry: 1,
     refetchInterval: 15_000,
   });
 

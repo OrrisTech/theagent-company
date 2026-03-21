@@ -31,6 +31,7 @@ export function ChannelsSettings() {
   const { data: channels, isLoading } = useQuery({
     queryKey: queryKeys.openclaw.channels,
     queryFn: () => openclawApi.channels(),
+    retry: 1,
   });
 
   const [form, setForm] = useState<OpenClawChannelConfig[] | null>(null);

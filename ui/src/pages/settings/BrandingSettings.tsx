@@ -21,6 +21,7 @@ export function BrandingSettings() {
   const { data: branding, isLoading } = useQuery({
     queryKey: ["branding"],
     queryFn: () => brandingApi.get(),
+    retry: 1,
   });
 
   const [form, setForm] = useState<BrandingConfig | null>(null);
