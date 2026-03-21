@@ -24,7 +24,7 @@ import {
   Bell,
   BarChart3,
   MessagesSquare,
-  Sparkles,
+
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -121,14 +121,10 @@ export function Sidebar() {
         {/* Projects section */}
         <SidebarProjects />
 
-        {/* Team section — advanced feature */}
+        {/* Team section */}
         <SidebarSection label={t("sidebar.team")}>
           <SidebarNavItem to="/agents/all" label={t("sidebar.members")} icon={Users} />
           <SidebarNavItem to="/org" label={t("sidebar.orgChart")} icon={Network} />
-          <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
-            <Sparkles className="h-2.5 w-2.5" />
-            {t("sidebar.advanced")}
-          </span>
         </SidebarSection>
 
         {/* Operations */}

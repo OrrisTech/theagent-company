@@ -43,26 +43,23 @@ export function LanguageSwitcher() {
 
 /**
  * Full language selector for settings pages.
- * Renders a button group for all supported languages.
+ * Renders a select dropdown to support many languages.
  */
 export function LanguageSelector() {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const currentLang = i18n.language?.startsWith("zh") ? "zh" : "en";
 
   return (
-    <div className="flex gap-2">
+    <select
+      value={currentLang}
+      onChange={(e) => void i18n.changeLanguage(e.target.value)}
+      className="w-48 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+    >
       {LANGUAGES.map((lang) => (
-        <Button
-          key={lang.code}
-          type="button"
-          variant={currentLang === lang.code ? "default" : "outline"}
-          size="sm"
-          onClick={() => void i18n.changeLanguage(lang.code)}
-          aria-pressed={currentLang === lang.code}
-        >
+        <option key={lang.code} value={lang.code}>
           {lang.label}
-        </Button>
+        </option>
       ))}
-    </div>
+    </select>
   );
 }
