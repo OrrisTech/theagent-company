@@ -1,0 +1,54 @@
+
+> dev
+> node scripts/dev-runner.mjs watch
+
+[paperclip] dev mode: local_trusted (default)
+[paperclip] building plugin sdk...
+
+> @paperclipai/plugin-sdk@1.0.0 build /Users/james/Dev/theagent-company/packages/plugins/sdk
+> pnpm --filter @paperclipai/shared build && tsc
+
+
+> @paperclipai/shared@0.3.1 build /Users/james/Dev/theagent-company/packages/shared
+> tsc
+
+
+> @paperclipai/server@0.3.1 dev:watch /Users/james/Dev/theagent-company/server
+> cross-env PAPERCLIP_MIGRATION_PROMPT=never PAPERCLIP_MIGRATION_AUTO_APPLY=true tsx watch --ignore ../ui/node_modules --ignore ../ui/.vite --ignore ../ui/dist src/index.ts
+
+[01:02:43] [33mWARN[39m: [36mEmbedded PostgreSQL already running; reusing existing process (pid=37968, port=54329)[39m
+[01:02:43] [32mINFO[39m: [36mEmbedded PostgreSQL ready[39m
+[01:02:43] [32mINFO[39m: [36mAuthenticated mode auth origin configuration[39m [90m{"authBaseUrlMode":"auto","authPublicBaseUrl":null,"trustedOrigins":["https://zifeis-mac-mini.tailf9f88d.ts.net","http://zifeis-mac-mini.tailf9f88d.ts.net"],"trustedOriginsSource":{"derived":2,"env":0}}[39m
+
+[36m██████╗  █████╗ ██████╗ ███████╗██████╗  ██████╗██╗     ██╗██████╗ [0m
+[36m██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝██║     ██║██╔══██╗[0m
+[36m██████╔╝███████║██████╔╝█████╗  ██████╔╝██║     ██║     ██║██████╔╝[0m
+[36m██╔═══╝ ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗██║     ██║     ██║██╔═══╝ [0m
+[36m██║     ██║  ██║██║     ███████╗██║  ██║╚██████╗███████╗██║██║     [0m
+[36m╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝╚═╝     [0m
+[34m  ───────────────────────────────────────────────────────[0m
+[2mMode            [0m [32membedded-postgres[0m  |  [36mvite-dev-middleware[0m
+[2mDeploy          [0m authenticated (private)
+[2mAuth            [0m [32mready[0m
+[2mServer          [0m 3101 [2m(requested 3100)[0m
+[2mAPI             [0m http://localhost:3101/api [2m(health: http://localhost:3101/api/health)[0m
+[2mUI              [0m http://localhost:3101
+[2mDatabase        [0m /Users/james/.paperclip/instances/default/db [2m(pg:54329)[0m
+[2mMigrations      [0m already applied
+[2mAgent JWT       [0m [32mset[0m
+[2mHeartbeat       [0m enabled [2m(30000ms)[0m
+[2mDB Backup       [0m enabled [2m(every 60m, keep 30d)[0m
+[2mBackup Dir      [0m /Users/james/.paperclip/instances/default/data/backups
+[2mConfig          [0m /Users/james/.paperclip/instances/default/config.json
+[34m  ───────────────────────────────────────────────────────[0m
+
+[01:02:44] [32mINFO[39m: [36mplugin job coordinator started — listening to lifecycle events[39m [90m{"service":"plugin-job-coordinator"}[39m
+[01:02:44] [32mINFO[39m: [36mplugin job scheduler started[39m [90m{"service":"plugin-job-scheduler","tickIntervalMs":30000,"maxConcurrentJobs":10}[39m
+[01:02:44] [32mINFO[39m: [36minitializing plugin tool dispatcher[39m [90m{"service":"plugin-tool-dispatcher"}[39m
+[01:02:44] [32mINFO[39m: [36mplugin-loader: loading all ready plugins[39m [90m{"service":"plugin-loader"}[39m
+[01:02:44] [33mWARN[39m: [36mRequested port is busy; using next free port (requestedPort=3100, selectedPort=3101)[39m
+[01:02:44] [32mINFO[39m: [36mAutomatic database backups enabled[39m [90m{"intervalMinutes":60,"retentionDays":30,"backupDir":"/Users/james/.paperclip/instances/default/data/backups"}[39m
+[01:02:44] [32mINFO[39m: [36mServer listening on 0.0.0.0:3101[39m
+[01:02:44] [32mINFO[39m: [36mloaded tools from ready plugins[39m [90m{"service":"plugin-tool-dispatcher","readyPlugins":0,"registeredTools":0}[39m
+[01:02:44] [32mINFO[39m: [36mplugin tool dispatcher initialized[39m [90m{"service":"plugin-tool-dispatcher","totalTools":0}[39m
+[01:02:44] [32mINFO[39m: [36mplugin-loader: no ready plugins to load[39m [90m{"service":"plugin-loader"}[39m
