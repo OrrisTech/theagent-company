@@ -19,7 +19,7 @@ import { projectUrl } from "../lib/utils";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus } from "lucide-react";
-import type { Goal, Project } from "@paperclipai/shared";
+import type { Goal, Project } from "@theagentcompany/shared";
 import { useTranslation } from "react-i18next";
 
 export function GoalDetail() {

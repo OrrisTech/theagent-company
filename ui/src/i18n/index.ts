@@ -5,7 +5,7 @@ import en from "./en.json";
 import zh from "./zh.json";
 
 // Storage key for persisting language preference
-const LANGUAGE_STORAGE_KEY = "paperclip.language";
+const LANGUAGE_STORAGE_KEY = "tac.language";
 
 i18n
   .use(LanguageDetector)

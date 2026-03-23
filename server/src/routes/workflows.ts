@@ -1,5 +1,5 @@
 import { Router, type Request } from "express";
-import type { Db } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
 import { workflowService } from "../services/workflows.js";
 import type {
   CreateWorkflowInput,
@@ -8,7 +8,7 @@ import type {
   ApproveStepInput,
   ResumeWorkflowInput,
   WorkflowRunTrigger,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 
 /**
  * Workflow API routes.

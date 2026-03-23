@@ -27,8 +27,8 @@ import type {
   WorkflowStepType,
   WorkflowStatus,
   WorkflowRun,
-} from "@paperclipai/shared";
-import { WORKFLOW_STEP_TYPES } from "@paperclipai/shared";
+} from "@theagentcompany/shared";
+import { WORKFLOW_STEP_TYPES } from "@theagentcompany/shared";
 
 /** Default config for each step type. */
 function defaultConfig(type: WorkflowStepType): Record<string, unknown> {

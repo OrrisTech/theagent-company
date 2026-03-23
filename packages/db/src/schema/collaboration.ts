@@ -25,7 +25,7 @@ import type {
   FeedbackStatus,
   OnboardingStatus,
   OnboardingStepStatus,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 
 // ---------------------------------------------------------------------------
 // 1. Agent-to-Agent Messaging

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { openclawApi } from "../../api/openclaw";
 import { useToast } from "../../context/ToastContext";
 import { queryKeys } from "../../lib/queryKeys";
-import type { OpenClawCronTask } from "@paperclipai/shared";
+import type { OpenClawCronTask } from "@theagentcompany/shared";
 
 interface CronFormData {
   name: string;

@@ -27,8 +27,8 @@ FROM base AS build
 WORKDIR /app
 COPY --from=deps /app /app
 COPY . .
-RUN pnpm --filter @paperclipai/ui build
-RUN pnpm --filter @paperclipai/server build
+RUN pnpm --filter @theagentcompany/ui build
+RUN pnpm --filter @theagentcompany/server build
 RUN test -f server/dist/index.js || (echo "ERROR: server build output missing" && exit 1)
 
 FROM base AS production
@@ -36,20 +36,20 @@ WORKDIR /app
 COPY --chown=node:node --from=build /app /app
 RUN npm install --global --omit=dev @anthropic-ai/claude-code@latest @openai/codex@latest opencode-ai \
   && mkdir -p /paperclip \
-  && chown node:node /paperclip
+  && chown node:node /tac
 
 ENV NODE_ENV=production \
-  HOME=/paperclip \
+  HOME=/tac \
   HOST=0.0.0.0 \
   PORT=3100 \
   SERVE_UI=true \
-  PAPERCLIP_HOME=/paperclip \
-  PAPERCLIP_INSTANCE_ID=default \
-  PAPERCLIP_CONFIG=/paperclip/instances/default/config.json \
-  PAPERCLIP_DEPLOYMENT_MODE=authenticated \
-  PAPERCLIP_DEPLOYMENT_EXPOSURE=private
+  TAC_HOME=/tac \
+  TAC_INSTANCE_ID=default \
+  TAC_CONFIG=/paperclip/instances/default/config.json \
+  TAC_DEPLOYMENT_MODE=authenticated \
+  TAC_DEPLOYMENT_EXPOSURE=private
 
-VOLUME ["/paperclip"]
+VOLUME ["/tac"]
 EXPOSE 3100
 
 USER node

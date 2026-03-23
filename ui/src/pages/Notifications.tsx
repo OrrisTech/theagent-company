@@ -20,7 +20,7 @@ import { useCompany } from "@/context/CompanyContext";
 import { useToast } from "@/context/ToastContext";
 import { queryKeys } from "@/lib/queryKeys";
 import { Button } from "@/components/ui/button";
-import type { Notification, NotificationType, NotificationPriority } from "@paperclipai/shared";
+import type { Notification, NotificationType, NotificationPriority } from "@theagentcompany/shared";
 
 /** Map notification type to an icon component. */
 function notificationIcon(type: NotificationType) {

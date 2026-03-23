@@ -1,4 +1,4 @@
-import type { FinanceByKind } from "@paperclipai/shared";
+import type { FinanceByKind } from "@theagentcompany/shared";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { financeEventKindDisplayName, formatCents } from "@/lib/utils";
 import { useTranslation } from "react-i18next";

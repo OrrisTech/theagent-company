@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { openclawApi } from "../../api/openclaw";
 import { useToast } from "../../context/ToastContext";
 import { queryKeys } from "../../lib/queryKeys";
-import type { OpenClawChannelConfig } from "@paperclipai/shared";
+import type { OpenClawChannelConfig } from "@theagentcompany/shared";
 
 const CHANNEL_TYPES: OpenClawChannelConfig["type"][] = [
   "telegram", "slack", "discord", "wechat", "feishu", "email", "custom",

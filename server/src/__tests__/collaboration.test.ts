@@ -9,7 +9,7 @@ import { describe, it, expect } from "vitest";
 
 describe("Phase 6 — Collaboration constants", () => {
   it("MESSAGE_STATUSES contains all expected statuses", async () => {
-    const { MESSAGE_STATUSES } = await import("@paperclipai/shared");
+    const { MESSAGE_STATUSES } = await import("@theagentcompany/shared");
     expect(MESSAGE_STATUSES).toContain("sent");
     expect(MESSAGE_STATUSES).toContain("delivered");
     expect(MESSAGE_STATUSES).toContain("read");
@@ -17,7 +17,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("DAILY_REPORT_STATUSES contains all expected statuses", async () => {
-    const { DAILY_REPORT_STATUSES } = await import("@paperclipai/shared");
+    const { DAILY_REPORT_STATUSES } = await import("@theagentcompany/shared");
     expect(DAILY_REPORT_STATUSES).toContain("pending");
     expect(DAILY_REPORT_STATUSES).toContain("generating");
     expect(DAILY_REPORT_STATUSES).toContain("generated");
@@ -26,7 +26,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("PEER_REVIEW_STATUSES contains all expected statuses", async () => {
-    const { PEER_REVIEW_STATUSES } = await import("@paperclipai/shared");
+    const { PEER_REVIEW_STATUSES } = await import("@theagentcompany/shared");
     expect(PEER_REVIEW_STATUSES).toContain("pending");
     expect(PEER_REVIEW_STATUSES).toContain("in_review");
     expect(PEER_REVIEW_STATUSES).toContain("approved");
@@ -36,7 +36,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("PEER_REVIEW_DECISIONS includes all decision types", async () => {
-    const { PEER_REVIEW_DECISIONS } = await import("@paperclipai/shared");
+    const { PEER_REVIEW_DECISIONS } = await import("@theagentcompany/shared");
     expect(PEER_REVIEW_DECISIONS).toContain("approved");
     expect(PEER_REVIEW_DECISIONS).toContain("rejected");
     expect(PEER_REVIEW_DECISIONS).toContain("revision_requested");
@@ -44,7 +44,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("ESCALATION_TRIGGER_TYPES contains all expected types", async () => {
-    const { ESCALATION_TRIGGER_TYPES } = await import("@paperclipai/shared");
+    const { ESCALATION_TRIGGER_TYPES } = await import("@theagentcompany/shared");
     expect(ESCALATION_TRIGGER_TYPES).toContain("budget_exceeded");
     expect(ESCALATION_TRIGGER_TYPES).toContain("retries_failed");
     expect(ESCALATION_TRIGGER_TYPES).toContain("sensitive_operation");
@@ -54,7 +54,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("ESCALATION_STATUSES contains all expected statuses", async () => {
-    const { ESCALATION_STATUSES } = await import("@paperclipai/shared");
+    const { ESCALATION_STATUSES } = await import("@theagentcompany/shared");
     expect(ESCALATION_STATUSES).toContain("open");
     expect(ESCALATION_STATUSES).toContain("acknowledged");
     expect(ESCALATION_STATUSES).toContain("resolved");
@@ -63,7 +63,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("NOTIFICATION_TYPES contains all expected types", async () => {
-    const { NOTIFICATION_TYPES } = await import("@paperclipai/shared");
+    const { NOTIFICATION_TYPES } = await import("@theagentcompany/shared");
     expect(NOTIFICATION_TYPES).toContain("approval_needed");
     expect(NOTIFICATION_TYPES).toContain("workflow_failed");
     expect(NOTIFICATION_TYPES).toContain("budget_warning");
@@ -76,7 +76,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("NOTIFICATION_PRIORITIES contains all expected priorities", async () => {
-    const { NOTIFICATION_PRIORITIES } = await import("@paperclipai/shared");
+    const { NOTIFICATION_PRIORITIES } = await import("@theagentcompany/shared");
     expect(NOTIFICATION_PRIORITIES).toContain("low");
     expect(NOTIFICATION_PRIORITIES).toContain("medium");
     expect(NOTIFICATION_PRIORITIES).toContain("high");
@@ -85,7 +85,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("NOTIFICATION_CHANNELS contains web and other channels", async () => {
-    const { NOTIFICATION_CHANNELS } = await import("@paperclipai/shared");
+    const { NOTIFICATION_CHANNELS } = await import("@theagentcompany/shared");
     expect(NOTIFICATION_CHANNELS).toContain("web");
     expect(NOTIFICATION_CHANNELS).toContain("email");
     expect(NOTIFICATION_CHANNELS).toContain("telegram");
@@ -94,7 +94,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("FEEDBACK_CATEGORIES contains all expected categories", async () => {
-    const { FEEDBACK_CATEGORIES } = await import("@paperclipai/shared");
+    const { FEEDBACK_CATEGORIES } = await import("@theagentcompany/shared");
     expect(FEEDBACK_CATEGORIES).toContain("soul");
     expect(FEEDBACK_CATEGORIES).toContain("capabilities");
     expect(FEEDBACK_CATEGORIES).toContain("workflow");
@@ -103,7 +103,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("FEEDBACK_STATUSES contains all expected statuses", async () => {
-    const { FEEDBACK_STATUSES } = await import("@paperclipai/shared");
+    const { FEEDBACK_STATUSES } = await import("@theagentcompany/shared");
     expect(FEEDBACK_STATUSES).toContain("pending");
     expect(FEEDBACK_STATUSES).toContain("suggestion_generated");
     expect(FEEDBACK_STATUSES).toContain("accepted");
@@ -113,7 +113,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("ONBOARDING_STATUSES contains all expected statuses", async () => {
-    const { ONBOARDING_STATUSES } = await import("@paperclipai/shared");
+    const { ONBOARDING_STATUSES } = await import("@theagentcompany/shared");
     expect(ONBOARDING_STATUSES).toContain("pending");
     expect(ONBOARDING_STATUSES).toContain("in_progress");
     expect(ONBOARDING_STATUSES).toContain("completed");
@@ -122,7 +122,7 @@ describe("Phase 6 — Collaboration constants", () => {
   });
 
   it("ONBOARDING_STEP_STATUSES contains all expected statuses", async () => {
-    const { ONBOARDING_STEP_STATUSES } = await import("@paperclipai/shared");
+    const { ONBOARDING_STEP_STATUSES } = await import("@theagentcompany/shared");
     expect(ONBOARDING_STEP_STATUSES).toContain("pending");
     expect(ONBOARDING_STEP_STATUSES).toContain("running");
     expect(ONBOARDING_STEP_STATUSES).toContain("completed");
@@ -134,7 +134,7 @@ describe("Phase 6 — Collaboration constants", () => {
 
 describe("Phase 6 — Collaboration type definitions", () => {
   it("TeamMessage type has expected shape", async () => {
-    const msg: import("@paperclipai/shared").TeamMessage = {
+    const msg: import("@theagentcompany/shared").TeamMessage = {
       id: "uuid-1",
       companyId: "company-1",
       fromAgentId: "agent-1",
@@ -152,7 +152,7 @@ describe("Phase 6 — Collaboration type definitions", () => {
   });
 
   it("DailyReport type has expected shape", async () => {
-    const report: import("@paperclipai/shared").DailyReport = {
+    const report: import("@theagentcompany/shared").DailyReport = {
       id: "uuid-1",
       companyId: "company-1",
       agentId: "agent-1",
@@ -173,7 +173,7 @@ describe("Phase 6 — Collaboration type definitions", () => {
   });
 
   it("PeerReview type has expected shape", async () => {
-    const review: import("@paperclipai/shared").PeerReview = {
+    const review: import("@theagentcompany/shared").PeerReview = {
       id: "uuid-1",
       companyId: "company-1",
       issueId: "issue-1",
@@ -194,7 +194,7 @@ describe("Phase 6 — Collaboration type definitions", () => {
   });
 
   it("EscalationRule type has expected shape", async () => {
-    const rule: import("@paperclipai/shared").EscalationRule = {
+    const rule: import("@theagentcompany/shared").EscalationRule = {
       id: "uuid-1",
       companyId: "company-1",
       name: "Budget exceeded rule",
@@ -213,7 +213,7 @@ describe("Phase 6 — Collaboration type definitions", () => {
   });
 
   it("Notification type has expected shape", async () => {
-    const notif: import("@paperclipai/shared").Notification = {
+    const notif: import("@theagentcompany/shared").Notification = {
       id: "uuid-1",
       companyId: "company-1",
       userId: "user-1",
@@ -236,7 +236,7 @@ describe("Phase 6 — Collaboration type definitions", () => {
   });
 
   it("OnboardingFlow type has expected shape", async () => {
-    const flow: import("@paperclipai/shared").OnboardingFlow = {
+    const flow: import("@theagentcompany/shared").OnboardingFlow = {
       id: "uuid-1",
       companyId: "company-1",
       agentId: "agent-1",
@@ -259,7 +259,7 @@ describe("Phase 6 — Collaboration type definitions", () => {
   });
 
   it("FeedbackEntry type has expected shape", async () => {
-    const entry: import("@paperclipai/shared").FeedbackEntry = {
+    const entry: import("@theagentcompany/shared").FeedbackEntry = {
       id: "uuid-1",
       companyId: "company-1",
       agentId: "agent-1",
@@ -279,7 +279,7 @@ describe("Phase 6 — Collaboration type definitions", () => {
   });
 
   it("PerformanceSummary type has expected computed rates", async () => {
-    const summary: import("@paperclipai/shared").PerformanceSummary = {
+    const summary: import("@theagentcompany/shared").PerformanceSummary = {
       company: null,
       agents: [],
       taskCompletionRate: 0.85,
@@ -295,7 +295,7 @@ describe("Phase 6 — Collaboration type definitions", () => {
 
 describe("Phase 6 — NotificationCounts type", () => {
   it("has expected shape", async () => {
-    const counts: import("@paperclipai/shared").NotificationCounts = {
+    const counts: import("@theagentcompany/shared").NotificationCounts = {
       total: 42,
       unread: 10,
       byType: {

@@ -3,8 +3,8 @@ import { join, relative, basename, extname } from "node:path";
 import { randomUUID } from "node:crypto";
 import { homedir } from "node:os";
 import { and, eq, gte, desc, sql } from "drizzle-orm";
-import type { Db } from "@paperclipai/db";
-import { agents, approvals, costEvents, issues, activityLog } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
+import { agents, approvals, costEvents, issues, activityLog } from "@theagentcompany/db";
 import type {
   OpenClawHealth,
   OpenClawConfig,
@@ -23,7 +23,7 @@ import type {
   OpenClawChannelConfig,
   OpenClawSkillEntry,
   OpenClawCronTask,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import { validateCron, nextCronTickFromExpression } from "./cron.js";
 
 // Default path for OpenClaw config
@@ -259,7 +259,7 @@ export function openclawService(db: Db) {
       }));
     },
 
-    /** Get usage data merged from Paperclip cost_events */
+    /** Get usage data merged from TAC cost_events */
     usage: async (companyId: string): Promise<OpenClawUsage> => {
       const now = new Date();
       const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -488,7 +488,7 @@ export function openclawService(db: Db) {
       };
     },
 
-    /** Get collaboration events from Paperclip's activity log */
+    /** Get collaboration events from TAC's activity log */
     collaboration: async (companyId: string, options?: {
       agentId?: string;
       limit?: number;

@@ -54,7 +54,7 @@ import { AgentIcon } from "./AgentIconPicker";
 import { InlineEntitySelector, type InlineEntityOption } from "./InlineEntitySelector";
 import { useTranslation } from "react-i18next";
 
-const DRAFT_KEY = "paperclip:issue-draft";
+const DRAFT_KEY = "tac:issue-draft";
 const DEBOUNCE_MS = 800;
 
 /** Return black or white hex based on background luminance (WCAG perceptual weights). */

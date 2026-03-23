@@ -82,7 +82,7 @@ export function AuthPage() {
         <div className="w-full max-w-sm rounded-2xl border border-white/20 bg-white/15 backdrop-blur-2xl shadow-xl px-8 py-10">
           <div className="flex items-center gap-2 mb-8">
             <Sparkles className="h-4 w-4 text-white/60" />
-            <span className="text-sm font-medium text-white/80">{t("auth.paperclip")}</span>
+            <span className="text-sm font-medium text-white/80">{t("auth.tac")}</span>
           </div>
 
           <h1 className="text-xl font-semibold text-white">

@@ -214,7 +214,7 @@ export function RunTranscriptUxLab() {
               </div>
               <h1 className="mt-4 text-2xl font-semibold tracking-tight">{t("runTranscriptUxLab.runTranscriptFixtures")}</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                {t("runTranscriptUxLab.builtFromARealPaperclipDevelopmentRunThenSanitized")}
+                {t("runTranscriptUxLab.builtFromARealTacDevelopmentRunThenSanitized")}
               </p>
             </div>
 

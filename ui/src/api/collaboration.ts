@@ -20,7 +20,7 @@ import type {
   FeedbackEntry,
   CreateFeedbackInput,
   ApplyFeedbackInput,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import { api } from "./client";
 
 // ---------------------------------------------------------------------------

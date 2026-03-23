@@ -1,6 +1,6 @@
 # The Agent Company 整合计划
 
-> 基于 Paperclip，融合 Vibe-Kanban、OpenClaw Control Center、ClawX 的统一管理平台
+> 基于 The Agent Company，融合 Vibe-Kanban、OpenClaw Control Center、ClawX 的统一管理平台
 > 核心定位：让非技术用户搭建自己的 AI 工作流（v2.0 修正：工作流第一公民，多 agent 降权）
 
 ---
@@ -9,7 +9,7 @@
 
 | 项目 | 核心定位 | 技术栈 | 我们要用的部分 |
 |---|---|---|---|
-| **Paperclip** (base) | AI agent 团队编排：org chart、goals、budgets、governance、tickets | Node.js + React 19 + Vite + Radix UI + Tailwind + Tanstack Query + PostgreSQL | **全部保留**作为基座 |
+| **The Agent Company** (base) | AI agent 团队编排：org chart、goals、budgets、governance、tickets | Node.js + React 19 + Vite + Radix UI + Tailwind + Tanstack Query + PostgreSQL | **全部保留**作为基座 |
 | **Vibe-Kanban** | Coding agent 的 Kanban 看板 + workspace 管理 | React 18 + Rust backend + Radix UI + Tailwind + dnd-kit + Zustand + i18next | Kanban 视图组件、拖拽交互逻辑 |
 | **OpenClaw Control Center** | OpenClaw 可观测性面板：usage、staff、memory、docs、collaboration | 纯 Node.js + server-rendered HTML（无前端框架） | 数据采集逻辑 + 页面概念设计（Overview/Usage/Staff/Memory/Docs/Collaboration/Settings） |
 | **ClawX** | OpenClaw 桌面 GUI：配置 models、channels、skills、cron | Electron + React 19 + Vite + Radix UI + Tailwind + shadcn/ui + Zustand | 配置管理 UI（models、channels、skills、cron）、i18n 框架、light/dark mode |
@@ -20,17 +20,17 @@
 
 ### 重叠功能对照表
 
-| 功能 | Paperclip | Vibe-Kanban | Control Center | ClawX | 合并策略 |
+| 功能 | The Agent Company | Vibe-Kanban | Control Center | ClawX | 合并策略 |
 |---|---|---|---|---|---|
-| 任务管理 | ✅ Tickets + Goals | ✅ Kanban Issues | ✅ Tasks 面板 | ❌ | Paperclip ticket 为数据层 + Kanban 为视图层，Control Center tasks 合并进来 |
+| 任务管理 | ✅ Tickets + Goals | ✅ Kanban Issues | ✅ Tasks 面板 | ❌ | The Agent Company ticket 为数据层 + Kanban 为视图层，Control Center tasks 合并进来 |
 | Agent 管理 | ✅ Org chart + Roles | ❌ | ✅ Staff 面板 | ❌ | 统一为双层 agent 模型（见下方 Agent 命名） |
-| 成本/Usage | ✅ Budget per agent | ❌ | ✅ Usage 面板（详细） | ❌ | 合并：Paperclip budget + Control Center usage 详情 |
+| 成本/Usage | ✅ Budget per agent | ❌ | ✅ Usage 面板（详细） | ❌ | 合并：The Agent Company budget + Control Center usage 详情 |
 | 配置管理 | ❌ | ❌ | ✅ Settings（只读） | ✅ Models/Channels/Skills/Cron（可写） | 采用 ClawX 的可写配置 UI，融入 Settings 页 |
 | Memory/Docs | ❌ | ❌ | ✅ Memory + Documents | ❌ | 直接移植 Control Center 的概念 |
 | i18n | ❌ | ✅ i18next | ❌（手动双语） | ✅ i18next | 采用 i18next，ClawX 的翻译资源为起点 |
-| 主题 | ❌（暗色为主） | ✅ 有 light/dark | ❌ | ✅ light/dark/system | 统一用 Paperclip 的 Tailwind 主题 token + ClawX 的切换机制 |
-| 审批/治理 | ✅ Governance | ❌ | ✅ Approvals（只读） | ❌ | Paperclip 治理为主，Control Center 审批视图合并 |
-| 协作 | ❌ | ❌ | ✅ Collaboration（session 间通信） | ❌ | 移植到 Paperclip |
+| 主题 | ❌（暗色为主） | ✅ 有 light/dark | ❌ | ✅ light/dark/system | 统一用 The Agent Company 的 Tailwind 主题 token + ClawX 的切换机制 |
+| 审批/治理 | ✅ Governance | ❌ | ✅ Approvals（只读） | ❌ | The Agent Company 治理为主，Control Center 审批视图合并 |
+| 协作 | ❌ | ❌ | ✅ Collaboration（session 间通信） | ❌ | 移植到 The Agent Company |
 
 ---
 
@@ -38,15 +38,15 @@
 
 ### 问题
 
-Paperclip 和 OpenClaw 各自发明了一套"agent"，但解决不同问题：
-- **Paperclip agent**（如 CEO）= system prompt 定义的 agent，有组织关系、预算、capabilities 字段
+The Agent Company 和 OpenClaw 各自发明了一套"agent"，但解决不同问题：
+- **The Agent Company agent**（如 CEO）= system prompt 定义的 agent，有组织关系、预算、capabilities 字段
 - **OpenClaw agent**（如 来财）= 文件系统定义的 agent，有 SOUL.md、MEMORY.md、skills、channels
 
-当 Paperclip agent 的 adapterType = "openclaw" 时，两层 agent 重叠，用户会搞不清 CEO 的 "capabilities" 和来财的 "SOUL.md" 哪个在起作用。
+当 The Agent Company agent 的 adapterType = "openclaw" 时，两层 agent 重叠，用户会搞不清 CEO 的 "capabilities" 和来财的 "SOUL.md" 哪个在起作用。
 
 ### 解决方案：统一为 Team Member
 
-在新系统里，不再区分"Paperclip agent"和"OpenClaw agent"。**Team Member（团队成员）= 一个完整的 AI 员工**，由四层构成：
+在新系统里，不再区分"The Agent Company agent"和"OpenClaw agent"。**Team Member（团队成员）= 一个完整的 AI 员工**，由四层构成：
 
 ```
 Team Member
@@ -64,7 +64,7 @@ Team Member
 │  └─ permissions: {...}              — 权限
 │
 ├─ 🧩 能力层 (Capabilities)
-│  ├─ jobDescription: "..."           — 工作职责（= Paperclip capabilities）
+│  ├─ jobDescription: "..."           — 工作职责（= The Agent Company capabilities）
 │  ├─ skills: [...]                   — 技能列表（= OpenClaw skills）
 │  ├─ channels: [telegram, slack...]  — 通信渠道（= OpenClaw channels）
 │  └─ cron/heartbeat: [...]           — 定时任务
@@ -90,8 +90,8 @@ Team Member
 | 引擎类型 | 身份层存储 | 记忆存储 | 能力层存储 |
 |---|---|---|---|
 | `openclaw` | 同步到 SOUL.md / IDENTITY.md | MEMORY.md + daily notes | OpenClaw skills/channels |
-| `claude_local` 等 | Paperclip DB | Paperclip DB（agent sessions） | Paperclip capabilities 字段 |
-| `http` | Paperclip DB | N/A | Paperclip capabilities 字段 |
+| `claude_local` 等 | The Agent Company DB | The Agent Company DB（agent sessions） | The Agent Company capabilities 字段 |
+| `http` | The Agent Company DB | N/A | The Agent Company capabilities 字段 |
 
 当引擎为 openclaw 时，编辑 Team Member 的 soul 字段 → 自动写入 SOUL.md；编辑 skills → 自动同步 OpenClaw skills 配置。
 
@@ -253,7 +253,7 @@ POST     /api/workflow-templates/:id/import — 导入模板
   ├─ 🤖 Models       — AI 模型配置（来自 ClawX）
   ├─ 📡 Channels     — 通信渠道（来自 ClawX）
   ├─ 🧩 Skills       — 技能管理（来自 ClawX）
-  ├─ ⏰ Cron & Heartbeat — 定时任务（来自 ClawX + Paperclip）
+  ├─ ⏰ Cron & Heartbeat — 定时任务（来自 ClawX + The Agent Company）
   ├─ 🎨 Branding     — 品牌设置（新增）
   ├─ 🌐 Language     — 语言切换
   └─ 🔒 Security     — 安全设置（来自 Control Center）
@@ -263,9 +263,9 @@ POST     /api/workflow-templates/:id/import — 导入模板
 
 ## 五、技术方案
 
-### 5.1 基座：Paperclip monorepo
+### 5.1 基座：The Agent Company monorepo
 
-保留 Paperclip 的：
+保留 The Agent Company 的：
 - Node.js API server + 嵌入式 PostgreSQL
 - React 19 + Vite + Tailwind + Radix UI
 - pnpm workspace monorepo 结构
@@ -275,26 +275,26 @@ POST     /api/workflow-templates/:id/import — 导入模板
 
 | 模块 | 来源 | 集成方式 |
 |---|---|---|
-| Kanban 视图 | Vibe-Kanban | 提取 dnd-kit kanban 组件，适配 Paperclip ticket 数据模型。不引入 Rust backend。 |
-| OpenClaw 数据采集 | Control Center | 移植 `src/runtime` 数据读取逻辑（读 openclaw.json、gateway API、memory 文件），封装为 Paperclip API routes |
+| Kanban 视图 | Vibe-Kanban | 提取 dnd-kit kanban 组件，适配 The Agent Company ticket 数据模型。不引入 Rust backend。 |
+| OpenClaw 数据采集 | Control Center | 移植 `src/runtime` 数据读取逻辑（读 openclaw.json、gateway API、memory 文件），封装为 TAC API routes |
 | 配置管理 UI | ClawX | 提取 Models/Channels/Skills/Cron 的 React 组件，去掉 Electron 依赖，适配 Web |
 | i18n | ClawX + Vibe-Kanban | 采用 i18next + react-i18next，初始语言包：en + zh |
-| 主题系统 | Paperclip + ClawX | Paperclip 的 Tailwind 设计 token 为准，加入 CSS 变量切换 light/dark |
+| 主题系统 | The Agent Company + ClawX | The Agent Company 的 Tailwind 设计 token 为准，加入 CSS 变量切换 light/dark |
 | Branding | 新建 | 配置文件控制 app name、logo、primary color；渲染时动态替换 |
 
 ### 5.3 数据库扩展
 
-在 Paperclip 的 PostgreSQL 中新增表：
+在 The Agent Company 的 PostgreSQL 中新增表：
 
 ```
--- 扩展 Paperclip 现有 agents 表，新增字段：
+-- 扩展 The Agent Company 现有 agents 表，新增字段：
 agents.soul           — 人格描述（对应 SOUL.md）
 agents.identity_meta  — 身份元数据（对应 IDENTITY.md）
 agents.engine_type    — 引擎类型标识（openclaw / claude_local / ...）
 
 -- 新增表：
 member_memory         — 非 openclaw 引擎的记忆存储
-usage_records         — token 用量 + 费用记录（补充 Paperclip cost_events）
+usage_records         — token 用量 + 费用记录（补充 The Agent Company cost_events）
 memory_entries        — openclaw memory 文件索引（缓存）
 document_entries      — 文档索引
 collaboration_events  — agent 间通信事件
@@ -303,10 +303,10 @@ branding_config       — 品牌配置
 
 ### 5.4 API 扩展
 
-新增 API routes（全部挂在 Paperclip server）：
+新增 API routes（全部挂在 TAC server）：
 
 ```
--- 团队成员统一 API（扩展 Paperclip 现有 agents API）
+-- 团队成员统一 API（扩展 The Agent Company 现有 agents API）
 GET/PUT  /api/agents/:id/identity      — 身份层（soul、avatar、name）
 GET/PUT  /api/agents/:id/capabilities  — 能力层（skills、channels、job desc）
 GET/PUT  /api/agents/:id/engine        — 引擎层（model、provider、adapter）
@@ -335,7 +335,7 @@ GET/PUT  /api/branding                 — 品牌配置
 > 每个 Phase 标注 agent 净工作时间 + 预估含审核的日历时间。
 
 ### Phase 1: 基础搭建（agent ~4-6h | 日历 ~1 天）
-1. Fork Paperclip，建立新仓库
+1. Fork The Agent Company，建立新仓库
 2. 搭建 i18n 框架（i18next），提取所有硬编码字符串
 3. 实现 light/dark mode 主题切换
 4. 实现 branding 配置（app name、logo、primary color）
@@ -343,7 +343,7 @@ GET/PUT  /api/branding                 — 品牌配置
 
 ### Phase 2: Kanban 看板（agent ~3-4h | 日历 ~1 天）
 1. 从 Vibe-Kanban 提取 kanban 组件（dnd-kit 拖拽逻辑）
-2. 适配 Paperclip ticket 数据模型（status → kanban column 映射）
+2. 适配 The Agent Company ticket 数据模型（status → kanban column 映射）
 3. Board 视图集成到 Project 页面
 4. 支持拖拽改变任务状态
 
@@ -399,11 +399,11 @@ GET/PUT  /api/branding                 — 品牌配置
 
 | 风险 | 影响 | 应对 |
 |---|---|---|
-| Vibe-Kanban 用 Rust backend，提取纯前端成本 | 中 | 只取 React 组件层，数据层用 Paperclip API |
+| Vibe-Kanban 用 Rust backend，提取纯前端成本 | 中 | 只取 React 组件层，数据层用 TAC API |
 | Control Center 是 server-rendered HTML，无 React 组件可复用 | 中 | 只移植数据逻辑和页面设计概念，UI 全部用 React 重写 |
 | ClawX 组件绑定 Electron IPC | 中 | 替换 IPC 调用为 HTTP API 调用 |
-| Paperclip 的 theming 偏暗色，加 light mode 工作量 | 低 | CSS 变量方案，改动集中 |
-| 四个项目的 Radix/Tailwind 版本不同 | 低 | 统一到 Paperclip 的版本 |
+| The Agent Company 的 theming 偏暗色，加 light mode 工作量 | 低 | CSS 变量方案，改动集中 |
+| 四个项目的 Radix/Tailwind 版本不同 | 低 | 统一到 The Agent Company 的版本 |
 
 ### 7.2 工作流可靠性（超时、带宽、部分失败）
 
@@ -512,7 +512,7 @@ Agent 级配置：
 
 | 边界 | 策略 |
 |---|---|
-| 公司间 | 完全隔离（Paperclip 已有，继承） |
+| 公司间 | 完全隔离（The Agent Company 已有，继承） |
 | 项目间 | 默认隔离，可配置共享 |
 | 成员间 | Memory 默认私有，Documents 按项目共享 |
 | 工作流执行间 | 每次执行独立 sandbox，不共享临时变量 |
@@ -528,15 +528,15 @@ Agent 级配置：
 └─ ⛔ 禁止      — 修改安全策略、访问其他公司数据、自我提权
 ```
 
-- 所有操作写入不可变审计日志（Paperclip 已有 activity log，扩展）
+- 所有操作写入不可变审计日志（The Agent Company 已有 activity log，扩展）
 - 敏感操作触发实时通知给 Board（人类管理者）
 - 工作流中的外部 API 调用必须在 workflow 定义时声明，运行时不能动态添加
 
 #### d) Secret 管理
 
-- 继承 Paperclip 的 secret 管理（本地加密，`pcp_secret:` 引用）
+- 继承 The Agent Company 的 secret 管理（本地加密，`pcp_secret:` 引用）
 - 工作流步骤中的 API key / token 不直接写在步骤定义里，通过 secret 引用
-- Agent 运行日志自动脱敏（Paperclip 已有 redaction，继承）
+- Agent 运行日志自动脱敏（The Agent Company 已有 redaction，继承）
 - 不同 Team Member 可以有不同的 secret 访问范围
 
 #### e) OpenClaw 特有安全考虑

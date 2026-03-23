@@ -1,7 +1,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import i18next from "i18next";
 import { useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
-import type { Agent, Issue, LiveEvent } from "@paperclipai/shared";
+import type { Agent, Issue, LiveEvent } from "@theagentcompany/shared";
 import { authApi } from "../api/auth";
 import { useCompany } from "./CompanyContext";
 import type { ToastInput } from "./ToastContext";

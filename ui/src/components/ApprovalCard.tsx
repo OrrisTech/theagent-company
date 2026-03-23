@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Identity } from "./Identity";
 import { getTypeLabel, typeIcon, defaultTypeIcon, ApprovalPayloadRenderer } from "./ApprovalPayload";
 import { timeAgo } from "../lib/timeAgo";
-import type { Approval, Agent } from "@paperclipai/shared";
+import type { Approval, Agent } from "@theagentcompany/shared";
 import { useTranslation } from "react-i18next";
 
 function statusIcon(status: string) {

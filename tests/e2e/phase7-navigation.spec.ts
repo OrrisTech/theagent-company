@@ -298,7 +298,7 @@ test.describe("Phase 7 — Theme switching", () => {
 
     // Force a known starting state: set light via localStorage directly.
     await page.evaluate(() => {
-      localStorage.setItem("paperclip.theme", "light");
+      localStorage.setItem("tac.theme", "light");
       document.documentElement.classList.remove("dark");
     });
 
@@ -316,7 +316,7 @@ test.describe("Phase 7 — Theme switching", () => {
     await btn.first().click();
 
     // Verify localStorage was updated.
-    const stored = await page.evaluate(() => localStorage.getItem("paperclip.theme"));
+    const stored = await page.evaluate(() => localStorage.getItem("tac.theme"));
     // After one click from "light" the next step is "dark".
     expect(stored).toBe("dark");
   });

@@ -13,7 +13,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 // ------------------------------------------------------------------
 // 1. Role label defaults
 // ------------------------------------------------------------------
-import { WORKFLOW_DEFAULT_ROLE_LABELS, WORKFLOW_STEP_TYPES } from "@paperclipai/shared";
+import { WORKFLOW_DEFAULT_ROLE_LABELS, WORKFLOW_STEP_TYPES } from "@theagentcompany/shared";
 
 describe("WORKFLOW_DEFAULT_ROLE_LABELS", () => {
   it("provides default role labels for prompt, skill, approval, and api types", () => {
@@ -60,7 +60,7 @@ describe("WorkflowStep type shape", () => {
 // ------------------------------------------------------------------
 // 3. Dashboard workflow overview types
 // ------------------------------------------------------------------
-import type { WorkflowDashboardOverview } from "@paperclipai/shared";
+import type { WorkflowDashboardOverview } from "@theagentcompany/shared";
 
 describe("WorkflowDashboardOverview type", () => {
   it("has expected shape with all required fields", () => {

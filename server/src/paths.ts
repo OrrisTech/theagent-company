@@ -2,17 +2,23 @@ import fs from "node:fs";
 import path from "node:path";
 import { resolveDefaultConfigPath } from "./home-paths.js";
 
-const PAPERCLIP_CONFIG_BASENAME = "config.json";
-const PAPERCLIP_ENV_FILENAME = ".env";
+const TAC_CONFIG_BASENAME = "config.json";
+const TAC_ENV_FILENAME = ".env";
 
 function findConfigFileFromAncestors(startDir: string): string | null {
   const absoluteStartDir = path.resolve(startDir);
   let currentDir = absoluteStartDir;
 
   while (true) {
-    const candidate = path.resolve(currentDir, ".paperclip", PAPERCLIP_CONFIG_BASENAME);
-    if (fs.existsSync(candidate)) {
-      return candidate;
+    // Check .tac first, then legacy .paperclip
+    const tacCandidate = path.resolve(currentDir, ".tac", TAC_CONFIG_BASENAME);
+    if (fs.existsSync(tacCandidate)) {
+      return tacCandidate;
+    }
+    const legacyCandidate = path.resolve(currentDir, ".paperclip", TAC_CONFIG_BASENAME);
+    if (fs.existsSync(legacyCandidate)) {
+      console.warn("[deprecation] .paperclip/ config directory is deprecated, migrate to .tac/");
+      return legacyCandidate;
     }
 
     const nextDir = path.resolve(currentDir, "..");
@@ -23,12 +29,12 @@ function findConfigFileFromAncestors(startDir: string): string | null {
   return null;
 }
 
-export function resolvePaperclipConfigPath(overridePath?: string): string {
+export function resolveTacConfigPath(overridePath?: string): string {
   if (overridePath) return path.resolve(overridePath);
-  if (process.env.PAPERCLIP_CONFIG) return path.resolve(process.env.PAPERCLIP_CONFIG);
+  if (process.env.TAC_CONFIG) return path.resolve(process.env.TAC_CONFIG);
   return findConfigFileFromAncestors(process.cwd()) ?? resolveDefaultConfigPath();
 }
 
-export function resolvePaperclipEnvPath(overrideConfigPath?: string): string {
-  return path.resolve(path.dirname(resolvePaperclipConfigPath(overrideConfigPath)), PAPERCLIP_ENV_FILENAME);
+export function resolveTacEnvPath(overrideConfigPath?: string): string {
+  return path.resolve(path.dirname(resolveTacConfigPath(overrideConfigPath)), TAC_ENV_FILENAME);
 }

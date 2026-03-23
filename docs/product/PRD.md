@@ -45,7 +45,7 @@
 
 | Project | What We Use | What We Don't Use |
 |---|---|---|
-| **Paperclip** | 全部（server, DB, UI framework, agent model, governance） | — |
+| **The Agent Company** | 全部（server, DB, UI framework, agent model, governance） | — |
 | **Vibe-Kanban** | Kanban 看板 UI 组件（dnd-kit） | Rust backend, workspace/terminal, git integration |
 | **OpenClaw Control Center** | 数据采集逻辑, 页面概念设计 | server-rendered HTML（全部用 React 重写） |
 | **ClawX** | 配置管理 UI, i18n framework, theme switching | Electron shell, desktop packaging |
@@ -95,7 +95,7 @@ Workflow = 一组有序步骤，每个步骤加载不同的 skill 来完成。�
 > **注意**：Team Member 保留为高级功能，适合需要真正多 agent 实例的用户。
 > 大多数用户应通过工作流步骤的角色隐喻来理解"谁在做什么"，不需要手动创建 Team Member。
 
-**核心设计决策**：不再区分 "Paperclip agent" 和 "OpenClaw agent"。
+**核心设计决策**：不再区分 "The Agent Company agent" 和 "OpenClaw agent"。
 
 **Team Member = 一个完整的 AI 员工**，由四层构成：
 
@@ -112,38 +112,38 @@ Workflow = 一组有序步骤，每个步骤加载不同的 skill 来完成。�
 
 | 字段 | 说明 | 来源 |
 |---|---|---|
-| `role` | 角色标识（ceo, engineer, marketing...） | Paperclip |
-| `title` | 职位显示名 | Paperclip |
-| `reportsTo` | 汇报关系 | Paperclip |
-| `budget` | 月预算 | Paperclip |
-| `permissions` | 权限集 | Paperclip |
-| `status` | 状态（active, paused, terminated） | Paperclip |
+| `role` | 角色标识（ceo, engineer, marketing...） | The Agent Company |
+| `title` | 职位显示名 | The Agent Company |
+| `reportsTo` | 汇报关系 | The Agent Company |
+| `budget` | 月预算 | The Agent Company |
+| `permissions` | 权限集 | The Agent Company |
+| `status` | 状态（active, paused, terminated） | The Agent Company |
 
 #### 🧩 能力层 (Capabilities)
 
 | 字段 | 说明 | 来源 |
 |---|---|---|
-| `jobDescription` | 工作职责描述 | Paperclip capabilities |
+| `jobDescription` | 工作职责描述 | The Agent Company capabilities |
 | `skills` | 技能列表 | OpenClaw skills |
 | `channels` | 通信渠道（telegram, slack...） | OpenClaw channels |
-| `cron` | 定时任务 | OpenClaw cron + Paperclip heartbeat |
+| `cron` | 定时任务 | OpenClaw cron + The Agent Company heartbeat |
 
 #### ⚡ 引擎层 (Engine)
 
 | 字段 | 说明 | 来源 |
 |---|---|---|
-| `adapterType` | 引擎类型 | Paperclip adapter |
+| `adapterType` | 引擎类型 | The Agent Company adapter |
 | `provider` | AI 供应商 | 配置 |
 | `model` | 模型 | 配置 |
-| `adapterConfig` | 引擎详细配置 | Paperclip |
+| `adapterConfig` | 引擎详细配置 | The Agent Company |
 
 #### 引擎类型与存储映射
 
 | 引擎类型 | 身份层存储 | 记忆存储 | 能力层存储 |
 |---|---|---|---|
 | `openclaw` | 同步到 SOUL.md / IDENTITY.md | MEMORY.md + daily notes | OpenClaw skills/channels |
-| `claude_local` 等 | Paperclip DB | Paperclip DB（agent sessions） | Paperclip capabilities 字段 |
-| `http` | Paperclip DB | N/A | Paperclip capabilities 字段 |
+| `claude_local` 等 | The Agent Company DB | The Agent Company DB（agent sessions） | The Agent Company capabilities 字段 |
+| `http` | The Agent Company DB | N/A | The Agent Company capabilities 字段 |
 
 **关键原则**：用户在 UI 上看到的是一个统一的编辑界面，不需要知道底层存储差异。
 
@@ -188,7 +188,7 @@ Workflow = 一组有序步骤，每个步骤加载不同的 skill 来完成。�
 
 ### 2.3 Project → Task → Subtask
 
-继承 Paperclip 的 issue/ticket 模型，增强：
+继承 The Agent Company 的 issue/ticket 模型，增强：
 
 | 层级 | 说明 | 新增 |
 |---|---|---|
@@ -284,7 +284,7 @@ Workflow = 一组有序步骤，每个步骤加载不同的 skill 来完成。�
 
 ### 3.4 Usage & Budget
 
-**来源**: Paperclip cost_events + OpenClaw Control Center usage
+**来源**: The Agent Company cost_events + OpenClaw Control Center usage
 
 | 模块 | 内容 |
 |---|---|
@@ -419,7 +419,7 @@ Workflow = 一组有序步骤，每个步骤加载不同的 skill 来完成。�
 
 ### 4.4 Cron & Heartbeat
 
-**来源**: ClawX + Paperclip
+**来源**: ClawX + The Agent Company
 
 - 定时任务列表
 - 创建/编辑/删除
@@ -447,7 +447,7 @@ Workflow = 一组有序步骤，每个步骤加载不同的 skill 来完成。�
 ### 4.7 Theme
 
 - Light Mode / Dark Mode / System Follow
-- 以 Paperclip 的 Tailwind 设计 token 为基准
+- 以 The Agent Company 的 Tailwind 设计 token 为基准
 - CSS 变量驱动切换
 
 ### 4.8 Security
@@ -540,7 +540,7 @@ step_timeout (5 min) → workflow_timeout (60 min) → system_timeout (gateway �
 
 | Layer | Technology |
 |---|---|
-| Backend | Node.js (Paperclip server) |
+| Backend | Node.js (TAC server) |
 | Database | PostgreSQL (embedded or external) |
 | Frontend | React 19 + TypeScript |
 | Styling | Tailwind CSS + Radix UI |
@@ -550,11 +550,11 @@ step_timeout (5 min) → workflow_timeout (60 min) → system_timeout (gateway �
 | Drag & Drop | dnd-kit |
 | Testing | Vitest |
 
-### 6.2 Monorepo Structure (extends Paperclip)
+### 6.2 Monorepo Structure (extends The Agent Company)
 
 ```
-paperclip-plus/
-├─ server/               — Paperclip server (extended)
+theagentcompany-plus/
+├─ server/               — TAC server (extended)
 │  ├─ src/
 │  │  ├─ services/
 │  │  │  ├─ agents.ts       — 扩展：身份层字段
@@ -585,7 +585,7 @@ paperclip-plus/
 │  │  │  └─ zh.json
 │  │  └─ theme/             — 主题配置
 │  └─ ...
-├─ packages/             — Shared packages (from Paperclip)
+├─ packages/             — Shared packages (from TAC)
 ├─ docs/                 — 文档
 │  ├─ PRD.md             — 本文件
 │  └─ integration-plan.md — 整合计划
@@ -631,7 +631,7 @@ CREATE TABLE feedback_entries (...);
 
 ### 6.4 API Surface
 
-#### Team Member API (extends Paperclip agents)
+#### Team Member API (extends The Agent Company agents)
 
 ```
 GET/PUT  /api/agents/:id/identity
@@ -728,8 +728,8 @@ GET/PUT  /api/branding
 ## 9. Out of Scope (v1)
 
 - Mobile app（v1 只做 responsive web）
-- Clipmart 模板市场（Paperclip roadmap，v2 考虑）
-- 多用户 auth（v1 沿用 Paperclip 的 local_trusted 模式）
+- Clipmart 模板市场（The Agent Company roadmap，v2 考虑）
+- 多用户 auth（v1 沿用 The Agent Company 的 local_trusted 模式）
 - 视频/音频类 skill 的实时预览
 - AI 自动生成工作流（v2 考虑，v1 手动创建）
 
@@ -761,11 +761,11 @@ GET/PUT  /api/branding
 
 ### 10.2 开源策略
 
-**Fork Paperclip 作为独立仓库**。不提 upstream PR，独立发展。
+**Fork The Agent Company 作为独立仓库**。不提 upstream PR，独立发展。
 
 ### 10.3 部署方式
 
-**v1 只做本地部署**（`pnpm dev` / `pnpm paperclipai run`）。Docker 和云部署留 v2。
+**v1 只做本地部署**（`pnpm dev` / `pnpm theagentcompany run`）。Docker 和云部署留 v2。
 
 ### 10.4 工作流模板
 

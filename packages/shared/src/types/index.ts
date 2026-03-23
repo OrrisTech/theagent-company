@@ -228,7 +228,7 @@ export type {
   PluginLauncherDeclaration,
   PluginMinimumHostVersion,
   PluginUiDeclaration,
-  PaperclipPluginManifestV1,
+  TacPluginManifestV1,
   PluginRecord,
   PluginStateRecord,
   PluginConfig,

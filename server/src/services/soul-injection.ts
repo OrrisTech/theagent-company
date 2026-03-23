@@ -1,4 +1,4 @@
-import type { SoulInjectionInput, SoulInjectionResult, SystemPromptLayers } from "@paperclipai/shared";
+import type { SoulInjectionInput, SoulInjectionResult, SystemPromptLayers } from "@theagentcompany/shared";
 import { logger } from "../middleware/logger.js";
 
 const log = logger.child({ module: "soul-injection" });

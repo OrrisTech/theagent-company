@@ -1,11 +1,11 @@
-import type { Db } from "@paperclipai/db";
-import { companies, instanceSettings } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
+import { companies, instanceSettings } from "@theagentcompany/db";
 import {
   instanceExperimentalSettingsSchema,
   type InstanceExperimentalSettings,
   type InstanceSettings,
   type PatchInstanceExperimentalSettings,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import { eq } from "drizzle-orm";
 
 const DEFAULT_SINGLETON_KEY = "default";

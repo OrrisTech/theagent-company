@@ -14,7 +14,7 @@ import {
 import { performanceApi } from "@/api/collaboration";
 import { useCompany } from "@/context/CompanyContext";
 import { queryKeys } from "@/lib/queryKeys";
-import type { PerformanceSummary, PerformanceSnapshot } from "@paperclipai/shared";
+import type { PerformanceSummary, PerformanceSnapshot } from "@theagentcompany/shared";
 
 /** Render a percentage as a styled number with color coding. */
 function RateCard({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {

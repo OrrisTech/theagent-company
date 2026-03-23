@@ -31,9 +31,9 @@ import { defaultCreateValues } from "./agent-config-defaults";
 import {
   DEFAULT_CODEX_LOCAL_BYPASS_APPROVALS_AND_SANDBOX,
   DEFAULT_CODEX_LOCAL_MODEL,
-} from "@paperclipai/adapter-codex-local";
-import { DEFAULT_CURSOR_LOCAL_MODEL } from "@paperclipai/adapter-cursor-local";
-import { DEFAULT_GEMINI_LOCAL_MODEL } from "@paperclipai/adapter-gemini-local";
+} from "@theagentcompany/adapter-codex-local";
+import { DEFAULT_CURSOR_LOCAL_MODEL } from "@theagentcompany/adapter-cursor-local";
+import { DEFAULT_GEMINI_LOCAL_MODEL } from "@theagentcompany/adapter-gemini-local";
 
 type AdapterType =
   | "claude_local"

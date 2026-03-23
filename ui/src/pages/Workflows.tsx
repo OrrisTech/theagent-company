@@ -21,7 +21,7 @@ import { workflowApi } from "../api/workflows";
 import { useCompany } from "../context/CompanyContext";
 import { useToast } from "../context/ToastContext";
 import { queryKeys } from "../lib/queryKeys";
-import type { WorkflowSummary, WorkflowRunStatus, WorkflowStatus } from "@paperclipai/shared";
+import type { WorkflowSummary, WorkflowRunStatus, WorkflowStatus } from "@theagentcompany/shared";
 
 /** Map workflow status to a badge variant for visual distinction. */
 function statusBadge(status: WorkflowStatus, t: (key: string) => string) {

@@ -10,7 +10,7 @@ import {
   Users,
   Filter,
 } from "lucide-react";
-import type { Agent, OpenClawCollaborationEvent } from "@paperclipai/shared";
+import type { Agent, OpenClawCollaborationEvent } from "@theagentcompany/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCompany } from "../context/CompanyContext";
 import { openclawApi } from "../api/openclaw";

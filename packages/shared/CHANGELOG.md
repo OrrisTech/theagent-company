@@ -1,4 +1,4 @@
-# @paperclipai/shared
+# @theagentcompany/shared
 
 ## 0.3.1
 

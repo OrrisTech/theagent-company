@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@/lib/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Project } from "@paperclipai/shared";
+import type { Project } from "@theagentcompany/shared";
 import { StatusBadge } from "./StatusBadge";
 import { cn, formatDate } from "../lib/utils";
 import { goalsApi } from "../api/goals";
@@ -692,7 +692,7 @@ export function ProjectProperties({ project, onUpdate, onFieldUpdate, getFieldSa
                     {codebase.effectiveLocalFolder}
                   </div>
                   {codebase.origin === "managed_checkout" && (
-                    <div className="text-[11px] text-muted-foreground">{t("projectProperties.paperclipManagedFolder")}</div>
+                    <div className="text-[11px] text-muted-foreground">{t("projectProperties.tacManagedFolder")}</div>
                   )}
                 </div>
                 <div className="flex items-center gap-1">
@@ -1043,7 +1043,7 @@ export function ProjectProperties({ project, onUpdate, onFieldUpdate, getFieldSa
                               })}
                             immediate
                             className="w-full rounded border border-border bg-transparent px-2 py-1 text-xs font-mono outline-none"
-                            placeholder={t("projectProperties.paperclipWorktrees")}
+                            placeholder={t("projectProperties.tacWorktrees")}
                           />
                         </div>
                         <div>

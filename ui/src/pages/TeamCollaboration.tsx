@@ -38,7 +38,7 @@ import type {
   EscalationStatus,
   OnboardingStatus,
   FeedbackStatus,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 
 // Tab type definition
 type TabKey = "messages" | "daily-reports" | "peer-reviews" | "escalations" | "onboarding" | "feedback";

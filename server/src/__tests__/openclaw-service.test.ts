@@ -32,8 +32,8 @@ vi.mock("drizzle-orm", () => ({
   sql: vi.fn(),
 }));
 
-// Mock @paperclipai/db
-vi.mock("@paperclipai/db", () => ({
+// Mock @theagentcompany/db
+vi.mock("@theagentcompany/db", () => ({
   agents: {
     id: "agents.id",
     name: "agents.name",

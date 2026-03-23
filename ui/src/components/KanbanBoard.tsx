@@ -30,7 +30,7 @@ import {
   resolveDropTargetStatus,
   type KanbanColumnDef,
 } from "@/lib/kanban";
-import type { Issue } from "@paperclipai/shared";
+import type { Issue } from "@theagentcompany/shared";
 
 interface Agent {
   id: string;

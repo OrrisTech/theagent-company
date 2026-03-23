@@ -1,4 +1,4 @@
-import type { IssueStatus } from "@paperclipai/shared";
+import type { IssueStatus } from "@theagentcompany/shared";
 
 /**
  * A kanban column maps a display key to one or more issue statuses.

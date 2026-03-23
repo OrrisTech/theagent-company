@@ -1,5 +1,5 @@
 import { and, desc, eq, gte, sql } from "drizzle-orm";
-import type { Db } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
 import {
   agents,
   approvals,
@@ -9,7 +9,7 @@ import {
   workflows,
   workflowRuns,
   workflowStepRuns,
-} from "@paperclipai/db";
+} from "@theagentcompany/db";
 import { notFound } from "../errors.js";
 import { budgetService } from "./budgets.js";
 

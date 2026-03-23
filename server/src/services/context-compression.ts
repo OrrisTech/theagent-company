@@ -1,8 +1,8 @@
-import type { ContextBudget, CompressedOutput, RetentionPriority } from "@paperclipai/shared";
+import type { ContextBudget, CompressedOutput, RetentionPriority } from "@theagentcompany/shared";
 import {
   CONTEXT_BUDGET_DEFAULT_TOTAL_CHARS,
   CONTEXT_BUDGET_DEFAULT_STEP_CHARS,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import { logger } from "../middleware/logger.js";
 
 const log = logger.child({ module: "context-compression" });

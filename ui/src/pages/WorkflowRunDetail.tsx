@@ -29,7 +29,7 @@ import { workflowApi } from "../api/workflows";
 import { useToast } from "../context/ToastContext";
 import { queryKeys } from "../lib/queryKeys";
 import { cn } from "../lib/utils";
-import type { WorkflowStepRunStatus, WorkflowRunStatus } from "@paperclipai/shared";
+import type { WorkflowStepRunStatus, WorkflowRunStatus } from "@theagentcompany/shared";
 
 // ---- Formatters ----
 

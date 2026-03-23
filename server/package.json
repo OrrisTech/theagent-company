@@ -1,14 +1,14 @@
 {
-  "name": "@paperclipai/server",
+  "name": "@theagentcompany/server",
   "version": "0.3.1",
   "license": "MIT",
-  "homepage": "https://github.com/paperclipai/paperclip",
+  "homepage": "https://github.com/theagentcompany/tac",
   "bugs": {
-    "url": "https://github.com/paperclipai/paperclip/issues"
+    "url": "https://github.com/theagentcompany/tac/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/paperclipai/paperclip",
+    "url": "https://github.com/theagentcompany/tac",
     "directory": "server"
   },
   "type": "module",
@@ -33,29 +33,29 @@
   ],
   "scripts": {
     "dev": "tsx src/index.ts",
-    "dev:watch": "cross-env PAPERCLIP_MIGRATION_PROMPT=never PAPERCLIP_MIGRATION_AUTO_APPLY=true tsx watch --ignore ../ui/node_modules --ignore ../ui/.vite --ignore ../ui/dist src/index.ts",
+    "dev:watch": "cross-env TAC_MIGRATION_PROMPT=never TAC_MIGRATION_AUTO_APPLY=true tsx watch --ignore ../ui/node_modules --ignore ../ui/.vite --ignore ../ui/dist src/index.ts",
     "prepare:ui-dist": "bash ../scripts/prepare-server-ui-dist.sh",
     "build": "tsc",
     "prepack": "pnpm run prepare:ui-dist",
     "postpack": "rm -rf ui-dist",
     "clean": "rm -rf dist",
     "start": "node dist/index.js",
-    "typecheck": "pnpm --filter @paperclipai/plugin-sdk build && tsc --noEmit"
+    "typecheck": "pnpm --filter @theagentcompany/plugin-sdk build && tsc --noEmit"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.888.0",
-    "@paperclipai/adapter-claude-local": "workspace:*",
-    "@paperclipai/adapter-codex-local": "workspace:*",
-    "@paperclipai/adapter-cursor-local": "workspace:*",
-    "@paperclipai/adapter-gemini-local": "workspace:*",
-    "@paperclipai/adapter-openclaw-gateway": "workspace:*",
-    "@paperclipai/adapter-opencode-local": "workspace:*",
-    "@paperclipai/adapter-pi-local": "workspace:*",
+    "@theagentcompany/adapter-claude-local": "workspace:*",
+    "@theagentcompany/adapter-codex-local": "workspace:*",
+    "@theagentcompany/adapter-cursor-local": "workspace:*",
+    "@theagentcompany/adapter-gemini-local": "workspace:*",
+    "@theagentcompany/adapter-openclaw-gateway": "workspace:*",
+    "@theagentcompany/adapter-opencode-local": "workspace:*",
+    "@theagentcompany/adapter-pi-local": "workspace:*",
     "hermes-paperclip-adapter": "0.1.1",
-    "@paperclipai/adapter-utils": "workspace:*",
-    "@paperclipai/db": "workspace:*",
-    "@paperclipai/plugin-sdk": "workspace:*",
-    "@paperclipai/shared": "workspace:*",
+    "@theagentcompany/adapter-utils": "workspace:*",
+    "@theagentcompany/db": "workspace:*",
+    "@theagentcompany/plugin-sdk": "workspace:*",
+    "@theagentcompany/shared": "workspace:*",
     "ajv": "^8.18.0",
     "ajv-formats": "^3.0.1",
     "better-auth": "1.4.18",

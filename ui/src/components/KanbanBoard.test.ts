@@ -5,7 +5,7 @@ import {
   groupIssuesByColumn,
   resolveDropTargetStatus,
 } from "../lib/kanban";
-import type { IssueStatus } from "@paperclipai/shared";
+import type { IssueStatus } from "@theagentcompany/shared";
 
 /**
  * Integration tests for the kanban board drag-and-drop status change flow.

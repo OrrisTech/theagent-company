@@ -1,5 +1,5 @@
 import { and, asc, desc, eq, sql, count, isNull, gte, lte, or } from "drizzle-orm";
-import type { Db } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
 import {
   teamMessages,
   dailyReports,
@@ -12,7 +12,7 @@ import {
   feedbackEntries,
   agents,
   issues,
-} from "@paperclipai/db";
+} from "@theagentcompany/db";
 import type {
   SendMessageInput,
   CreatePeerReviewInput,
@@ -24,8 +24,8 @@ import type {
   CreateFeedbackInput,
   ApplyFeedbackInput,
   NotificationType,
-} from "@paperclipai/shared";
-import type { OnboardingStepRecord } from "@paperclipai/db";
+} from "@theagentcompany/shared";
+import type { OnboardingStepRecord } from "@theagentcompany/db";
 import { notFound, badRequest } from "../errors.js";
 import { logger } from "../middleware/logger.js";
 

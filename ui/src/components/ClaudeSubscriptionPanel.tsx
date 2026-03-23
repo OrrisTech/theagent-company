@@ -1,4 +1,4 @@
-import type { QuotaWindow } from "@paperclipai/shared";
+import type { QuotaWindow } from "@theagentcompany/shared";
 import { cn, quotaSourceDisplayName } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 

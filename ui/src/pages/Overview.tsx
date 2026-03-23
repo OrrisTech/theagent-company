@@ -17,8 +17,8 @@ import {
   Workflow,
   XCircle,
 } from "lucide-react";
-import type { OpenClawOverview, OpenClawRiskAlert } from "@paperclipai/shared";
-import type { WorkflowDashboardOverview } from "@paperclipai/shared";
+import type { OpenClawOverview, OpenClawRiskAlert } from "@theagentcompany/shared";
+import type { WorkflowDashboardOverview } from "@theagentcompany/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCompany } from "../context/CompanyContext";
 import { openclawApi } from "../api/openclaw";

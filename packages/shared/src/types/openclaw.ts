@@ -122,7 +122,7 @@ export interface OpenClawCollaborationEvent {
   sessionId: string | null;
 }
 
-/** Overview dashboard data combining Paperclip + OpenClaw state */
+/** Overview dashboard data combining The Agent Company + OpenClaw state */
 export interface OpenClawOverview {
   health: OpenClawHealth;
   activeAgents: number;

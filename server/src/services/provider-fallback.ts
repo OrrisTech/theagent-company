@@ -3,11 +3,11 @@ import type {
   ProviderFallbackConfig,
   ProviderCallResult,
   ProviderSwitchEvent,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import {
   PROVIDER_FALLBACK_RETRYABLE_CODES,
   PROVIDER_FALLBACK_MAX_RETRIES,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import { logger } from "../middleware/logger.js";
 
 const log = logger.child({ module: "provider-fallback" });

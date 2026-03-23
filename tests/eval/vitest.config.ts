@@ -9,7 +9,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@paperclipai/shared": path.resolve(__dirname, "../../packages/shared/src"),
+      "@theagentcompany/shared": path.resolve(__dirname, "../../packages/shared/src"),
     },
   },
 });

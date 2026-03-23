@@ -7,7 +7,7 @@ import request from "supertest";
 // Mock the database module to avoid real DB connections
 const mockRows: Array<Record<string, unknown>> = [];
 
-vi.mock("@paperclipai/db", () => {
+vi.mock("@theagentcompany/db", () => {
   const brandingConfig = {
     id: "id",
     appName: "app_name",
@@ -26,7 +26,7 @@ vi.mock("drizzle-orm", () => ({
   eq: vi.fn(() => "eq-condition"),
 }));
 
-// Since the route module imports from @paperclipai/db and uses drizzle,
+// Since the route module imports from @theagentcompany/db and uses drizzle,
 // we test the route handler logic through HTTP with a mocked db
 describe("branding route validation", () => {
   it("rejects invalid hex colors", () => {
@@ -60,7 +60,7 @@ describe("branding route validation", () => {
   });
 
   it("branding config schema has expected fields", async () => {
-    const { brandingConfig } = await import("@paperclipai/db");
+    const { brandingConfig } = await import("@theagentcompany/db");
     expect(brandingConfig).toHaveProperty("id");
     expect(brandingConfig).toHaveProperty("appName");
     expect(brandingConfig).toHaveProperty("logoUrl");

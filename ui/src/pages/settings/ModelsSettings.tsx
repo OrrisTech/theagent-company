@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { openclawApi } from "../../api/openclaw";
 import { useToast } from "../../context/ToastContext";
 import { queryKeys } from "../../lib/queryKeys";
-import type { OpenClawModelConfig } from "@paperclipai/shared";
+import type { OpenClawModelConfig } from "@theagentcompany/shared";
 
 // Empty model template for adding new entries
 function emptyModel(): OpenClawModelConfig {

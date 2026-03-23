@@ -115,7 +115,7 @@ describe("Workflow template resolution", () => {
 
 describe("Workflow step types", () => {
   it("WORKFLOW_STEP_TYPES contains all expected types", async () => {
-    const { WORKFLOW_STEP_TYPES } = await import("@paperclipai/shared");
+    const { WORKFLOW_STEP_TYPES } = await import("@theagentcompany/shared");
     expect(WORKFLOW_STEP_TYPES).toContain("prompt");
     expect(WORKFLOW_STEP_TYPES).toContain("skill");
     expect(WORKFLOW_STEP_TYPES).toContain("api");
@@ -129,7 +129,7 @@ describe("Workflow step types", () => {
   });
 
   it("WORKFLOW_RUN_STATUSES contains all expected statuses", async () => {
-    const { WORKFLOW_RUN_STATUSES } = await import("@paperclipai/shared");
+    const { WORKFLOW_RUN_STATUSES } = await import("@theagentcompany/shared");
     expect(WORKFLOW_RUN_STATUSES).toContain("pending");
     expect(WORKFLOW_RUN_STATUSES).toContain("running");
     expect(WORKFLOW_RUN_STATUSES).toContain("paused");
@@ -140,14 +140,14 @@ describe("Workflow step types", () => {
   });
 
   it("WORKFLOW_STEP_RUN_STATUSES contains waiting_approval", async () => {
-    const { WORKFLOW_STEP_RUN_STATUSES } = await import("@paperclipai/shared");
+    const { WORKFLOW_STEP_RUN_STATUSES } = await import("@theagentcompany/shared");
     expect(WORKFLOW_STEP_RUN_STATUSES).toContain("waiting_approval");
     expect(WORKFLOW_STEP_RUN_STATUSES).toContain("skipped");
     expect(WORKFLOW_STEP_RUN_STATUSES.length).toBe(7);
   });
 
   it("WORKFLOW_RUN_TRIGGERS includes all trigger types", async () => {
-    const { WORKFLOW_RUN_TRIGGERS } = await import("@paperclipai/shared");
+    const { WORKFLOW_RUN_TRIGGERS } = await import("@theagentcompany/shared");
     expect(WORKFLOW_RUN_TRIGGERS).toContain("manual");
     expect(WORKFLOW_RUN_TRIGGERS).toContain("task");
     expect(WORKFLOW_RUN_TRIGGERS).toContain("cron");
@@ -156,7 +156,7 @@ describe("Workflow step types", () => {
 
   it("concurrency defaults are sensible", async () => {
     const { WORKFLOW_DEFAULT_SYSTEM_CONCURRENCY, WORKFLOW_DEFAULT_AGENT_CONCURRENCY } =
-      await import("@paperclipai/shared");
+      await import("@theagentcompany/shared");
     expect(WORKFLOW_DEFAULT_SYSTEM_CONCURRENCY).toBe(10);
     expect(WORKFLOW_DEFAULT_AGENT_CONCURRENCY).toBe(3);
   });
@@ -165,8 +165,8 @@ describe("Workflow step types", () => {
 describe("Workflow type definitions", () => {
   it("WorkflowParam type has expected shape", async () => {
     // Type-level test — verify the interface is importable and usable
-    const shared = await import("@paperclipai/shared");
-    const param: import("@paperclipai/shared").WorkflowParam = {
+    const shared = await import("@theagentcompany/shared");
+    const param: import("@theagentcompany/shared").WorkflowParam = {
       key: "topic",
       label: "Topic",
       type: "string",
@@ -178,7 +178,7 @@ describe("Workflow type definitions", () => {
   });
 
   it("CreateWorkflowInput accepts all step types", async () => {
-    const input: import("@paperclipai/shared").CreateWorkflowInput = {
+    const input: import("@theagentcompany/shared").CreateWorkflowInput = {
       name: "Test Workflow",
       steps: [
         { name: "Step 1", type: "prompt", config: { prompt: "Hello" } },

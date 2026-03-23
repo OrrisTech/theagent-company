@@ -1,4 +1,4 @@
-import type { SkillACI } from "@paperclipai/shared";
+import type { SkillACI } from "@theagentcompany/shared";
 
 /**
  * Parse a free-form skill description into ACI (Agent-Computer Interface) format.

@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { HelpCircle, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "../lib/utils";
-import { AGENT_ROLE_LABELS } from "@paperclipai/shared";
+import { AGENT_ROLE_LABELS } from "@theagentcompany/shared";
 import { useTranslation } from "react-i18next";
 
 /* ---- Help text for (?) tooltips ---- */

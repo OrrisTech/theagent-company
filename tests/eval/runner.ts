@@ -12,7 +12,7 @@
  * Usage: `pnpm eval:run` — runs all eval cases via vitest.
  */
 
-import type { EvalCaseResult, EvalRunSummary, EvalTestType } from "@paperclipai/shared";
+import type { EvalCaseResult, EvalRunSummary, EvalTestType } from "@theagentcompany/shared";
 
 /**
  * Create an eval case definition that can be executed by the test runner.

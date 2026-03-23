@@ -15,7 +15,7 @@ import {
   callWithFallback,
   ProviderError,
 } from "../../../server/src/services/provider-fallback.js";
-import type { ProviderFallbackConfig, ProviderSwitchEvent } from "@paperclipai/shared";
+import type { ProviderFallbackConfig, ProviderSwitchEvent } from "@theagentcompany/shared";
 
 describe("Eval: Source-Sink Security", () => {
   // --- Regression test: wrapping preserves content ---

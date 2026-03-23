@@ -13,14 +13,14 @@ import {
   CONTEXT_BUDGET_DEFAULT_STEP_CHARS,
   PROVIDER_FALLBACK_RETRYABLE_CODES,
   PROVIDER_FALLBACK_MAX_RETRIES,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import type {
   ContextBudget,
   RetentionPriority,
   ProviderFallbackConfig,
   SkillACI,
   EvalCaseResult,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 
 // ---------------------------------------------------------------------------
 // Constants validation

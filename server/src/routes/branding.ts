@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { eq } from "drizzle-orm";
-import type { Db } from "@paperclipai/db";
-import { brandingConfig } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
+import { brandingConfig } from "@theagentcompany/db";
 
 /**
  * Branding config API.

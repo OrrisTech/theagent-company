@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { deriveAgentUrlKey, deriveProjectUrlKey } from "@paperclipai/shared";
-import type { BillingType, FinanceDirection, FinanceEventKind } from "@paperclipai/shared";
+import { deriveAgentUrlKey, deriveProjectUrlKey } from "@theagentcompany/shared";
+import type { BillingType, FinanceDirection, FinanceEventKind } from "@theagentcompany/shared";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

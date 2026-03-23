@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import type { Db } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
 import { openclawService } from "../services/openclaw.js";
 import { assertCompanyAccess } from "./authz.js";
 import { badRequest } from "../errors.js";

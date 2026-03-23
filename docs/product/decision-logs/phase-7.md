@@ -25,8 +25,8 @@ Phase 7 is a comprehensive polish pass across the entire UI: i18n audit, theme c
 | 15 | testing | Created 48 Phase 7 unit tests (ui/src/__tests__/phase7-polish.test.ts) | Verifies ErrorBoundary and QueryError component structure, i18n error handling keys, sidebar navigation keys, and dark mode CSS variables. All tests are lightweight (no React rendering). | Yes |
 | 16 | testing | Created Playwright E2E test suite (tests/e2e/phase7-navigation.spec.ts) | 29 tests covering: sidebar navigation for all Phase 3-6 pages, theme switching (light→dark→system), language switching (en↔zh), and page structure verification. Tests are resilient to empty databases. | Yes |
 | 17 | testing | Updated i18n.test.ts with 2 new tests | Added: (1) common section error handling keys verification, (2) comprehensive deep key comparison between en.json and zh.json to catch any future mismatches. | Yes |
-| 18 | assumption | Did not add ESLint config | Project has no eslint.config.js — ESLint is not configured in the base Paperclip project. Adding ESLint would be a separate initiative. | Yes |
-| 19 | assumption | Left base Paperclip page hardcoded strings untouched | Pre-existing pages (Agents, Dashboard, Costs, etc.) have hardcoded English strings from the fork. Phase 7 focuses on polishing Phase 1-6 additions. Full i18n migration of base pages is a future task. | Yes |
+| 18 | assumption | Did not add ESLint config | Project has no eslint.config.js — ESLint is not configured in the base The Agent Company project. Adding ESLint would be a separate initiative. | Yes |
+| 19 | assumption | Left base The Agent Company page hardcoded strings untouched | Pre-existing pages (Agents, Dashboard, Costs, etc.) have hardcoded English strings from the fork. Phase 7 focuses on polishing Phase 1-6 additions. Full i18n migration of base pages is a future task. | Yes |
 
 ## Files Created
 

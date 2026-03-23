@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, sql, count, max, inArray } from "drizzle-orm";
 import { execSync } from "node:child_process";
-import type { Db } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
 import {
   workflows,
   workflowVersions,
@@ -11,7 +11,7 @@ import {
   agents,
   heartbeatRuns,
   agentWakeupRequests,
-} from "@paperclipai/db";
+} from "@theagentcompany/db";
 import type {
   WorkflowRunStatus,
   WorkflowStepRunStatus,
@@ -31,11 +31,11 @@ import type {
   WorkflowStepSkillConfig,
   WorkflowStepToolUseConfig,
   WorkflowStepWorkflowConfig,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import {
   WORKFLOW_DEFAULT_SYSTEM_CONCURRENCY,
   WORKFLOW_DEFAULT_AGENT_CONCURRENCY,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import { notFound, badRequest, conflict, unprocessable } from "../errors.js";
 import { logger } from "../middleware/logger.js";
 import {
@@ -43,7 +43,7 @@ import {
   evictLowPriorityOutputs,
   DEFAULT_CONTEXT_BUDGET,
 } from "./context-compression.js";
-import type { RetentionPriority, ContextBudget } from "@paperclipai/shared";
+import type { RetentionPriority, ContextBudget } from "@theagentcompany/shared";
 
 const log = logger.child({ module: "workflow-service" });
 

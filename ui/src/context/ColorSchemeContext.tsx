@@ -15,7 +15,7 @@ interface ColorSchemeContextValue {
   setScheme: (scheme: ColorScheme) => void;
 }
 
-const STORAGE_KEY = "paperclip.colorScheme";
+const STORAGE_KEY = "tac.colorScheme";
 const DEFAULT_SCHEME: ColorScheme = "amber";
 const VALID_SCHEMES: ColorScheme[] = ["mono", "amber", "blue", "rose", "emerald", "arctic"];
 

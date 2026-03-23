@@ -18,12 +18,12 @@ import type {
   WorkflowStepRunStatus,
   WorkflowRunTrigger,
   WorkflowStepType,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import type {
   WorkflowParam,
   WorkflowStepConfig,
   WorkflowTemplateStep,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 
 /**
  * `workflows` table — reusable workflow definitions (SOPs).

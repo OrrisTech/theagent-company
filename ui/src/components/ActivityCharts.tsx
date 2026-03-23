@@ -1,4 +1,4 @@
-import type { HeartbeatRun } from "@paperclipai/shared";
+import type { HeartbeatRun } from "@theagentcompany/shared";
 import { useTranslation } from "react-i18next";
 
 /* ---- Utilities ---- */

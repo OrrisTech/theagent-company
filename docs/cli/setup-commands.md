@@ -5,32 +5,32 @@ summary: Onboard, run, doctor, and configure
 
 Instance setup and diagnostics commands.
 
-## `paperclipai run`
+## `theagentcompany run`
 
 One-command bootstrap and start:
 
 ```sh
-pnpm paperclipai run
+pnpm theagentcompany run
 ```
 
 Does:
 
 1. Auto-onboards if config is missing
-2. Runs `paperclipai doctor` with repair enabled
+2. Runs `theagentcompany doctor` with repair enabled
 3. Starts the server when checks pass
 
 Choose a specific instance:
 
 ```sh
-pnpm paperclipai run --instance dev
+pnpm theagentcompany run --instance dev
 ```
 
-## `paperclipai onboard`
+## `theagentcompany onboard`
 
 Interactive first-time setup:
 
 ```sh
-pnpm paperclipai onboard
+pnpm theagentcompany onboard
 ```
 
 First prompt:
@@ -41,22 +41,22 @@ First prompt:
 Start immediately after onboarding:
 
 ```sh
-pnpm paperclipai onboard --run
+pnpm theagentcompany onboard --run
 ```
 
 Non-interactive defaults + immediate start (opens browser on server listen):
 
 ```sh
-pnpm paperclipai onboard --yes
+pnpm theagentcompany onboard --yes
 ```
 
-## `paperclipai doctor`
+## `theagentcompany doctor`
 
 Health checks with optional auto-repair:
 
 ```sh
-pnpm paperclipai doctor
-pnpm paperclipai doctor --repair
+pnpm theagentcompany doctor
+pnpm theagentcompany doctor --repair
 ```
 
 Validates:
@@ -67,51 +67,51 @@ Validates:
 - Storage configuration
 - Missing key files
 
-## `paperclipai configure`
+## `theagentcompany configure`
 
 Update configuration sections:
 
 ```sh
-pnpm paperclipai configure --section server
-pnpm paperclipai configure --section secrets
-pnpm paperclipai configure --section storage
+pnpm theagentcompany configure --section server
+pnpm theagentcompany configure --section secrets
+pnpm theagentcompany configure --section storage
 ```
 
-## `paperclipai env`
+## `theagentcompany env`
 
 Show resolved environment configuration:
 
 ```sh
-pnpm paperclipai env
+pnpm theagentcompany env
 ```
 
-## `paperclipai allowed-hostname`
+## `theagentcompany allowed-hostname`
 
 Allow a private hostname for authenticated/private mode:
 
 ```sh
-pnpm paperclipai allowed-hostname my-tailscale-host
+pnpm theagentcompany allowed-hostname my-tailscale-host
 ```
 
 ## Local Storage Paths
 
 | Data | Default Path |
 |------|-------------|
-| Config | `~/.paperclip/instances/default/config.json` |
-| Database | `~/.paperclip/instances/default/db` |
-| Logs | `~/.paperclip/instances/default/logs` |
-| Storage | `~/.paperclip/instances/default/data/storage` |
-| Secrets key | `~/.paperclip/instances/default/secrets/master.key` |
+| Config | `~/.theagentcompany/instances/default/config.json` |
+| Database | `~/.theagentcompany/instances/default/db` |
+| Logs | `~/.theagentcompany/instances/default/logs` |
+| Storage | `~/.theagentcompany/instances/default/data/storage` |
+| Secrets key | `~/.theagentcompany/instances/default/secrets/master.key` |
 
 Override with:
 
 ```sh
-PAPERCLIP_HOME=/custom/home PAPERCLIP_INSTANCE_ID=dev pnpm paperclipai run
+TAC_HOME=/custom/home TAC_INSTANCE_ID=dev pnpm theagentcompany run
 ```
 
 Or pass `--data-dir` directly on any command:
 
 ```sh
-pnpm paperclipai run --data-dir ./tmp/paperclip-dev
-pnpm paperclipai doctor --data-dir ./tmp/paperclip-dev
+pnpm theagentcompany run --data-dir ./tmp/theagentcompany-dev
+pnpm theagentcompany doctor --data-dir ./tmp/theagentcompany-dev
 ```

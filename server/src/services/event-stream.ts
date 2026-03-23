@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
-import type { AgentEventType, AgentTraceEvent } from "@paperclipai/shared";
+import type { AgentEventType, AgentTraceEvent } from "@theagentcompany/shared";
 import { publishLiveEvent } from "./live-events.js";
 import { logger } from "../middleware/logger.js";
 

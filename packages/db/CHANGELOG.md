@@ -1,4 +1,4 @@
-# @paperclipai/db
+# @theagentcompany/db
 
 ## 0.3.1
 
@@ -6,7 +6,7 @@
 
 - Stable release preparation for 0.3.1
 - Updated dependencies
-  - @paperclipai/shared@0.3.1
+  - @theagentcompany/shared@0.3.1
 
 ## 0.3.0
 
@@ -18,7 +18,7 @@
 
 - Updated dependencies [6077ae6]
 - Updated dependencies
-  - @paperclipai/shared@0.3.0
+  - @theagentcompany/shared@0.3.0
 
 ## 0.2.7
 
@@ -26,7 +26,7 @@
 
 - Version bump (patch)
 - Updated dependencies
-  - @paperclipai/shared@0.2.7
+  - @theagentcompany/shared@0.2.7
 
 ## 0.2.6
 
@@ -34,7 +34,7 @@
 
 - Version bump (patch)
 - Updated dependencies
-  - @paperclipai/shared@0.2.6
+  - @theagentcompany/shared@0.2.6
 
 ## 0.2.5
 
@@ -42,7 +42,7 @@
 
 - Version bump (patch)
 - Updated dependencies
-  - @paperclipai/shared@0.2.5
+  - @theagentcompany/shared@0.2.5
 
 ## 0.2.4
 
@@ -50,7 +50,7 @@
 
 - Version bump (patch)
 - Updated dependencies
-  - @paperclipai/shared@0.2.4
+  - @theagentcompany/shared@0.2.4
 
 ## 0.2.3
 
@@ -58,7 +58,7 @@
 
 - Version bump (patch)
 - Updated dependencies
-  - @paperclipai/shared@0.2.3
+  - @theagentcompany/shared@0.2.3
 
 ## 0.2.2
 
@@ -66,7 +66,7 @@
 
 - Version bump (patch)
 - Updated dependencies
-  - @paperclipai/shared@0.2.2
+  - @theagentcompany/shared@0.2.2
 
 ## 0.2.1
 
@@ -74,4 +74,4 @@
 
 - Version bump (patch)
 - Updated dependencies
-  - @paperclipai/shared@0.2.1
+  - @theagentcompany/shared@0.2.1

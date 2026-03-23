@@ -6,8 +6,8 @@ import type {
   UntrustedContent,
   SensitiveOperation,
   SecurityAuditEntry,
-} from "@paperclipai/shared";
-import { SENSITIVE_OPERATIONS } from "@paperclipai/shared";
+} from "@theagentcompany/shared";
+import { SENSITIVE_OPERATIONS } from "@theagentcompany/shared";
 import { logger } from "../middleware/logger.js";
 
 const log = logger.child({ module: "source-sink-security" });

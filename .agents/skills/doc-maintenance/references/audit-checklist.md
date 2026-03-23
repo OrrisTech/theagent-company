@@ -16,12 +16,12 @@ against the change summary from git history.
 - [ ] Items reflect current priorities (cross-check with recent PRs)
 
 ### Quickstart
-- [ ] `npx paperclipai onboard` command is correct
+- [ ] `npx theagentcompany onboard` command is correct
 - [ ] Manual install steps are accurate (clone URL, commands)
 - [ ] Prerequisites (Node version, pnpm version) are current
 - [ ] Server URL and port are correct
 
-### "What is Paperclip" section
+### "What is The Agent Company" section
 - [ ] High-level description is accurate
 - [ ] Step table (Define goal / Hire team / Approve and run) is correct
 
@@ -30,11 +30,11 @@ against the change summary from git history.
 - [ ] No removed adapters still listed
 - [ ] Logos and labels match current adapter names
 
-### "Paperclip is right for you if"
+### "The Agent Company is right for you if"
 - [ ] Use cases are still accurate
 - [ ] No claims about capabilities that don't exist
 
-### "Why Paperclip is special"
+### "Why The Agent Company is special"
 - [ ] Technical claims are accurate (atomic execution, governance, etc.)
 - [ ] No features listed that were removed or significantly changed
 

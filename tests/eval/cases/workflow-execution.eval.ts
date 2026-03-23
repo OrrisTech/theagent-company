@@ -11,7 +11,7 @@ import {
   evictLowPriorityOutputs,
   DEFAULT_CONTEXT_BUDGET,
 } from "../../../server/src/services/context-compression.js";
-import type { ContextBudget, RetentionPriority } from "@paperclipai/shared";
+import type { ContextBudget, RetentionPriority } from "@theagentcompany/shared";
 
 describe("Eval: Workflow Execution", () => {
   // --- Capability test: context compression correctly shrinks oversized output ---

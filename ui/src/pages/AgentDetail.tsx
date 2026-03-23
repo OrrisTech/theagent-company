@@ -71,8 +71,8 @@ import {
   type AgentRuntimeState,
   type LiveEvent,
   type WorkspaceOperation,
-} from "@paperclipai/shared";
-import { redactHomePathUserSegments, redactHomePathUserSegmentsInValue } from "@paperclipai/adapter-utils";
+} from "@theagentcompany/shared";
+import { redactHomePathUserSegments, redactHomePathUserSegmentsInValue } from "@theagentcompany/adapter-utils";
 import { agentRouteRef } from "../lib/utils";
 
 const runStatusIcons: Record<string, { icon: typeof CheckCircle2; color: string }> = {
@@ -1518,8 +1518,8 @@ function SkillRow({ skill }: { skill: AvailableSkill }) {
     <div className="rounded-md border border-border bg-muted/20 px-3 py-2 space-y-1.5">
       <div className="flex items-center gap-2">
         <span className="font-mono text-sm">{skill.name}</span>
-        <Badge variant={skill.isPaperclipManaged ? "secondary" : "outline"}>
-          {skill.isPaperclipManaged ? t("agentDetail.paperclipManaged") : t("agentDetail.local")}
+        <Badge variant={skill.isTacManaged ? "secondary" : "outline"}>
+          {skill.isTacManaged ? t("agentDetail.tacManaged") : t("agentDetail.local")}
         </Badge>
       </div>
       <p className="text-sm text-muted-foreground">

@@ -2,7 +2,7 @@
 
 ## Summary
 
-Phase 1 establishes the foundational infrastructure for The Agent Company: i18n, theme switching, branding configuration, and the new sidebar navigation matching the PRD structure.
+Phase 1 establishes the foundational infrastructure for TAC: i18n, theme switching, branding configuration, and the new sidebar navigation matching the PRD structure.
 
 ## Decisions
 
@@ -10,15 +10,15 @@ Phase 1 establishes the foundational infrastructure for The Agent Company: i18n,
 |---|---|---|---|---|
 | 1 | setup | Installed `i18next`, `react-i18next`, `i18next-browser-languagedetector` | i18next is the PRD-specified i18n framework. Browser language detector enables automatic locale detection. | Yes |
 | 2 | config | Set i18n default locale to `en` with `zh` as secondary | Matches PRD requirement. English is the most common default, Chinese added as the first localization. | Yes |
-| 3 | config | Used `localStorage` key `paperclip.language` for language persistence | Follows the existing `paperclip.*` localStorage naming convention used by `paperclip.theme` and `paperclip.selectedCompanyId`. | Yes |
+| 3 | config | Used `localStorage` key `theagentcompany.language` for language persistence | Follows the existing `theagentcompany.*` localStorage naming convention used by `tac.theme` and `tac.selectedCompanyId`. | Yes |
 | 4 | architecture | Extended ThemeContext to support `system` mode (light/dark/system) | PRD section 4.7 specifies "Light Mode / Dark Mode / System Follow". Added `preference` (user choice) vs `theme` (resolved value) distinction to maintain backward compatibility. | Yes |
 | 5 | architecture | Theme toggle cycles: light → dark → system → light | Maintains the existing `toggleTheme` API for backward compatibility while adding the new `setPreference` method for explicit control. | Yes |
-| 6 | config | Used `localStorage` key `paperclip.theme` for theme persistence (unchanged) | Preserves backward compatibility with existing installations. Now stores "light", "dark", or "system". | Yes |
+| 6 | config | Used `localStorage` key `tac.theme` for theme persistence (unchanged) | Preserves backward compatibility with existing installations. Now stores "light", "dark", or "system". | Yes |
 | 7 | schema | Created `branding_config` table as singleton pattern | Single row stores global branding (app name, logo, primary color, favicon). Simpler than per-company branding which isn't needed for v1. Migration seeds the default row. | Yes |
 | 8 | schema | Migration file `0038_add_branding_config.sql` with manual journal entry | Drizzle-kit generate requires a running DB. Manual SQL + journal entry follows the same format as existing migrations. | Yes |
 | 9 | api | Created `GET/PUT /api/branding` endpoints without auth guard | Branding is a global singleton config. In v1 (local_trusted mode), no auth required. When authenticated mode is added, the board mutation guard already applies to PUT requests. | Yes |
 | 10 | api | Primary color validated as `#RRGGBB` hex format | Standard web color format. Prevents invalid CSS values from being stored. | Yes |
-| 11 | navigation | Restructured sidebar to match PRD section 四 navigation spec | Replaced Paperclip's Dashboard/Work/Company sections with Overview + Projects + Team (Members/Org Chart) + Work (Workflows/Issues/Goals) + Company (Usage & Budget/Documents/Memory/Collaboration/Activity) + Settings (7 sub-pages). | Yes |
+| 11 | navigation | Restructured sidebar to match PRD section 四 navigation spec | Replaced The Agent Company's Dashboard/Work/Company sections with Overview + Projects + Team (Members/Org Chart) + Work (Workflows/Issues/Goals) + Company (Usage & Budget/Documents/Memory/Collaboration/Activity) + Settings (7 sub-pages). | Yes |
 | 12 | navigation | Settings sub-pages as direct sidebar items (not nested dropdown) | Reduces click depth for frequently accessed settings. Each sub-page has its own route under `/settings/*`. | Yes |
 | 13 | pages | Created 12 placeholder pages for not-yet-implemented features | Each shows a title, description, and "Coming Soon" badge. All strings are i18n-ready. Prevents 404s when navigating the new sidebar. | Yes |
 | 14 | pages | Branding and Language settings are fully functional (not placeholders) | These are Phase 1 deliverables. Branding reads/writes to DB via API. Language switches i18next locale instantly. | N/A |

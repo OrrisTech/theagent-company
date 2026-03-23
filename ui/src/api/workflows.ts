@@ -11,7 +11,7 @@ import type {
   TriggerWorkflowInput,
   ApproveStepInput,
   ResumeWorkflowInput,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 import { api } from "./client";
 
 /** Response shape for getWorkflow — includes versions and steps. */

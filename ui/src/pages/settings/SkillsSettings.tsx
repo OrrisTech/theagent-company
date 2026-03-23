@@ -27,7 +27,7 @@ import {
 import { openclawApi } from "../../api/openclaw";
 import { useToast } from "../../context/ToastContext";
 import { queryKeys } from "../../lib/queryKeys";
-import type { OpenClawSkillEntry } from "@paperclipai/shared";
+import type { OpenClawSkillEntry } from "@theagentcompany/shared";
 
 export function SkillsSettings() {
   const { t } = useTranslation();

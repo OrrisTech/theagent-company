@@ -12,7 +12,7 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
-import type { Agent, OpenClawAgentMemory, OpenClawMemoryFile } from "@paperclipai/shared";
+import type { Agent, OpenClawAgentMemory, OpenClawMemoryFile } from "@theagentcompany/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCompany } from "../context/CompanyContext";
 import { openclawApi } from "../api/openclaw";

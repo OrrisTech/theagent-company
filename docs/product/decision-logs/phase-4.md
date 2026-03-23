@@ -4,7 +4,7 @@
 
 Phase 4 implements two major feature sets:
 1. **OpenClaw Configuration Management UI** — Four settings pages (Models, Channels, Skills, Cron) that read from and write back to `~/.openclaw/openclaw.json`, replacing placeholder pages with fully functional CRUD interfaces.
-2. **Unified Team Member Model** — Extends the Paperclip `agents` DB table with `soul`, `identity_meta`, and `engine_type` fields, adds a 4-tab Team Member edit view (Identity, Organization, Capabilities, Engine) within the Agent Detail page, and enhances the Agents list to show engine labels.
+2. **Unified Team Member Model** — Extends the TAC `agents` DB table with `soul`, `identity_meta`, and `engine_type` fields, adds a 4-tab Team Member edit view (Identity, Organization, Capabilities, Engine) within the Agent Detail page, and enhances the Agents list to show engine labels.
 
 ## Decisions
 
@@ -16,7 +16,7 @@ Phase 4 implements two major feature sets:
 | 4 | design | Cron next-run computed server-side using existing `parseCron` service | Reuses the cron parser from Phase 3's heartbeat system. Next run is computed on every read. | Yes |
 | 5 | design | Cron validation happens on create/update, rejects invalid expressions | Uses `validateCron()` which returns a human-readable error message on invalid syntax. | N/A |
 | 6 | schema | Added 3 new columns to `agents` table: `soul`, `identity_meta`, `engine_type` | These map directly to the PRD's 4-layer team member model. `soul` = personality (SOUL.md), `identity_meta` = extra identity JSON, `engine_type` = how storage is handled. | Yes |
-| 7 | schema | `engine_type` defaults to "process" | Existing agents don't have an engine type, defaulting to "process" (the Paperclip-native adapter) preserves backward compatibility. | Yes |
+| 7 | schema | `engine_type` defaults to "process" | Existing agents don't have an engine type, defaulting to "process" (the TAC-native adapter) preserves backward compatibility. | Yes |
 | 8 | design | Team Member view added as a tab in AgentDetail, not a separate page | The existing AgentDetail page has extensive operational features (runs, budget, configuration). Adding "Team Member" as a new tab preserves all existing functionality while providing the unified 4-layer editing experience. | Yes |
 | 9 | design | Team Member sub-tabs use in-page navigation (no URL routing) | The 4 sub-tabs (Identity, Organization, Capabilities, Engine) use React state, not URL-based routing. This keeps the URL structure simple and avoids creating a second routing layer. | Yes |
 | 10 | design | Capabilities tab links to Skills/Channels/Cron settings pages | Rather than duplicating the skills/channels/cron UIs inline, the Capabilities tab provides navigation links. This follows the PRD's separation of concerns. | Yes |

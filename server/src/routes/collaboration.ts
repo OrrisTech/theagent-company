@@ -1,5 +1,5 @@
 import { Router, type Request } from "express";
-import type { Db } from "@paperclipai/db";
+import type { Db } from "@theagentcompany/db";
 import { collaborationService } from "../services/collaboration.js";
 import type {
   SendMessageInput,
@@ -12,7 +12,7 @@ import type {
   CreateFeedbackInput,
   ApplyFeedbackInput,
   StartOnboardingInput,
-} from "@paperclipai/shared";
+} from "@theagentcompany/shared";
 
 /**
  * Team Collaboration API routes.

@@ -54,14 +54,14 @@ describe("ThemeContext storage key and preferences", () => {
     classList.clear();
   });
 
-  it("stores theme preference under 'paperclip.theme' key", () => {
-    storage.set("paperclip.theme", "dark");
-    expect(storage.get("paperclip.theme")).toBe("dark");
+  it("stores theme preference under 'tac.theme' key", () => {
+    storage.set("tac.theme", "dark");
+    expect(storage.get("tac.theme")).toBe("dark");
   });
 
   it("supports 'system' as a valid preference value", () => {
-    storage.set("paperclip.theme", "system");
-    const value = storage.get("paperclip.theme");
+    storage.set("tac.theme", "system");
+    const value = storage.get("tac.theme");
     expect(["light", "dark", "system"]).toContain(value);
   });
 
@@ -79,8 +79,8 @@ describe("ThemeContext storage key and preferences", () => {
   it("valid preferences are light, dark, and system", () => {
     const validPreferences = ["light", "dark", "system"];
     for (const pref of validPreferences) {
-      storage.set("paperclip.theme", pref);
-      expect(storage.get("paperclip.theme")).toBe(pref);
+      storage.set("tac.theme", pref);
+      expect(storage.get("tac.theme")).toBe(pref);
     }
   });
 });
