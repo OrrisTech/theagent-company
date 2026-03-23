@@ -55,6 +55,17 @@ export const openclawApi = {
   skills: () => api.get<OpenClawSkillEntry[]>("/openclaw/skills"),
   updateSkillEnabled: (id: string, enabled: boolean) =>
     api.patch<{ id: string; enabled: boolean }>(`/openclaw/skills/${id}`, { enabled }),
+  uploadSkill: (file: File) => {
+    const form = new FormData();
+    form.append("file", file);
+    return api.postForm<{ skillId: string; path: string }>("/openclaw/skills/upload", form);
+  },
+  installSkillCli: (command: string) =>
+    api.post<{ stdout: string; stderr: string; exitCode: number }>("/openclaw/skills/install-cli", { command }),
+  searchSkills: (query: string) =>
+    api.post<{ id: string; name: string; description: string; installCommand?: string }[]>("/openclaw/skills/search", { query }),
+  deleteSkill: (id: string) =>
+    api.delete<{ success: boolean }>(`/openclaw/skills/${id}`),
 
   cronTasks: () => api.get<OpenClawCronTask[]>("/openclaw/cron"),
   createCronTask: (task: Omit<OpenClawCronTask, "id" | "nextRunAt" | "lastRunAt" | "lastRunStatus">) =>

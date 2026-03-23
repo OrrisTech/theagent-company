@@ -953,6 +953,205 @@ export function openclawService(db: Db) {
       await writeConfig(raw);
     },
 
+    /** Upload and extract a skill archive (.zip, .tar.gz, .tgz) */
+    uploadSkill: async (
+      file: { originalname: string; buffer: Buffer },
+    ): Promise<{ skillId: string; path: string }> => {
+      const { writeFile, mkdir, rm, rename } = await import("node:fs/promises");
+      const { execSync } = await import("node:child_process");
+      const { tmpdir } = await import("node:os");
+
+      const skillsDir = join(homedir(), ".openclaw", "skills");
+      await mkdir(skillsDir, { recursive: true });
+
+      const ext = file.originalname.toLowerCase();
+      const tmpDir = join(tmpdir(), `skill-upload-${randomUUID()}`);
+      await mkdir(tmpDir, { recursive: true });
+
+      try {
+        // Write uploaded file to temp
+        const tmpFile = join(tmpDir, file.originalname);
+        await writeFile(tmpFile, file.buffer);
+
+        // Extract
+        const extractDir = join(tmpDir, "extracted");
+        await mkdir(extractDir, { recursive: true });
+
+        if (ext.endsWith(".zip")) {
+          execSync(`unzip -o "${tmpFile}" -d "${extractDir}"`, { stdio: "pipe" });
+        } else if (ext.endsWith(".tar.gz") || ext.endsWith(".tgz")) {
+          execSync(`tar -xzf "${tmpFile}" -C "${extractDir}"`, { stdio: "pipe" });
+        } else {
+          throw new Error("Unsupported file type. Use .zip, .tar.gz, or .tgz");
+        }
+
+        // Find SKILL.md — at root or one level deep
+        let skillRoot = extractDir;
+        if (await pathExists(join(extractDir, "SKILL.md"))) {
+          skillRoot = extractDir;
+        } else {
+          const entries = await readdir(extractDir, { withFileTypes: true });
+          const subDir = entries.find((e) => e.isDirectory() && !e.name.startsWith("."));
+          if (subDir && await pathExists(join(extractDir, subDir.name, "SKILL.md"))) {
+            skillRoot = join(extractDir, subDir.name);
+          } else {
+            throw new Error("SKILL.md not found at archive root or one level deep");
+          }
+        }
+
+        // Determine skill name from directory or filename
+        const skillName = skillRoot === extractDir
+          ? file.originalname.replace(/\.(zip|tar\.gz|tgz)$/i, "")
+          : basename(skillRoot);
+
+        const destDir = join(skillsDir, skillName);
+        // Remove existing if present
+        if (await pathExists(destDir)) {
+          await rm(destDir, { recursive: true, force: true });
+        }
+        await rename(skillRoot, destDir);
+
+        return { skillId: skillName, path: destDir };
+      } finally {
+        // Clean up temp
+        await rm(tmpDir, { recursive: true, force: true }).catch(() => {});
+      }
+    },
+
+    /** Install a skill via CLI command (npx, npm, or openclaw only) */
+    installSkillCli: async (
+      command: string,
+    ): Promise<{ stdout: string; stderr: string; exitCode: number }> => {
+      const { execSync } = await import("node:child_process");
+      const { mkdir } = await import("node:fs/promises");
+
+      // Security: only allow specific command prefixes
+      const trimmed = command.trim();
+      const allowed = ["npx ", "npm ", "openclaw "];
+      if (!allowed.some((prefix) => trimmed.startsWith(prefix))) {
+        throw new Error("Only npx, npm, or openclaw commands are allowed");
+      }
+
+      const skillsDir = join(homedir(), ".openclaw", "skills");
+      await mkdir(skillsDir, { recursive: true });
+
+      try {
+        const stdout = execSync(trimmed, {
+          cwd: skillsDir,
+          timeout: 120_000,
+          encoding: "utf-8",
+          stdio: ["pipe", "pipe", "pipe"],
+        });
+        return { stdout: stdout ?? "", stderr: "", exitCode: 0 };
+      } catch (err: unknown) {
+        const e = err as { stdout?: string; stderr?: string; status?: number };
+        return {
+          stdout: e.stdout ?? "",
+          stderr: e.stderr ?? "",
+          exitCode: e.status ?? 1,
+        };
+      }
+    },
+
+    /** Search for skills in the marketplace */
+    searchSkills: async (
+      query: string,
+    ): Promise<{ id: string; name: string; description: string; installCommand?: string }[]> => {
+      // TODO: Replace with real clawhub.com API when available
+      // For now, attempt real API call with fallback to mock data
+      try {
+        const url = `https://clawhub.com/api/skills?q=${encodeURIComponent(query)}`;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeout);
+        if (res.ok) {
+          return (await res.json()) as { id: string; name: string; description: string; installCommand?: string }[];
+        }
+      } catch {
+        // API not available yet — return mock data
+      }
+
+      // Mock data for development
+      return [
+        {
+          id: "weather",
+          name: "weather",
+          description: "Get current weather and forecasts via wttr.in or Open-Meteo.",
+          installCommand: "openclaw skills install weather",
+        },
+        {
+          id: "github",
+          name: "github",
+          description: "GitHub operations via gh CLI: issues, PRs, CI runs, code review.",
+          installCommand: "openclaw skills install github",
+        },
+        {
+          id: "summarize",
+          name: "summarize",
+          description: "Summarize or extract text/transcripts from URLs, podcasts, and local files.",
+          installCommand: "openclaw skills install summarize",
+        },
+      ].filter(
+        (s) =>
+          s.name.toLowerCase().includes(query.toLowerCase()) ||
+          s.description.toLowerCase().includes(query.toLowerCase()),
+      );
+    },
+
+    /** Delete a skill directory */
+    deleteSkill: async (skillId: string): Promise<void> => {
+      const { rm } = await import("node:fs/promises");
+      const { execSync } = await import("node:child_process");
+
+      // Security: only allow deleting from known skill directories
+      const home = homedir();
+      const config = await parseConfig();
+      const allowedRoots = [
+        config.workspace ? join(config.workspace, "skills") : null,
+        config.workspace ? join(config.workspace, ".claude", "skills") : null,
+        join(home, ".openclaw", "skills"),
+        join(home, ".agents", "skills"),
+      ].filter(Boolean) as string[];
+
+      // Find the skill directory by scanning allowed roots
+      let skillDir: string | null = null;
+      for (const root of allowedRoots) {
+        const candidate = join(root, skillId);
+        if (await pathExists(candidate)) {
+          skillDir = candidate;
+          break;
+        }
+      }
+
+      if (!skillDir) {
+        throw new Error("Skill not found");
+      }
+
+      const isAllowed = allowedRoots.some((root) => {
+        const rel = relative(root, skillDir!);
+        return !rel.startsWith("..") && !rel.startsWith("/");
+      });
+
+      if (!isAllowed) {
+        throw new Error("Cannot delete skills outside of known skill directories");
+      }
+
+      // Use trash if available, otherwise rm -rf
+      try {
+        execSync("which trash", { stdio: "pipe" });
+        execSync(`trash "${skillDir}"`, { stdio: "pipe" });
+      } catch {
+        await rm(skillDir, { recursive: true, force: true });
+      }
+
+      // Also remove from openclaw.json skills array
+      const raw = await readRawConfig();
+      const rawSkills = Array.isArray(raw.skills) ? (raw.skills as Record<string, unknown>[]) : [];
+      raw.skills = rawSkills.filter((s) => s.id !== skillId);
+      await writeConfig(raw);
+    },
+
     /** List cron tasks from openclaw.json with computed next-run times */
     cronTasks: async (): Promise<OpenClawCronTask[]> => {
       const raw = await readRawConfig();

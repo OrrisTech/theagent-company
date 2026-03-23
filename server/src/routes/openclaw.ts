@@ -1,4 +1,5 @@
 import { Router } from "express";
+import multer from "multer";
 import type { Db } from "@paperclipai/db";
 import { openclawService } from "../services/openclaw.js";
 import { assertCompanyAccess } from "./authz.js";
@@ -169,6 +170,68 @@ export function openclawRoutes(db: Db) {
     }
     await svc.updateSkillEnabled(skillId, enabled);
     res.json({ id: skillId, enabled });
+  });
+
+  // Upload skill archive
+  const skillUpload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB
+    fileFilter: (_req, file, cb) => {
+      const name = file.originalname.toLowerCase();
+      if (name.endsWith(".zip") || name.endsWith(".tar.gz") || name.endsWith(".tgz")) {
+        cb(null, true);
+      } else {
+        cb(new Error("Only .zip, .tar.gz, and .tgz files are supported"));
+      }
+    },
+  });
+
+  router.post("/openclaw/skills/upload", skillUpload.single("file"), async (req, res) => {
+    const file = req.file;
+    if (!file) {
+      throw badRequest("No file uploaded");
+    }
+    try {
+      const result = await svc.uploadSkill({ originalname: file.originalname, buffer: file.buffer });
+      res.status(201).json(result);
+    } catch (err) {
+      throw badRequest((err as Error).message);
+    }
+  });
+
+  // Install skill via CLI command
+  router.post("/openclaw/skills/install-cli", async (req, res) => {
+    const { command } = req.body as { command?: string };
+    if (!command || typeof command !== "string") {
+      throw badRequest("'command' string field is required");
+    }
+    try {
+      const result = await svc.installSkillCli(command);
+      res.json(result);
+    } catch (err) {
+      throw badRequest((err as Error).message);
+    }
+  });
+
+  // Search marketplace for skills
+  router.post("/openclaw/skills/search", async (req, res) => {
+    const { query } = req.body as { query?: string };
+    if (!query || typeof query !== "string") {
+      throw badRequest("'query' string field is required");
+    }
+    const results = await svc.searchSkills(query);
+    res.json(results);
+  });
+
+  // Delete a skill
+  router.delete("/openclaw/skills/:id", async (req, res) => {
+    const skillId = req.params.id as string;
+    try {
+      await svc.deleteSkill(skillId);
+      res.json({ success: true });
+    } catch (err) {
+      throw badRequest((err as Error).message);
+    }
   });
 
   // Cron tasks
