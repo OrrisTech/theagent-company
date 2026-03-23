@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
+import i18next from "i18next";
 import { useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import type { Agent, Issue, LiveEvent } from "@paperclipai/shared";
 import { authApi } from "../api/auth";
@@ -256,7 +257,7 @@ function buildJoinRequestToast(
     title: `${label} wants to join`,
     body: "A new join request is waiting for approval.",
     tone: "info",
-    action: { label: "View inbox", href: "/inbox/unread" },
+    action: { label: i18next.t("liveUpdates.viewInbox"), href: "/inbox/unread" },
     dedupeKey: `join-request:${entityId}`,
   };
 }
@@ -286,7 +287,7 @@ function buildAgentStatusToast(
     title,
     body,
     tone,
-    action: { label: "View agent", href: `/agents/${agentId}` },
+    action: { label: i18next.t("liveUpdates.viewAgent"), href: `/agents/${agentId}` },
     dedupeKey: `agent-status:${agentId}:${status}`,
   };
 }
@@ -323,7 +324,7 @@ function buildRunStatusToast(
     body,
     tone,
     ttlMs: status === "succeeded" ? 5000 : 7000,
-    action: { label: "View run", href: `/agents/${agentId}/runs/${runId}` },
+    action: { label: i18next.t("liveUpdates.viewRun"), href: `/agents/${agentId}/runs/${runId}` },
     dedupeKey: `run-status:${runId}:${status}`,
   };
 }

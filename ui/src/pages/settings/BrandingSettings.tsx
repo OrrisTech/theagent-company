@@ -82,7 +82,7 @@ export function BrandingSettings() {
               value={current.appName}
               onChange={(e) => handleChange("appName", e.target.value)}
               className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              placeholder="The Agent Company"
+              placeholder={t("brandingSettings.theAgentCompany")}
             />
           </div>
 
@@ -150,7 +150,7 @@ export function BrandingSettings() {
               {current.logoUrl && (
                 <img
                   src={current.logoUrl}
-                  alt="Logo preview"
+                  alt={t("brandingSettings.logoPreview")}
                   className="h-8 w-8 object-contain rounded"
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />

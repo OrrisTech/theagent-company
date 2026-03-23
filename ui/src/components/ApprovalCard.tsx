@@ -2,9 +2,10 @@ import { CheckCircle2, XCircle, Clock } from "lucide-react";
 import { Link } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { Identity } from "./Identity";
-import { typeLabel, typeIcon, defaultTypeIcon, ApprovalPayloadRenderer } from "./ApprovalPayload";
+import { getTypeLabel, typeIcon, defaultTypeIcon, ApprovalPayloadRenderer } from "./ApprovalPayload";
 import { timeAgo } from "../lib/timeAgo";
 import type { Approval, Agent } from "@paperclipai/shared";
+import { useTranslation } from "react-i18next";
 
 function statusIcon(status: string) {
   if (status === "approved") return <CheckCircle2 className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />;
@@ -31,8 +32,9 @@ export function ApprovalCard({
   detailLink?: string;
   isPending: boolean;
 }) {
+  const { t } = useTranslation();
   const Icon = typeIcon[approval.type] ?? defaultTypeIcon;
-  const label = typeLabel[approval.type] ?? approval.type;
+  const label = getTypeLabel(approval.type, t);
   const showResolutionButtons =
     approval.type !== "budget_override_required" &&
     (approval.status === "pending" || approval.status === "revision_requested");
@@ -78,7 +80,7 @@ export function ApprovalCard({
             onClick={onApprove}
             disabled={isPending}
           >
-            Approve
+            {t("pages.workflows.approve")}
           </Button>
           <Button
             variant="destructive"
@@ -86,18 +88,18 @@ export function ApprovalCard({
             onClick={onReject}
             disabled={isPending}
           >
-            Reject
+            {t("pages.teamCollab.reject")}
           </Button>
         </div>
       )}
       <div className="mt-3">
         {detailLink ? (
           <Button variant="ghost" size="sm" className="text-xs px-0" asChild>
-            <Link to={detailLink}>View details</Link>
+            <Link to={detailLink}>{t("approvalCard.viewDetails")}</Link>
           </Button>
         ) : (
           <Button variant="ghost" size="sm" className="text-xs px-0" onClick={onOpen}>
-            View details
+            {t("approvalCard.viewDetails")}
           </Button>
         )}
       </div>

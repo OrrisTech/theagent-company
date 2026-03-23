@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { HelpCircle, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "../lib/utils";
 import { AGENT_ROLE_LABELS } from "@paperclipai/shared";
+import { useTranslation } from "react-i18next";
 
 /* ---- Help text for (?) tooltips ---- */
 export const help: Record<string, string> = {
@@ -25,7 +26,7 @@ export const help: Record<string, string> = {
   reportsTo: "The agent this one reports to in the org hierarchy.",
   capabilities: "Describes what this agent can do. Shown in the org chart and used for task routing.",
   adapterType: "How this agent runs: local CLI (Claude/Codex/OpenCode), OpenClaw Gateway, spawned process, or generic HTTP webhook.",
-  cwd: "Default working directory fallback for local adapters. Use an absolute path on the machine running Paperclip.",
+  cwd: "Default working directory fallback for local adapters. Use an absolute path on the machine running The Agent Company.",
   promptTemplate: "Sent on every heartbeat. Keep this small and dynamic. Use it for current-task framing, not large static instructions. Supports {{ agent.id }}, {{ agent.name }}, {{ agent.role }} and other template variables.",
   model: "Override the default model used by the adapter.",
   thinkingEffort: "Control model reasoning depth. Supported values vary by adapter/model.",
@@ -33,7 +34,7 @@ export const help: Record<string, string> = {
   dangerouslySkipPermissions: "Run Claude without permission prompts. Required for unattended operation.",
   dangerouslyBypassSandbox: "Run Codex without sandbox restrictions. Required for filesystem/network access.",
   search: "Enable Codex web search capability during runs.",
-  workspaceStrategy: "How Paperclip should realize an execution workspace for this agent. Keep project_primary for normal cwd execution, or use git_worktree for issue-scoped isolated checkouts.",
+  workspaceStrategy: "How The Agent Company should realize an execution workspace for this agent. Keep project_primary for normal cwd execution, or use git_worktree for issue-scoped isolated checkouts.",
   workspaceBaseRef: "Base git ref used when creating a worktree branch. Leave blank to use the resolved workspace ref or HEAD.",
   workspaceBranchTemplate: "Template for naming derived branches. Supports {{issue.identifier}}, {{issue.title}}, {{agent.name}}, {{project.id}}, {{workspace.repoRef}}, and {{slug}}.",
   worktreeParentDir: "Directory where derived worktrees should be created. Absolute, ~-prefixed, and repo-relative paths are supported.",
@@ -44,8 +45,8 @@ export const help: Record<string, string> = {
   args: "Command-line arguments, comma-separated.",
   extraArgs: "Extra CLI arguments for local adapters, comma-separated.",
   envVars: "Environment variables injected into the adapter process. Use plain values or secret references.",
-  bootstrapPrompt: "Only sent when Paperclip starts a fresh session. Use this for stable setup guidance that should not be repeated on every heartbeat.",
-  payloadTemplateJson: "Optional JSON merged into remote adapter request payloads before Paperclip adds its standard wake and workspace fields.",
+  bootstrapPrompt: "Only sent when The Agent Company starts a fresh session. Use this for stable setup guidance that should not be repeated on every heartbeat.",
+  payloadTemplateJson: "Optional JSON merged into remote adapter request payloads before The Agent Company adds its standard wake and workspace fields.",
   webhookUrl: "The URL that receives POST requests when the agent is invoked.",
   heartbeatInterval: "Run this agent automatically on a timer. Useful for periodic tasks like checking for new work.",
   intervalSec: "Seconds between automatic heartbeat invocations.",
@@ -73,6 +74,7 @@ export const roleLabels = AGENT_ROLE_LABELS as Record<string, string>;
 /* ---- Primitive components ---- */
 
 export function HintIcon({ text }: { text: string }) {
+  const { t } = useTranslation();
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -393,6 +395,7 @@ export function DraftNumberInput({
  * type the path due to browser security limitations.
  */
 export function ChoosePathButton() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -401,12 +404,12 @@ export function ChoosePathButton() {
         className="inline-flex items-center rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent/50 transition-colors shrink-0"
         onClick={() => setOpen(true)}
       >
-        Choose
+        {t("agentConfigPrimitives.choose")}
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Specify path manually</DialogTitle>
+            <DialogTitle>{t("agentConfigPrimitives.specifyPathManually")}</DialogTitle>
             <DialogDescription>
               Browser security blocks apps from reading full local paths via a file picker.
               Copy the absolute path and paste it into the input.
@@ -416,39 +419,39 @@ export function ChoosePathButton() {
             <section className="space-y-1.5">
               <p className="font-medium">macOS (Finder)</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
-                <li>Find the folder in Finder.</li>
-                <li>Hold <kbd>Option</kbd> and right-click the folder.</li>
-                <li>Click "Copy &lt;folder name&gt; as Pathname".</li>
-                <li>Paste the result into the path input.</li>
+                <li>{t("agentConfigPrimitives.findTheFolderInFinder")}</li>
+                <li>Hold <kbd>{t("agentConfigPrimitives.option")}</kbd> and right-click the folder.</li>
+                <li>{t("agentConfigPrimitives.clickCopyLtFolderNameGtAsPathname")}</li>
+                <li>{t("agentConfigPrimitives.pasteTheResultIntoThePathInput")}</li>
               </ol>
               <p className="rounded-md bg-muted px-2 py-1 font-mono text-xs">
                 /Users/yourname/Documents/project
               </p>
             </section>
             <section className="space-y-1.5">
-              <p className="font-medium">Windows (File Explorer)</p>
+              <p className="font-medium">{t("agentConfigPrimitives.windowsFileExplorer")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
-                <li>Find the folder in File Explorer.</li>
-                <li>Hold <kbd>Shift</kbd> and right-click the folder.</li>
-                <li>Click "Copy as path".</li>
-                <li>Paste the result into the path input.</li>
+                <li>{t("agentConfigPrimitives.findTheFolderInFileExplorer")}</li>
+                <li>Hold <kbd>{t("agentConfigPrimitives.shift")}</kbd> and right-click the folder.</li>
+                <li>{t("agentConfigPrimitives.clickCopyAsPath")}</li>
+                <li>{t("agentConfigPrimitives.pasteTheResultIntoThePathInput")}</li>
               </ol>
               <p className="rounded-md bg-muted px-2 py-1 font-mono text-xs">
                 C:\Users\yourname\Documents\project
               </p>
             </section>
             <section className="space-y-1.5">
-              <p className="font-medium">Terminal fallback (macOS/Linux)</p>
+              <p className="font-medium">{t("agentConfigPrimitives.terminalFallbackMacosLinux")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
                 <li>Run <code>cd /path/to/folder</code>.</li>
                 <li>Run <code>pwd</code>.</li>
-                <li>Copy the output and paste it into the path input.</li>
+                <li>{t("agentConfigPrimitives.copyTheOutputAndPasteItIntoThePathInput")}</li>
               </ol>
             </section>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
-              OK
+              {t("agentConfigPrimitives.ok")}
             </Button>
           </DialogFooter>
         </DialogContent>

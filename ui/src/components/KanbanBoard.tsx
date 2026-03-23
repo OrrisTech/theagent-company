@@ -65,7 +65,7 @@ function KanbanColumn({
 
   return (
     <div
-      className="flex flex-col min-w-[260px] w-[260px] shrink-0"
+      className="flex flex-col min-w-[260px] w-[260px] shrink-0 h-full"
       role="region"
       aria-label={label}
     >
@@ -80,7 +80,7 @@ function KanbanColumn({
       </div>
       <div
         ref={setNodeRef}
-        className={`flex-1 min-h-[120px] rounded-md p-1 space-y-1 transition-colors ${
+        className={`flex-1 min-h-[120px] rounded-md p-1 space-y-1 transition-colors overflow-y-auto ${
           isOver ? "bg-accent/40" : "bg-muted/20"
         }`}
       >
@@ -294,7 +294,7 @@ export function KanbanBoard({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-3 overflow-x-auto pb-4 -mx-2 px-2">
+      <div className="flex gap-3 overflow-x-auto pb-4 -mx-2 px-2 h-full">
         {columns.map((col) => (
           <KanbanColumn
             key={col.id}

@@ -20,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -160,7 +162,7 @@ export function validateField(
 
   // Required check
   if (isRequired && (value === undefined || value === null || value === "")) {
-    return "This field is required";
+    return i18next.t("jsonSchemaForm.fieldRequired");
   }
 
   // Skip further validation if empty and not required
@@ -193,7 +195,7 @@ export function validateField(
 
   if (type === "number" || type === "integer") {
     const num = Number(value);
-    if (isNaN(num)) return "Must be a valid number";
+    if (isNaN(num)) return i18next.t("jsonSchemaForm.mustBeValidNumber");
     if (schema.minimum != null && num < schema.minimum) {
       return `Must be at least ${schema.minimum}`;
     }
@@ -207,7 +209,7 @@ export function validateField(
       return `Must be less than ${schema.exclusiveMaximum}`;
     }
     if (type === "integer" && !Number.isInteger(num)) {
-      return "Must be a whole number";
+      return i18next.t("jsonSchemaForm.mustBeWholeNumber");
     }
     if (schema.multipleOf != null && num % schema.multipleOf !== 0) {
       return `Must be a multiple of ${schema.multipleOf}`;
@@ -437,7 +439,9 @@ const EnumField = React.memo(({
   description?: string;
   error?: string;
   options: unknown[];
-}) => (
+}) => {
+  const { t } = useTranslation();
+  return (
   <FieldWrapper
     label={label}
     description={description}
@@ -451,7 +455,7 @@ const EnumField = React.memo(({
       disabled={disabled}
     >
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Select an option" />
+        <SelectValue placeholder={t("jsonSchemaForm.selectAnOption")} />
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
@@ -462,7 +466,8 @@ const EnumField = React.memo(({
       </SelectContent>
     </Select>
   </FieldWrapper>
-));
+  );
+});
 
 EnumField.displayName = "EnumField";
 
@@ -488,13 +493,14 @@ const SecretField = React.memo(({
   error?: string;
   defaultValue?: unknown;
 }) => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   return (
     <FieldWrapper
       label={label}
       description={
         description ||
-        "This secret is stored securely via the Paperclip secret provider."
+        "This secret is stored securely via the secret provider."
       }
       required={isRequired}
       error={error}
@@ -524,7 +530,7 @@ const SecretField = React.memo(({
             <Eye className="h-4 w-4 text-muted-foreground" />
           )}
           <span className="sr-only">
-            {isVisible ? "Hide secret" : "Show secret"}
+            {isVisible ? t("jsonSchemaForm.hideSecret") : t("jsonSchemaForm.showSecret")}
           </span>
         </Button>
       </div>
@@ -664,6 +670,7 @@ const ArrayField = React.memo(({
   errors: Record<string, string>;
   path: string;
 }) => {
+  const { t } = useTranslation();
   const items = Array.isArray(value) ? value : [];
   const itemSchema = propSchema.items as JsonSchemaNode;
   const isComplex = resolveType(itemSchema) === "object";
@@ -694,7 +701,7 @@ const ArrayField = React.memo(({
           }}
         >
           <Plus className="mr-2 h-4 w-4" />
-          {isComplex ? "Add item" : "Add"}
+          {isComplex ? t("jsonSchemaForm.addItem") : t("jsonSchemaForm.add")}
         </Button>
       </div>
 
@@ -739,13 +746,13 @@ const ArrayField = React.memo(({
               }}
             >
               <Trash2 className="h-4 w-4" />
-              <span className="sr-only">Remove item</span>
+              <span className="sr-only">{t("jsonSchemaForm.removeItem")}</span>
             </Button>
           </div>
         ))}
         {items.length === 0 && (
           <div className="rounded-lg border border-dashed p-4 text-center text-xs text-muted-foreground">
-            No items added yet.
+            {t("jsonSchemaForm.noItemsAddedYet")}
           </div>
         )}
       </div>
@@ -968,6 +975,7 @@ export function JsonSchemaForm({
   disabled,
   className,
 }: JsonSchemaFormProps) {
+  const { t } = useTranslation();
   const type = resolveType(schema);
 
   const handleRootScalarChange = useCallback((newVal: unknown) => {
@@ -1014,7 +1022,7 @@ export function JsonSchemaForm({
           className,
         )}
       >
-        No configuration options available.
+        {t("jsonSchemaForm.noConfigurationOptionsAvailable")}
       </div>
     );
   }

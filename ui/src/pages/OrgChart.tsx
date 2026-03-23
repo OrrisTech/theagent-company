@@ -11,6 +11,7 @@ import { PageSkeleton } from "../components/PageSkeleton";
 import { AgentIcon } from "../components/AgentIconPicker";
 import { Network } from "lucide-react";
 import { AGENT_ROLE_LABELS, type Agent } from "@paperclipai/shared";
+import { useTranslation } from "react-i18next";
 
 // Layout constants
 const CARD_W = 200;
@@ -139,6 +140,7 @@ const defaultDotColor = "#94a3b8";
 // ── Main component ──────────────────────────────────────────────────────
 
 export function OrgChart() {
+  const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
   const { setBreadcrumbs } = useBreadcrumbs();
   const navigate = useNavigate();
@@ -162,7 +164,7 @@ export function OrgChart() {
   }, [agents]);
 
   useEffect(() => {
-    setBreadcrumbs([{ label: "Org Chart" }]);
+    setBreadcrumbs([{ label: t("org.orgChart") }]);
   }, [setBreadcrumbs]);
 
   // Layout computation
@@ -292,7 +294,7 @@ export function OrgChart() {
             }
             setZoom(newZoom);
           }}
-          aria-label="Zoom in"
+          aria-label={t("orgChart.zoomIn")}
         >
           +
         </button>
@@ -309,7 +311,7 @@ export function OrgChart() {
             }
             setZoom(newZoom);
           }}
-          aria-label="Zoom out"
+          aria-label={t("orgChart.zoomOut")}
         >
           &minus;
         </button>
@@ -327,10 +329,10 @@ export function OrgChart() {
             setZoom(fitZoom);
             setPan({ x: (cW - chartW) / 2, y: (cH - chartH) / 2 });
           }}
-          title="Fit to screen"
-          aria-label="Fit chart to screen"
+          title={t("orgChart.fitToScreen")}
+          aria-label={t("orgChart.fitChartToScreen")}
         >
-          Fit
+          {t("orgChart.fit")}
         </button>
       </div>
 

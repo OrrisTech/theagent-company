@@ -328,7 +328,7 @@ function EscalationsPanel({ companyId }: { companyId: string }) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => resolveMutation.mutate({ id: event.id, resolution: "Resolved via dashboard" })}
+                onClick={() => resolveMutation.mutate({ id: event.id, resolution: t("teamCollaboration.resolvedViaDashboard") })}
                 disabled={resolveMutation.isPending}
               >
                 {t("pages.teamCollab.resolve")}

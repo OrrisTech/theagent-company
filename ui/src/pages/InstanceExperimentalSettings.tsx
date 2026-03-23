@@ -5,16 +5,18 @@ import { instanceSettingsApi } from "@/api/instanceSettings";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { queryKeys } from "../lib/queryKeys";
 import { cn } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 export function InstanceExperimentalSettings() {
+  const { t } = useTranslation();
   const { setBreadcrumbs } = useBreadcrumbs();
   const queryClient = useQueryClient();
   const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
     setBreadcrumbs([
-      { label: "Instance Settings" },
-      { label: "Experimental" },
+      { label: t("instanceExperimentalSettings.instanceSettings") },
+      { label: t("instanceExperimentalSettings.experimental") },
     ]);
   }, [setBreadcrumbs]);
 
@@ -36,7 +38,7 @@ export function InstanceExperimentalSettings() {
   });
 
   if (experimentalQuery.isLoading) {
-    return <div className="text-sm text-muted-foreground">Loading experimental settings...</div>;
+    return <div className="text-sm text-muted-foreground">{t("instanceExperimentalSettings.loadingExperimentalSettings")}</div>;
   }
 
   if (experimentalQuery.error) {
@@ -44,7 +46,7 @@ export function InstanceExperimentalSettings() {
       <div className="text-sm text-destructive">
         {experimentalQuery.error instanceof Error
           ? experimentalQuery.error.message
-          : "Failed to load experimental settings."}
+          : t("instanceExperimentalSettings.failedToLoadExperimentalSettings")}
       </div>
     );
   }
@@ -56,10 +58,10 @@ export function InstanceExperimentalSettings() {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <FlaskConical className="h-5 w-5 text-muted-foreground" />
-          <h1 className="text-lg font-semibold">Experimental</h1>
+          <h1 className="text-lg font-semibold">{t("instanceExperimentalSettings.experimental")}</h1>
         </div>
         <p className="text-sm text-muted-foreground">
-          Opt into features that are still being evaluated before they become default behavior.
+          {t("instanceExperimentalSettings.optIntoFeaturesThatAreStillBeingEvaluatedBeforeThe")}
         </p>
       </div>
 
@@ -72,7 +74,7 @@ export function InstanceExperimentalSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Enabled Isolated Workspaces</h2>
+            <h2 className="text-sm font-semibold">{t("instanceExperimentalSettings.enabledIsolatedWorkspaces")}</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
               Show execution workspace controls in project configuration and allow isolated workspace behavior for new
               and existing issue runs.
@@ -80,7 +82,7 @@ export function InstanceExperimentalSettings() {
           </div>
           <button
             type="button"
-            aria-label="Toggle isolated workspaces experimental setting"
+            aria-label={t("instanceExperimentalSettings.toggleIsolatedWorkspacesExperimentalSetting")}
             disabled={toggleMutation.isPending}
             className={cn(
               "relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:cursor-not-allowed disabled:opacity-60",

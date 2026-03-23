@@ -13,11 +13,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { useTranslation } from "react-i18next";
 
 function Command({
   className,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive>) {
+  const { t } = useTranslation();
   return (
     <CommandPrimitive
       data-slot="command"
@@ -31,8 +33,8 @@ function Command({
 }
 
 function CommandDialog({
-  title = "Command Palette",
-  description = "Search for a command to run...",
+  title: titleProp,
+  description: descriptionProp,
   children,
   className,
   showCloseButton = true,
@@ -43,6 +45,9 @@ function CommandDialog({
   className?: string
   showCloseButton?: boolean
 }) {
+  const { t } = useTranslation();
+  const title = titleProp ?? t("commandPalette.title");
+  const description = descriptionProp ?? t("commandPalette.description");
   return (
     <Dialog {...props}>
       <DialogHeader className="sr-only">
@@ -62,7 +67,7 @@ function CommandDialog({
             className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-0 right-2 flex h-12 items-center rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
           >
             <XIcon />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">{t("common.close")}</span>
           </DialogPrimitive.Close>
         )}
       </DialogContent>

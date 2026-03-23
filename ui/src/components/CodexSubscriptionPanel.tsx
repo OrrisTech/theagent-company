@@ -1,5 +1,6 @@
 import type { QuotaWindow } from "@paperclipai/shared";
 import { cn, quotaSourceDisplayName } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface CodexSubscriptionPanelProps {
   windows: QuotaWindow[];
@@ -57,6 +58,7 @@ export function CodexSubscriptionPanel({
   source = null,
   error = null,
 }: CodexSubscriptionPanelProps) {
+  const { t } = useTranslation();
   const ordered = orderedWindows(windows);
   const accountWindows = ordered.filter((window) => !isModelSpecific(window.label));
   const modelWindows = ordered.filter((window) => isModelSpecific(window.label));
@@ -66,10 +68,10 @@ export function CodexSubscriptionPanel({
       <div className="flex items-start justify-between gap-3 border-b border-border pb-3">
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Codex subscription
+            {t("codexSubscriptionPanel.codexSubscription")}
           </div>
           <div className="mt-1 text-sm text-muted-foreground">
-            Live Codex quota windows.
+            {t("codexSubscriptionPanel.liveCodexQuotaWindows")}
           </div>
         </div>
         {source ? (
@@ -88,7 +90,7 @@ export function CodexSubscriptionPanel({
       <div className="mt-4 space-y-5">
         <div className="space-y-3">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            Account windows
+            {t("codexSubscriptionPanel.accountWindows")}
           </div>
           <div className="space-y-3">
             {accountWindows.map((window) => (
@@ -100,7 +102,7 @@ export function CodexSubscriptionPanel({
         {modelWindows.length > 0 ? (
           <div className="space-y-3">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Model windows
+              {t("codexSubscriptionPanel.modelWindows")}
             </div>
             <div className="space-y-3">
               {modelWindows.map((window) => (

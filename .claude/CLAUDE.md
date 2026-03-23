@@ -97,6 +97,62 @@ Examples:
 - ❌ Don't write a custom i18n framework
 - ❌ Don't write a custom date formatting library when `date-fns` or `dayjs` exists
 
+## Autonomy & Decision-Making
+
+### Do It Yourself
+- **Solve everything you can autonomously.** You have CLI, plugins, MCP tools, and permissions — use them.
+- Only ask the user for manual setup/config as an absolute last resort.
+- If a task requires shell commands, file edits, API calls, git operations — just do it.
+- For long-running tasks with clear expected output, use a Ralph loop (implement → test → fix → repeat until passing).
+
+### When You Must Ask the User
+- **Mark your recommended option** clearly (e.g., "⭐ Recommended: Option A")
+- If the user doesn't respond within a reasonable time, **choose the recommended option and proceed**
+- Always explain why you chose what you chose
+
+### Decision Log (MANDATORY)
+For every session that involves implementation work, maintain a decision log.
+Record every:
+- **Key decision** — what you chose and why (e.g., "Used drizzle migration instead of raw SQL because...")
+- **Configuration change** — what config was modified, old value → new value
+- **Setup action** — what was installed, created, or wired up
+- **Assumption made** — when you proceeded without user input
+
+At the end of each implementation session, **report the decision log to the user** so they can:
+- Review what was done
+- Audit the reasoning
+- Roll back if needed
+
+Format:
+```
+## Decision Log — [date/phase]
+
+| # | Type | Decision | Reasoning | Reversible? |
+|---|---|---|---|---|
+| 1 | config | Set i18n default locale to "en" | Most common, zh added as secondary | Yes |
+| 2 | setup | Installed i18next@25.x | Latest stable, compatible with React 19 | Yes |
+| 3 | assumption | Used CSS variables for theming | Matches Paperclip's Tailwind setup | Yes |
+```
+
+## Code Philosophy
+
+### Don't Reinvent the Wheel
+- **Always prefer existing, well-maintained open-source libraries** over writing custom implementations
+- Before writing any non-trivial utility, search for established packages (npm, GitHub) that solve the problem
+- Prioritize by: **GitHub stars > weekly downloads > last commit recency** (as of current date: 2026-03)
+- Check installed skills — if a skill already does what you need, use it
+- Follow **current best practices** for the ecosystem (React 19, Node 22, Tailwind v4, etc.)
+- When multiple options exist, prefer what the base project (Paperclip) already uses
+- Only build custom when: (a) no suitable package exists, (b) the package is unmaintained, or (c) the integration cost exceeds the build cost
+
+Examples:
+- ✅ Use `i18next` for i18n (established, 7k+ stars)
+- ✅ Use `dnd-kit` for drag & drop (already in Paperclip)
+- ✅ Use `zustand` or `@tanstack/react-query` for state (already in ecosystem)
+- ❌ Don't write a custom drag-and-drop system
+- ❌ Don't write a custom i18n framework
+- ❌ Don't write a custom date formatting library when `date-fns` or `dayjs` exists
+
 ## Tech Stack
 
 - Backend: Node.js (Express), PostgreSQL (embedded or external), Drizzle ORM

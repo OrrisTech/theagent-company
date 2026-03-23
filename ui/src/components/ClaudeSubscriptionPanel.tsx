@@ -1,5 +1,6 @@
 import type { QuotaWindow } from "@paperclipai/shared";
 import { cn, quotaSourceDisplayName } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface ClaudeSubscriptionPanelProps {
   windows: QuotaWindow[];
@@ -56,6 +57,7 @@ export function ClaudeSubscriptionPanel({
   source = null,
   error = null,
 }: ClaudeSubscriptionPanelProps) {
+  const { t } = useTranslation();
   const ordered = orderedWindows(windows);
 
   return (
@@ -63,10 +65,10 @@ export function ClaudeSubscriptionPanel({
       <div className="flex items-start justify-between gap-3 border-b border-border pb-3">
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Anthropic subscription
+            {t("claudeSubscriptionPanel.anthropicSubscription")}
           </div>
           <div className="mt-1 text-sm text-muted-foreground">
-            Live Claude quota windows.
+            {t("claudeSubscriptionPanel.liveClaudeQuotaWindows")}
           </div>
         </div>
         {source ? (

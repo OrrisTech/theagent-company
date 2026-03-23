@@ -154,7 +154,9 @@ export function defaultPathForPlatform() {
   if (process.platform === "win32") {
     return "C:\\Windows\\System32;C:\\Windows;C:\\Windows\\System32\\Wbem";
   }
-  return "/usr/local/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin";
+  const home = process.env.HOME ?? "";
+  const userLocalBin = home ? `${home}/.local/bin:` : "";
+  return `${userLocalBin}/usr/local/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin`;
 }
 
 function windowsPathExts(env: NodeJS.ProcessEnv): string[] {
@@ -230,8 +232,23 @@ async function resolveSpawnTarget(
 }
 
 export function ensurePathInEnv(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
-  if (typeof env.PATH === "string" && env.PATH.length > 0) return env;
-  if (typeof env.Path === "string" && env.Path.length > 0) return env;
+  const home = env.HOME ?? process.env.HOME ?? "";
+  const userLocalBin = home ? `${home}/.local/bin` : "";
+
+  const pathKey = typeof env.PATH === "string" && env.PATH.length > 0
+    ? "PATH"
+    : typeof env.Path === "string" && (env.Path as string).length > 0
+      ? "Path"
+      : null;
+
+  if (pathKey) {
+    const currentPath = env[pathKey] as string;
+    // Ensure ~/.local/bin is on PATH (common install location for claude, etc.)
+    if (userLocalBin && !currentPath.split(":").includes(userLocalBin)) {
+      return { ...env, [pathKey]: `${userLocalBin}:${currentPath}` };
+    }
+    return env;
+  }
   return { ...env, PATH: defaultPathForPlatform() };
 }
 

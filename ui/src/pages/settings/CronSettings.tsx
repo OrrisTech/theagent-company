@@ -184,7 +184,7 @@ export function CronSettings() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="mt-1 w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm"
-                  placeholder="Daily content creation"
+                  placeholder={t("cronSettings.dailyContentCreation")}
                 />
               </div>
               <div>

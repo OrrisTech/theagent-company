@@ -61,28 +61,29 @@ function OverviewContent({
   onUpdate: (data: Record<string, unknown>) => void;
   imageUploadHandler?: (file: File) => Promise<string>;
 }) {
+  const { t } = useTranslation();
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6 h-full">
       <InlineEditor
         value={project.description ?? ""}
         onSave={(description) => onUpdate({ description })}
         as="p"
         className="text-sm text-muted-foreground"
-        placeholder="Add a description..."
+        placeholder={t("projectProperties.addADescription")}
         multiline
         imageUploadHandler={imageUploadHandler}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
         <div>
-          <span className="text-muted-foreground">Status</span>
+          <span className="text-muted-foreground">{t("pages.workflows.status")}</span>
           <div className="mt-1">
             <StatusBadge status={project.status} />
           </div>
         </div>
         {project.targetDate && (
           <div>
-            <span className="text-muted-foreground">Target Date</span>
+            <span className="text-muted-foreground">{t("projectProperties.targetDate")}</span>
             <p>{project.targetDate}</p>
           </div>
         )}
@@ -100,6 +101,7 @@ function ColorPicker({
   currentColor: string;
   onSelect: (color: string) => void;
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -120,7 +122,7 @@ function ColorPicker({
         onClick={() => setOpen(!open)}
         className="shrink-0 h-5 w-5 rounded-md cursor-pointer hover:ring-2 hover:ring-foreground/20 transition-[box-shadow]"
         style={{ backgroundColor: currentColor }}
-        aria-label="Change project color"
+        aria-label={t("projectDetail.changeProjectColor")}
       />
       {open && (
         <div className="absolute top-full left-0 mt-2 p-2 bg-popover border border-border rounded-lg shadow-lg z-50 w-max">
@@ -356,7 +358,7 @@ export function ProjectDetail() {
     },
     onError: (_, archived) => {
       pushToast({
-        title: archived ? "Failed to archive project" : "Failed to unarchive project",
+        title: archived ? t("projectDetail.failedToArchiveProject") : t("projectDetail.failedToUnarchiveProject"),
         tone: "error",
       });
     },
@@ -364,7 +366,7 @@ export function ProjectDetail() {
 
   const uploadImage = useMutation({
     mutationFn: async (file: File) => {
-      if (!resolvedCompanyId) throw new Error("No company selected");
+      if (!resolvedCompanyId) throw new Error(t("projectDetail.noCompanySelected"));
       return assetsApi.uploadImage(resolvedCompanyId, file, `projects/${projectLookupRef || "draft"}`);
     },
   });
@@ -568,7 +570,7 @@ export function ProjectDetail() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6 h-full">
       <div className="flex items-start gap-3">
         <div className="h-7 flex items-center">
           <ColorPicker
@@ -586,7 +588,7 @@ export function ProjectDetail() {
           {project.pauseReason === "budget" ? (
             <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-red-200">
               <span className="h-2 w-2 rounded-full bg-red-400" />
-              Paused by budget hard stop
+              {t("projectDetail.pausedByBudgetHardStop")}
             </div>
           ) : null}
         </div>
@@ -658,7 +660,9 @@ export function ProjectDetail() {
       )}
 
       {activeTab === "board" && project?.id && resolvedCompanyId && (
-        <ProjectKanbanBoard projectId={project.id} companyId={resolvedCompanyId} />
+        <div className="flex-1 min-h-0">
+          <ProjectKanbanBoard projectId={project.id} companyId={resolvedCompanyId} />
+        </div>
       )}
 
       {activeTab === "configuration" && (

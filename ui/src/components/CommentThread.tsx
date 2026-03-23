@@ -11,6 +11,7 @@ import { StatusBadge } from "./StatusBadge";
 import { AgentIcon } from "./AgentIconPicker";
 import { formatDateTime } from "../lib/utils";
 import { PluginSlotOutlet } from "@/plugins/slots";
+import { useTranslation } from "react-i18next";
 
 interface CommentWithRunMeta extends IssueComment {
   runId?: string | null;
@@ -96,12 +97,13 @@ function parseReassignment(target: string): CommentReassignment | null {
 }
 
 function CopyMarkdownButton({ text }: { text: string }) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   return (
     <button
       type="button"
       className="text-muted-foreground hover:text-foreground transition-colors"
-      title="Copy as markdown"
+      title={t("commentThread.copyAsMarkdown")}
       onClick={() => {
         navigator.clipboard.writeText(text).then(() => {
           setCopied(true);
@@ -131,8 +133,9 @@ const TimelineList = memo(function TimelineList({
   projectId?: string | null;
   highlightCommentId?: string | null;
 }) {
+  const { t } = useTranslation();
   if (timeline.length === 0) {
-    return <p className="text-sm text-muted-foreground">No comments or runs yet.</p>;
+    return <p className="text-sm text-muted-foreground">{t("commentThread.noCommentsOrRunsYet")}</p>;
   }
 
   return (
@@ -154,7 +157,7 @@ const TimelineList = memo(function TimelineList({
                 </span>
               </div>
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-muted-foreground">Run</span>
+                <span className="text-muted-foreground">{t("pages.workflows.run")}</span>
                 <Link
                   to={`/agents/${run.agentId}/runs/${run.runId}`}
                   className="inline-flex items-center rounded-md border border-border bg-accent/40 px-2 py-1 font-mono text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors"
@@ -271,6 +274,7 @@ export function CommentThread({
   currentAssigneeValue = "",
   mentions: providedMentions,
 }: CommentThreadProps) {
+  const { t } = useTranslation();
   const [body, setBody] = useState("");
   const [reopen, setReopen] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -409,7 +413,7 @@ export function CommentThread({
           ref={editorRef}
           value={body}
           onChange={setBody}
-          placeholder="Leave a comment..."
+          placeholder={t("commentThread.leaveAComment")}
           mentions={mentions}
           onSubmit={handleSubmit}
           imageUploadHandler={imageUploadHandler}
@@ -430,7 +434,7 @@ export function CommentThread({
                 size="icon-sm"
                 onClick={() => attachInputRef.current?.click()}
                 disabled={attaching}
-                title="Attach image"
+                title={t("commentThread.attachImage")}
               >
                 <Paperclip className="h-4 w-4" />
               </Button>
@@ -444,21 +448,21 @@ export function CommentThread({
                 onChange={(e) => setReopen(e.target.checked)}
                 className="rounded border-border"
               />
-              Re-open
+              {t("commentThread.reOpen")}
             </label>
           )}
           {enableReassign && reassignOptions.length > 0 && (
             <InlineEntitySelector
               value={reassignTarget}
               options={reassignOptions}
-              placeholder="Assignee"
-              noneLabel="No assignee"
-              searchPlaceholder="Search assignees..."
-              emptyMessage="No assignees found."
+              placeholder={t("newIssueDialog.assignee")}
+              noneLabel={t("commentThread.noAssignee")}
+              searchPlaceholder={t("commentThread.searchAssignees")}
+              emptyMessage={t("newIssueDialog.noAssigneesFound")}
               onChange={setReassignTarget}
               className="text-xs h-8"
               renderTriggerValue={(option) => {
-                if (!option) return <span className="text-muted-foreground">Assignee</span>;
+                if (!option) return <span className="text-muted-foreground">{t("newIssueDialog.assignee")}</span>;
                 const agentId = option.id.startsWith("agent:") ? option.id.slice("agent:".length) : null;
                 const agent = agentId ? agentMap?.get(agentId) : null;
                 return (

@@ -142,7 +142,7 @@ export function ChannelsSettings() {
                       value={channel.name}
                       onChange={(e) => updateChannel(index, "name", e.target.value)}
                       className="mt-1 w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm"
-                      placeholder="My Channel"
+                      placeholder={t("channelsSettings.myChannel")}
                     />
                   </div>
                   <div>

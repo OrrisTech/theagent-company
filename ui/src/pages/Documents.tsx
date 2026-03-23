@@ -229,7 +229,7 @@ export function Documents() {
               size="sm"
               onClick={() => setCategoryFilter(null)}
             >
-              All
+              {t("pages.notifications.all")}
             </Button>
             {categories.map((cat) => (
               <Button

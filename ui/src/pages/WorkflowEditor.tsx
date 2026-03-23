@@ -724,7 +724,7 @@ function StepConfigEditor({
     case "tool_use":
       return (
         <div>
-          <label className="text-sm font-medium">Tool ID</label>
+          <label className="text-sm font-medium">{t("workflowEditor.toolId")}</label>
           <input className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm"
             value={(config.toolId as string) ?? ""}
             onChange={(e) => set("toolId", e.target.value)} />
@@ -734,7 +734,7 @@ function StepConfigEditor({
     case "workflow":
       return (
         <div>
-          <label className="text-sm font-medium">Workflow ID</label>
+          <label className="text-sm font-medium">{t("workflowEditor.workflowId")}</label>
           <input className="mt-1 w-full px-3 py-2 border rounded-md bg-background text-sm"
             value={(config.workflowId as string) ?? ""}
             onChange={(e) => set("workflowId", e.target.value)} />

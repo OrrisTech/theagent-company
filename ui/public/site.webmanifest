@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Paperclip",
-  "short_name": "Paperclip",
-  "description": "AI-powered project management and agent coordination platform",
+  "name": "The Agent Company",
+  "short_name": "Agent Co",
+  "description": "Build, deploy, and orchestrate AI agent teams.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
