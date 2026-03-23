@@ -40,6 +40,7 @@ import { authApi } from "../api/auth";
 import { queryKeys } from "../lib/queryKeys";
 import { useInboxBadge } from "../hooks/useInboxBadge";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { PluginSlotOutlet } from "@/plugins/slots";
 import { cn } from "@/lib/utils";
 import { CompanyPatternIcon } from "./CompanyPatternIcon";
@@ -124,24 +125,39 @@ const SCHEME_DOTS: { scheme: import("../context/ColorSchemeContext").ColorScheme
 function ColorSchemePicker() {
   const { t } = useTranslation();
   const { scheme, setScheme } = useColorScheme();
+  const [open, setOpen] = useState(false);
+  const currentDot = SCHEME_DOTS.find((d) => d.scheme === scheme) ?? SCHEME_DOTS[0];
 
   return (
-    <div className="flex items-center gap-1" title={t("colorScheme.label")}>
-      {SCHEME_DOTS.map((dot) => (
-        <button
-          key={dot.scheme}
-          onClick={() => setScheme(dot.scheme)}
-          title={t(`colorScheme.${dot.scheme}`)}
-          className={cn(
-            "h-3.5 w-3.5 rounded-full border transition-all",
-            scheme === dot.scheme
-              ? "border-foreground scale-110 ring-1 ring-foreground/30"
-              : "border-transparent opacity-60 hover:opacity-100",
-          )}
-          style={{ backgroundColor: dot.color }}
-        />
-      ))}
-    </div>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="icon-sm" className="text-muted-foreground" title={t("colorScheme.label")}>
+          <span
+            className="h-3.5 w-3.5 rounded-full border border-foreground/20"
+            style={{ backgroundColor: currentDot.color }}
+          />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent side="top" align="start" className="w-auto p-2">
+        <p className="text-[10px] text-muted-foreground mb-1.5 px-0.5">{t("colorScheme.label")}</p>
+        <div className="flex items-center gap-1.5">
+          {SCHEME_DOTS.map((dot) => (
+            <button
+              key={dot.scheme}
+              onClick={() => { setScheme(dot.scheme); setOpen(false); }}
+              title={t(`colorScheme.${dot.scheme}`)}
+              className={cn(
+                "h-5 w-5 rounded-full border-2 transition-all",
+                scheme === dot.scheme
+                  ? "border-foreground scale-110"
+                  : "border-transparent opacity-60 hover:opacity-100 hover:scale-105",
+              )}
+              style={{ backgroundColor: dot.color }}
+            />
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
 
