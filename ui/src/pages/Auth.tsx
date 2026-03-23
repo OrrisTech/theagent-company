@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "@/lib/router";
 import { authApi } from "../api/auth";
 import { queryKeys } from "../lib/queryKeys";
 import { Button } from "@/components/ui/button";
-import { AsciiArtAnimation } from "@/components/AsciiArtAnimation";
+import { EventHorizonShader } from "@/components/EventHorizonShader";
 import { Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -165,9 +165,9 @@ export function AuthPage() {
         </div>
       </div>
 
-      {/* Right half — ASCII art animation (hidden on mobile) */}
+      {/* Right half — Event Horizon shader (hidden on mobile) */}
       <div className="hidden md:block w-1/2 overflow-hidden">
-        <AsciiArtAnimation />
+        <EventHorizonShader />
       </div>
     </div>
   );
