@@ -121,8 +121,8 @@ export function SidebarAgents() {
                 className={cn(
                   "flex items-center gap-2.5 px-3 py-1.5 text-[13px] font-medium transition-colors",
                   activeAgentId === agentRouteRef(agent)
-                    ? "bg-accent text-foreground"
-                    : "text-foreground/80 hover:bg-accent/50 hover:text-foreground"
+                    ? "bg-primary/12 text-primary font-semibold border-l-2 border-primary"
+                    : "text-foreground/60 hover:bg-accent/50 hover:text-foreground border-l-2 border-transparent"
                 )}
               >
                 <AgentIcon icon={agent.icon} className="shrink-0 h-3.5 w-3.5 text-muted-foreground" />

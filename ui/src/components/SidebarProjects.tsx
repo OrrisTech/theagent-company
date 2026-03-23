@@ -82,8 +82,8 @@ function SortableProjectItem({
           className={cn(
             "flex items-center gap-2.5 px-3 py-1.5 text-[13px] font-medium transition-colors",
             activeProjectRef === routeRef || activeProjectRef === project.id
-              ? "bg-accent text-foreground"
-              : "text-foreground/80 hover:bg-accent/50 hover:text-foreground",
+              ? "bg-primary/12 text-primary font-semibold border-l-2 border-primary"
+              : "text-foreground/60 hover:bg-accent/50 hover:text-foreground border-l-2 border-transparent",
           )}
         >
           <span
