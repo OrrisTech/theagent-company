@@ -2111,7 +2111,8 @@
     "newCompany": "New company",
     "help": "Help",
     "terms": "Terms",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "signedIn": "Signed in"
   },
   "onboarding": {
     "title": "Getting Started",

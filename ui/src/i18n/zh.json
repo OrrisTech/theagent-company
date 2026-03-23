@@ -2111,7 +2111,8 @@
     "newCompany": "新建公司",
     "help": "帮助",
     "terms": "条款",
-    "privacy": "隐私"
+    "privacy": "隐私",
+    "signedIn": "已登录"
   },
   "onboarding": {
     "title": "快速上手",

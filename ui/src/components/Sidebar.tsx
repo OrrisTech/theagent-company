@@ -260,10 +260,11 @@ export function Sidebar() {
     queryKey: ["auth", "session"],
     queryFn: () => authApi.getSession(),
   });
+  const isAuthenticated = !!session?.session;
   const userName = session?.user?.name ?? "";
   const userEmail = session?.user?.email ?? "";
   const userDisplay = userName || userEmail;
-  const userInitial = userDisplay ? userDisplay.charAt(0).toUpperCase() : "";
+  const userInitial = userDisplay ? userDisplay.charAt(0).toUpperCase() : isAuthenticated ? "U" : "";
 
   const handleSignOut = async () => {
     await authApi.signOut();
@@ -390,7 +391,8 @@ export function Sidebar() {
             {userEmail && !userName && (
               <p className="text-xs text-foreground/80 truncate">{userEmail}</p>
             )}
-            {!userDisplay && <p className="text-xs text-muted-foreground">{t("user.notSignedIn")}</p>}
+            {!userDisplay && !isAuthenticated && <p className="text-xs text-muted-foreground">{t("user.notSignedIn")}</p>}
+            {!userDisplay && isAuthenticated && <p className="text-xs text-muted-foreground">{t("user.signedIn")}</p>}
           </div>
           <Button variant="ghost" size="icon-sm" onClick={handleSignOut} title={t("user.signOut")}>
             <LogOut className="h-3.5 w-3.5" />
