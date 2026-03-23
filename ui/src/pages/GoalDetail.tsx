@@ -95,8 +95,8 @@ export function GoalDetail() {
 
   useEffect(() => {
     setBreadcrumbs([
-      { label: "Goals", href: "/goals" },
-      { label: goal?.title ?? goalId ?? "Goal" }
+      { label: t("sidebar.goals"), href: "/goals" },
+      { label: goal?.title ?? goalId ?? t("sidebar.goals") }
     ]);
   }, [setBreadcrumbs, goal, goalId]);
 

@@ -1703,7 +1703,8 @@
     "invokeOpenClawViaGateway": "通过网关协议调用 OpenClaw",
     "failedToLoadOpenCodeModels": "加载 OpenCode 模型失败。",
     "noOpenCodeModelsDiscovered": "未发现 OpenCode 模型。运行 `opencode models` 并验证供应商。",
-    "openCodeModelsStillLoading": "OpenCode 模型仍在加载中。请稍后重试。"
+    "openCodeModelsStillLoading": "OpenCode 模型仍在加载中。请稍后重试。",
+    "title": "新建代理"
   },
   "companies": {
     "newCompany": "新建公司",

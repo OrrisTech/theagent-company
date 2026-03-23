@@ -94,7 +94,7 @@ export function PluginPage() {
   useEffect(() => {
     if (pageSlot) {
       setBreadcrumbs([
-        { label: "Plugins", href: "/instance/settings/plugins" },
+        { label: t("pluginManager.plugins"), href: "/instance/settings/plugins" },
         { label: pageSlot.pluginDisplayName },
       ]);
     }

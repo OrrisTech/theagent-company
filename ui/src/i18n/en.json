@@ -1703,7 +1703,8 @@
     "invokeOpenClawViaGateway": "Invoke OpenClaw via gateway protocol",
     "failedToLoadOpenCodeModels": "Failed to load OpenCode models.",
     "noOpenCodeModelsDiscovered": "No OpenCode models discovered. Run `opencode models` and authenticate providers.",
-    "openCodeModelsStillLoading": "OpenCode models are still loading. Please wait and try again."
+    "openCodeModelsStillLoading": "OpenCode models are still loading. Please wait and try again.",
+    "title": "New Agent"
   },
   "companies": {
     "newCompany": "New Company",

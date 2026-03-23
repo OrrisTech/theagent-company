@@ -116,9 +116,9 @@ export function PluginSettings() {
 
   useEffect(() => {
     setBreadcrumbs([
-      { label: selectedCompany?.name ?? "Company", href: "/dashboard" },
-      { label: "Settings", href: "/instance/settings/heartbeats" },
-      { label: "Plugins", href: "/instance/settings/plugins" },
+      { label: selectedCompany?.name ?? t("sidebar.company"), href: "/dashboard" },
+      { label: t("sidebar.settings"), href: "/instance/settings/heartbeats" },
+      { label: t("pluginManager.plugins"), href: "/instance/settings/plugins" },
       { label: plugin?.manifestJson?.displayName ?? plugin?.packageName ?? t("pluginSettings.pluginDetails") },
     ]);
   }, [selectedCompany?.name, setBreadcrumbs, companyPrefix, plugin]);
