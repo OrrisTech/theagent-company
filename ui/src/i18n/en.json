@@ -184,7 +184,8 @@
     "general": "General",
     "appearance": "Appearance",
     "themeMode": "Theme Mode",
-    "themeModeDescription": "Choose how the interface looks."
+    "themeModeDescription": "Choose how the interface looks.",
+    "branding": "Branding"
   },
   "kanban": {
     "tabs": {
@@ -960,7 +961,10 @@
     "seal": "Seal",
     "paperclipVariablesAreInjectedAutomaticallyAtRuntim": "PAPERCLIP_* variables are injected automatically at runtime.",
     "default": "Default",
-    "noModelsFound": "No models found."
+    "noModelsFound": "No models found.",
+    "selectCompanyToCreateSecrets": "Select a company to create secrets",
+    "selectCompanyToTestEnvironment": "Select a company to test adapter environment",
+    "selectCompanyToUploadImages": "Select a company to upload images"
   },
   "costs": {
     "refundsOffsetsAndCreditReturns": "Refunds, offsets, and credit returns",
@@ -1077,7 +1081,9 @@
     "changeLocalFolder": "Change local folder",
     "setLocalFolder": "Set local folder",
     "hideAdvancedCheckout": "Hide advanced checkout settings",
-    "showAdvancedCheckout": "Show advanced checkout settings"
+    "showAdvancedCheckout": "Show advanced checkout settings",
+    "hideAdvancedCheckoutSettings": "Hide advanced checkout settings",
+    "showAdvancedCheckoutSettings": "Show advanced checkout settings"
   },
   "pluginSettings": {
     "loadingPluginDetails": "Loading plugin details...",
@@ -1444,7 +1450,8 @@
     "copySnippet": "Copy snippet",
     "alreadyArchived": "Already archived",
     "archiveCompany": "Archive company",
-    "failedToArchiveCompany": "Failed to archive company"
+    "failedToArchiveCompany": "Failed to archive company",
+    "archiving": "Archiving"
   },
   "issueDocumentsSection": {
     "documentActions": "Document actions",
@@ -1639,7 +1646,9 @@
     "pages": "Pages",
     "issues": "Issues",
     "agents": "Agents",
-    "projects": "Projects"
+    "projects": "Projects",
+    "title": "Command Palette",
+    "description": "Search commands..."
   },
   "approvalPayload": {
     "icon": "Icon",
@@ -1870,7 +1879,8 @@
     "collapseCommandDetails": "Collapse command details",
     "expandCommandDetails": "Expand command details",
     "collapseStdout": "Collapse stdout",
-    "expandStdout": "Expand stdout"
+    "expandStdout": "Expand stdout",
+    "executedCommands": "Executed commands"
   },
   "instanceSettings": {
     "fullAgentConfig": "Full agent config",
@@ -1954,7 +1964,8 @@
     "parentGoalLabel": "Parent goal",
     "creating": "Creating…",
     "createSubGoal": "Create sub-goal",
-    "createGoal": "Create goal"
+    "createGoal": "Create goal",
+    "noCompanySelected": "No company selected"
   },
   "billerSpendCard": {
     "billingTypes": "Billing types",
@@ -2099,7 +2110,8 @@
     "liveQuotasPoint3": "errors surfaced directly"
   },
   "breadcrumb": {
-    "more": "More"
+    "more": "More",
+    "theAgentCompany": "The Agent Company"
   },
   "inlineEditor": {
     "autosaving": "Autosaving...",
@@ -2112,7 +2124,9 @@
     "pending": "Pending",
     "all": "All",
     "noPendingApprovals": "No pending approvals.",
-    "noApprovalsYet": "No approvals yet."
+    "noApprovalsYet": "No approvals yet.",
+    "failedToApprove": "Failed to approve",
+    "failedToReject": "Failed to reject"
   },
   "user": {
     "notSignedIn": "Not signed in",
@@ -2259,7 +2273,9 @@
     "role": "Role",
     "scopesCommaSeparated": "Scopes (comma-separated)",
     "waitTimeoutMs": "Wait timeout (ms)",
-    "deviceAuth": "Device auth"
+    "deviceAuth": "Device auth",
+    "perIssue": "Per issue",
+    "perRun": "Per run"
   },
   "executionWorkspace": {
     "none": "None",
@@ -2284,7 +2300,15 @@
     "done": "Done",
     "critical": "Critical",
     "projectDefault": "Project default",
-    "newIsolatedWorkspace": "New isolated workspace"
+    "newIsolatedWorkspace": "New isolated workspace",
+    "agentOptions": "Agent options",
+    "createIssue": "Create Issue",
+    "creating": "Creating...",
+    "noAssignee": "No assignee",
+    "noProject": "No project",
+    "openCodeOptions": "OpenCode options",
+    "searchAssignees": "Search assignees...",
+    "searchProjects": "Search projects..."
   },
   "issueDocuments": {
     "documentKeyAndBodyRequired": "Document key and body are required",
@@ -2311,5 +2335,47 @@
   },
   "plugins": {
     "unknownError": "Unknown error"
+  },
+  "docs": {
+    "title": "Documentation",
+    "description": "Learn how to use The Agent Company",
+    "gettingStarted": "Getting Started",
+    "gettingStartedDesc": "Set up your first AI team in minutes",
+    "createCompany": "Create a company",
+    "addAgent": "Add an agent",
+    "createProject": "Create a project",
+    "assignTask": "Assign a task",
+    "monitorRuns": "Monitor runs",
+    "teamManagement": "Team Management",
+    "teamManagementDesc": "Configure and manage your AI agents",
+    "addModelProviders": "Add model providers",
+    "setDefaultModels": "Set default models",
+    "setRoles": "Set roles and permissions",
+    "reviewPerformance": "Review performance",
+    "workflows": "Workflows",
+    "workflowsDesc": "Automate your team's processes",
+    "createWorkflow": "Create a workflow",
+    "triggerWorkflows": "Trigger workflows",
+    "configureCron": "Configure cron schedules",
+    "monitorActivity": "Monitor activity",
+    "channelsIntegrations": "Channels & Integrations",
+    "channelsIntegrationsDesc": "Connect external services",
+    "configureChannels": "Configure channels",
+    "installSkills": "Install skills",
+    "browseSkills": "Browse skills marketplace",
+    "aiModels": "AI Models",
+    "aiModelsDesc": "Manage model providers and usage",
+    "skillsPlugins": "Skills & Plugins",
+    "skillsPluginsDesc": "Extend your agents' capabilities",
+    "settingsTitle": "Settings",
+    "settingsDesc": "Configure your instance",
+    "securitySettings": "Security settings",
+    "needHelp": "Need Help?",
+    "needHelpDesc": "Get support and resources"
+  },
+  "liveUpdates": {
+    "viewAgent": "View agent",
+    "viewInbox": "View inbox",
+    "viewRun": "View run"
   }
 }

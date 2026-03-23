@@ -184,7 +184,8 @@
     "general": "通用",
     "appearance": "外观",
     "themeMode": "主题模式",
-    "themeModeDescription": "选择界面的显示样式。"
+    "themeModeDescription": "选择界面的显示样式。",
+    "branding": "品牌设置"
   },
   "kanban": {
     "tabs": {
@@ -960,7 +961,10 @@
     "seal": "加密",
     "paperclipVariablesAreInjectedAutomaticallyAtRuntim": "PAPERCLIP_* 变量在运行时自动注入。",
     "default": "默认",
-    "noModelsFound": "未找到模型。"
+    "noModelsFound": "未找到模型。",
+    "selectCompanyToCreateSecrets": "选择公司以创建密钥",
+    "selectCompanyToTestEnvironment": "选择公司以测试适配器环境",
+    "selectCompanyToUploadImages": "选择公司以上传图片"
   },
   "costs": {
     "refundsOffsetsAndCreditReturns": "退款、抵扣和信用返还",
@@ -1077,7 +1081,9 @@
     "changeLocalFolder": "更改本地文件夹",
     "setLocalFolder": "设置本地文件夹",
     "hideAdvancedCheckout": "隐藏高级检出设置",
-    "showAdvancedCheckout": "显示高级检出设置"
+    "showAdvancedCheckout": "显示高级检出设置",
+    "hideAdvancedCheckoutSettings": "隐藏高级检出设置",
+    "showAdvancedCheckoutSettings": "显示高级检出设置"
   },
   "pluginSettings": {
     "loadingPluginDetails": "加载插件详情中...",
@@ -1444,7 +1450,8 @@
     "copySnippet": "复制代码片段",
     "alreadyArchived": "已归档",
     "archiveCompany": "归档公司",
-    "failedToArchiveCompany": "归档公司失败"
+    "failedToArchiveCompany": "归档公司失败",
+    "archiving": "归档"
   },
   "issueDocumentsSection": {
     "documentActions": "文档操作",
@@ -1639,7 +1646,9 @@
     "pages": "页面",
     "issues": "任务",
     "agents": "智能体",
-    "projects": "项目"
+    "projects": "项目",
+    "title": "命令面板",
+    "description": "搜索命令..."
   },
   "approvalPayload": {
     "icon": "图标",
@@ -1870,7 +1879,8 @@
     "collapseCommandDetails": "收起命令详情",
     "expandCommandDetails": "展开命令详情",
     "collapseStdout": "收起标准输出",
-    "expandStdout": "展开标准输出"
+    "expandStdout": "展开标准输出",
+    "executedCommands": "已执行的命令"
   },
   "instanceSettings": {
     "fullAgentConfig": "完整智能体配置",
@@ -1954,7 +1964,8 @@
     "parentGoalLabel": "父目标",
     "creating": "创建中…",
     "createSubGoal": "创建子目标",
-    "createGoal": "创建目标"
+    "createGoal": "创建目标",
+    "noCompanySelected": "未选择公司"
   },
   "billerSpendCard": {
     "billingTypes": "计费类型",
@@ -2099,7 +2110,8 @@
     "liveQuotasPoint3": "错误直接暴露"
   },
   "breadcrumb": {
-    "more": "更多"
+    "more": "更多",
+    "theAgentCompany": "The Agent Company"
   },
   "inlineEditor": {
     "autosaving": "自动保存中...",
@@ -2112,7 +2124,9 @@
     "pending": "待处理",
     "all": "全部",
     "noPendingApprovals": "暂无待处理审批。",
-    "noApprovalsYet": "暂无审批记录。"
+    "noApprovalsYet": "暂无审批记录。",
+    "failedToApprove": "批准失败",
+    "failedToReject": "拒绝失败"
   },
   "user": {
     "notSignedIn": "未登录",
@@ -2259,7 +2273,9 @@
     "role": "角色",
     "scopesCommaSeparated": "权限范围（逗号分隔）",
     "waitTimeoutMs": "等待超时（毫秒）",
-    "deviceAuth": "设备认证"
+    "deviceAuth": "设备认证",
+    "perIssue": "按任务",
+    "perRun": "按运行"
   },
   "executionWorkspace": {
     "none": "无",
@@ -2284,7 +2300,15 @@
     "done": "完成",
     "critical": "紧急",
     "projectDefault": "项目默认",
-    "newIsolatedWorkspace": "新建隔离工作区"
+    "newIsolatedWorkspace": "新建隔离工作区",
+    "agentOptions": "代理选项",
+    "createIssue": "创建任务",
+    "creating": "创建中...",
+    "noAssignee": "未指定负责人",
+    "noProject": "无项目",
+    "openCodeOptions": "OpenCode 选项",
+    "searchAssignees": "搜索负责人...",
+    "searchProjects": "搜索项目..."
   },
   "issueDocuments": {
     "documentKeyAndBodyRequired": "文档键和内容不能为空",
@@ -2311,5 +2335,47 @@
   },
   "plugins": {
     "unknownError": "未知错误"
+  },
+  "docs": {
+    "title": "文档",
+    "description": "了解如何使用 The Agent Company",
+    "gettingStarted": "快速入门",
+    "gettingStartedDesc": "几分钟内搭建你的第一个 AI 团队",
+    "createCompany": "创建公司",
+    "addAgent": "添加代理",
+    "createProject": "创建项目",
+    "assignTask": "分配任务",
+    "monitorRuns": "监控运行",
+    "teamManagement": "团队管理",
+    "teamManagementDesc": "配置和管理你的 AI 代理",
+    "addModelProviders": "添加模型供应商",
+    "setDefaultModels": "设置默认模型",
+    "setRoles": "设置角色和权限",
+    "reviewPerformance": "查看绩效",
+    "workflows": "工作流",
+    "workflowsDesc": "自动化团队流程",
+    "createWorkflow": "创建工作流",
+    "triggerWorkflows": "触发工作流",
+    "configureCron": "配置定时任务",
+    "monitorActivity": "监控活动",
+    "channelsIntegrations": "渠道与集成",
+    "channelsIntegrationsDesc": "连接外部服务",
+    "configureChannels": "配置渠道",
+    "installSkills": "安装技能",
+    "browseSkills": "浏览技能市场",
+    "aiModels": "AI 模型",
+    "aiModelsDesc": "管理模型供应商和用量",
+    "skillsPlugins": "技能与插件",
+    "skillsPluginsDesc": "扩展代理的能力",
+    "settingsTitle": "设置",
+    "settingsDesc": "配置你的实例",
+    "securitySettings": "安全设置",
+    "needHelp": "需要帮助？",
+    "needHelpDesc": "获取支持和资源"
+  },
+  "liveUpdates": {
+    "viewAgent": "查看代理",
+    "viewInbox": "查看收件箱",
+    "viewRun": "查看运行"
   }
 }
