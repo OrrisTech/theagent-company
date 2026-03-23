@@ -119,7 +119,7 @@ export function SidebarAgents() {
                   if (isMobile) setSidebarOpen(false);
                 }}
                 className={cn(
-                  "flex items-center gap-2.5 px-3 py-1.5 text-[13px] font-medium transition-colors",
+                  "flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium transition-colors rounded-md",
                   activeAgentId === agentRouteRef(agent)
                     ? "bg-primary/12 text-primary font-semibold border-l-2 border-primary"
                     : "text-foreground/60 hover:bg-accent/50 hover:text-foreground border-l-2 border-transparent"
