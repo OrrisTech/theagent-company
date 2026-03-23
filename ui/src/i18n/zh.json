@@ -924,7 +924,13 @@
     "teardown": "清理",
     "worktreeCleanup": "工作树清理",
     "failedToLoadRunLog": "加载运行日志失败",
-    "noAgentReference": "无成员引用"
+    "noAgentReference": "无成员引用",
+    "overview": "概览",
+    "costs": "费用",
+    "costBreakdown": "费用明细",
+    "manageSkills": "管理技能 →",
+    "manageChannels": "管理渠道 →",
+    "manageCronTasks": "管理定时任务 →"
   },
   "agentConfigForm": {
     "advancedRunPolicy": "高级运行策略",

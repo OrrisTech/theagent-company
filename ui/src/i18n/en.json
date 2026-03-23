@@ -924,7 +924,13 @@
     "teardown": "Teardown",
     "worktreeCleanup": "Worktree cleanup",
     "failedToLoadRunLog": "Failed to load run log",
-    "noAgentReference": "No member reference"
+    "noAgentReference": "No member reference",
+    "overview": "Overview",
+    "costs": "Costs",
+    "costBreakdown": "Cost Breakdown",
+    "manageSkills": "Manage skills →",
+    "manageChannels": "Manage channels →",
+    "manageCronTasks": "Manage cron tasks →"
   },
   "agentConfigForm": {
     "advancedRunPolicy": "Advanced Run Policy",

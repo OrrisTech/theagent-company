@@ -30,7 +30,7 @@ import { useTranslation } from "react-i18next";
 const levelLabels: Record<string, string> = {
   company: "Company",
   team: "Team",
-  agent: "Agent",
+  agent: "Member",
   task: "Task",
 };
 

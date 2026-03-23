@@ -190,14 +190,17 @@ function scrollToContainerBottom(container: ScrollContainer, behavior: ScrollBeh
   container.scrollTo({ top: container.scrollHeight, behavior });
 }
 
-type AgentDetailView = "dashboard" | "member" | "configuration" | "skills" | "runs" | "budget";
+type AgentDetailView = "dashboard" | "identity" | "organization" | "capabilities" | "engine" | "runs" | "costs";
 
 function parseAgentDetailView(value: string | null): AgentDetailView {
-  if (value === "member") return "member";
-  if (value === "configure" || value === "configuration") return "configuration";
-  if (value === "skills") return value;
-  if (value === "budget") return value;
+  if (value === "identity") return "identity";
+  if (value === "organization") return "organization";
+  if (value === "capabilities") return "capabilities";
+  if (value === "engine" || value === "configure" || value === "configuration") return "engine";
   if (value === "runs") return value;
+  if (value === "costs" || value === "budget") return "costs";
+  // Legacy: redirect old "member" tab to identity
+  if (value === "member") return "identity";
   return "dashboard";
 }
 
@@ -585,15 +588,19 @@ export function AgentDetail() {
       return;
     }
     const canonicalTab =
-      activeView === "configuration"
-        ? "configuration"
-        : activeView === "skills"
-          ? "skills"
-          : activeView === "runs"
-            ? "runs"
-            : activeView === "budget"
-              ? "budget"
-            : "dashboard";
+      activeView === "identity"
+        ? "identity"
+        : activeView === "organization"
+          ? "organization"
+          : activeView === "capabilities"
+            ? "capabilities"
+            : activeView === "engine"
+              ? "engine"
+              : activeView === "runs"
+                ? "runs"
+                : activeView === "costs"
+                  ? "costs"
+                  : "dashboard";
     if (routeAgentRef !== canonicalAgentRef || urlTab !== canonicalTab) {
       navigate(`/agents/${canonicalAgentRef}/${canonicalTab}`, { replace: true });
       return;
@@ -706,16 +713,20 @@ export function AgentDetail() {
       if (urlRunId) {
         crumbs.push({ label: t("agentDetail.runs"), href: `/agents/${canonicalAgentRef}/runs` });
         crumbs.push({ label: t("agentDetail.run", { id: urlRunId.slice(0, 8) }) });
-      } else if (activeView === "configuration") {
-        crumbs.push({ label: t("agentDetail.configuration") });
-      // } else if (activeView === "skills") { // TODO: bring back later
-      //   crumbs.push({ label: "Skills" });
+      } else if (activeView === "identity") {
+        crumbs.push({ label: t("teamMember.tabs.identity") });
+      } else if (activeView === "organization") {
+        crumbs.push({ label: t("teamMember.tabs.organization") });
+      } else if (activeView === "capabilities") {
+        crumbs.push({ label: t("teamMember.tabs.capabilities") });
+      } else if (activeView === "engine") {
+        crumbs.push({ label: t("teamMember.tabs.engine") });
       } else if (activeView === "runs") {
         crumbs.push({ label: t("agentDetail.runs") });
-      } else if (activeView === "budget") {
-        crumbs.push({ label: t("agentDetail.budget") });
+      } else if (activeView === "costs") {
+        crumbs.push({ label: t("agentDetail.costs") });
       } else {
-        crumbs.push({ label: t("agentDetail.dashboard") });
+        crumbs.push({ label: t("agentDetail.overview") });
       }
     }
     setBreadcrumbs(crumbs);
@@ -741,7 +752,7 @@ export function AgentDetail() {
     return <Navigate to={`/agents/${canonicalAgentRef}/dashboard`} replace />;
   }
   const isPendingApproval = agent.status === "pending_approval";
-  const showConfigActionBar = activeView === "configuration" && (configDirty || configSaving);
+  const showConfigActionBar = activeView === "engine" && (configDirty || configSaving);
 
   return (
     <div className={cn("space-y-6", isMobile && showConfigActionBar && "pb-24")}>
@@ -752,16 +763,40 @@ export function AgentDetail() {
             value={agent.icon}
             onChange={(icon) => updateIcon.mutate(icon)}
           >
-            <button className="shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-accent hover:bg-accent/80 transition-colors">
-              <AgentIcon icon={agent.icon} className="h-6 w-6" />
+            <button className="shrink-0 flex items-center justify-center h-14 w-14 rounded-xl bg-accent hover:bg-accent/80 transition-colors">
+              <AgentIcon icon={agent.icon} className="h-7 w-7" />
             </button>
           </AgentIconPicker>
           <div className="min-w-0">
-            <h2 className="text-2xl font-bold truncate">{agent.name}</h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-bold truncate">{agent.name}</h2>
+              <span className="hidden sm:inline"><StatusBadge status={agent.status} /></span>
+            </div>
             <p className="text-sm text-muted-foreground truncate">
-              {roleLabels[agent.role] ?? agent.role}
-              {agent.title ? ` - ${agent.title}` : ""}
+              {agent.title ?? (roleLabels[agent.role] ?? agent.role)}
+              <span className="mx-1.5">·</span>
+              {adapterLabels[agent.adapterType] ?? agent.adapterType}
             </p>
+            {agentBudgetSummary.isActive && (
+              <div className="flex items-center gap-2 mt-1">
+                <div className="h-1.5 w-24 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className={cn(
+                      "h-full rounded-full transition-all",
+                      agentBudgetSummary.utilizationPercent >= 90
+                        ? "bg-red-500"
+                        : agentBudgetSummary.utilizationPercent >= 70
+                          ? "bg-yellow-500"
+                          : "bg-green-500",
+                    )}
+                    style={{ width: `${Math.min(100, agentBudgetSummary.utilizationPercent)}%` }}
+                  />
+                </div>
+                <span className="text-[11px] text-muted-foreground tabular-nums">
+                  {formatCents(agentBudgetSummary.observedAmount)} / {formatCents(agentBudgetSummary.amount)}
+                </span>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
@@ -803,7 +838,6 @@ export function AgentDetail() {
               <span className="hidden sm:inline">{t("agentDetail.pause")}</span>
             </Button>
           )}
-          <span className="hidden sm:inline"><StatusBadge status={agent.status} /></span>
           {mobileLiveRun && (
             <Link
               to={`/agents/${canonicalAgentRef}/runs/${mobileLiveRun.id}`}
@@ -867,12 +901,13 @@ export function AgentDetail() {
         >
           <PageTabBar
             items={[
-              { value: "dashboard", label: t("agentDetail.dashboard") },
-              { value: "member", label: t("agentDetail.teamMember") },
-              { value: "configuration", label: t("agentDetail.configuration") },
-              // { value: "skills", label: "Skills" }, // TODO: bring back later
+              { value: "dashboard", label: t("agentDetail.overview") },
+              { value: "identity", label: t("teamMember.tabs.identity") },
+              { value: "organization", label: t("teamMember.tabs.organization") },
+              { value: "capabilities", label: t("teamMember.tabs.capabilities") },
+              { value: "engine", label: t("teamMember.tabs.engine") },
               { value: "runs", label: t("agentDetail.runs") },
-              { value: "budget", label: t("agentDetail.budget") },
+              { value: "costs", label: t("agentDetail.costs") },
             ]}
             value={activeView}
             onValueChange={(value) => navigate(`/agents/${canonicalAgentRef}/${value}`)}
@@ -950,7 +985,25 @@ export function AgentDetail() {
         />
       )}
 
-      {activeView === "configuration" && (
+      {activeView === "identity" && (
+        <IdentityTab agent={agent} companyId={resolvedCompanyId ?? ""} />
+      )}
+
+      {activeView === "organization" && (
+        <OrganizationTab
+          agent={agent}
+          companyId={resolvedCompanyId ?? ""}
+          agentBudgetSummary={agentBudgetSummary}
+          budgetMutation={budgetMutation}
+          updatePermissions={updatePermissions}
+        />
+      )}
+
+      {activeView === "capabilities" && (
+        <CapabilitiesTab agent={agent} />
+      )}
+
+      {activeView === "engine" && (
         <AgentConfigurePage
           agent={agent}
           agentId={agent.id}
@@ -959,15 +1012,8 @@ export function AgentDetail() {
           onSaveActionChange={setSaveConfigAction}
           onCancelActionChange={setCancelConfigAction}
           onSavingChange={setConfigSaving}
-          updatePermissions={updatePermissions}
         />
       )}
-
-      {/* {activeView === "skills" && (
-        <SkillsTab
-          agent={agent}
-        />
-      )} */}{/* TODO: bring back later */}
 
       {activeView === "runs" && (
         <RunsTab
@@ -980,19 +1026,14 @@ export function AgentDetail() {
         />
       )}
 
-      {activeView === "budget" && resolvedCompanyId ? (
-        <div className="max-w-3xl">
-          <BudgetPolicyCard
-            summary={agentBudgetSummary}
-            isSaving={budgetMutation.isPending}
-            onSave={(amount) => budgetMutation.mutate(amount)}
-            variant="plain"
-          />
-        </div>
-      ) : null}
-
-      {activeView === "member" && (
-        <TeamMemberTab agent={agent} companyId={resolvedCompanyId ?? ""} />
+      {activeView === "costs" && (
+        <CostsTab
+          runtimeState={runtimeState}
+          runs={heartbeats ?? []}
+          agentBudgetSummary={agentBudgetSummary}
+          budgetMutation={budgetMutation}
+          resolvedCompanyId={resolvedCompanyId}
+        />
       )}
     </div>
   );
@@ -1246,7 +1287,6 @@ function AgentConfigurePage({
   onSaveActionChange,
   onCancelActionChange,
   onSavingChange,
-  updatePermissions,
 }: {
   agent: Agent;
   agentId: string;
@@ -1255,7 +1295,6 @@ function AgentConfigurePage({
   onSaveActionChange: (save: (() => void) | null) => void;
   onCancelActionChange: (cancel: (() => void) | null) => void;
   onSavingChange: (saving: boolean) => void;
-  updatePermissions: { mutate: (canCreate: boolean) => void; isPending: boolean };
 }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -1283,13 +1322,8 @@ function AgentConfigurePage({
         onSaveActionChange={onSaveActionChange}
         onCancelActionChange={onCancelActionChange}
         onSavingChange={onSavingChange}
-        updatePermissions={updatePermissions}
         companyId={companyId}
       />
-      <div>
-        <h3 className="text-sm font-medium mb-3">{t("agentDetail.apiKeys")}</h3>
-        <KeysTab agentId={agentId} companyId={companyId} />
-      </div>
 
       {/* Configuration Revisions — collapsible at the bottom */}
       <div>
@@ -1354,7 +1388,6 @@ function ConfigurationTab({
   onSaveActionChange,
   onCancelActionChange,
   onSavingChange,
-  updatePermissions,
 }: {
   agent: Agent;
   companyId?: string;
@@ -1362,7 +1395,6 @@ function ConfigurationTab({
   onSaveActionChange: (save: (() => void) | null) => void;
   onCancelActionChange: (cancel: (() => void) | null) => void;
   onSavingChange: (saving: boolean) => void;
-  updatePermissions: { mutate: (canCreate: boolean) => void; isPending: boolean };
 }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -1420,26 +1452,6 @@ function ConfigurationTab({
         hideInlineSave
         sectionLayout="cards"
       />
-
-      <div>
-        <h3 className="text-sm font-medium mb-3">{t("teamMember.organization.permissions")}</h3>
-        <div className="border border-border rounded-lg p-4">
-          <div className="flex items-center justify-between text-sm">
-            <span>{t("agentDetail.canCreateNewAgents")}</span>
-            <Button
-              variant={agent.permissions?.canCreateAgents ? "default" : "outline"}
-              size="sm"
-              className="h-7 px-2.5 text-xs"
-              onClick={() =>
-                updatePermissions.mutate(!Boolean(agent.permissions?.canCreateAgents))
-              }
-              disabled={updatePermissions.isPending}
-            >
-              {agent.permissions?.canCreateAgents ? t("agentDetail.enabled") : t("agentDetail.disabled")}
-            </Button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
@@ -2835,18 +2847,25 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
 
 /* ---- Team Member Tab (Phase 4: Unified 4-layer model) ---- */
 
-function TeamMemberTab({ agent, companyId }: { agent: Agent; companyId: string }) {
+/* ---- Identity Tab ---- */
+
+function IdentityTab({ agent, companyId }: { agent: Agent; companyId: string }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const [tab, setTab] = useState<"identity" | "organization" | "capabilities" | "engine">("identity");
   const [form, setForm] = useState<Partial<Agent> | null>(null);
   const current = { ...agent, ...form };
+
+  const instructionsPath =
+    typeof agent.adapterConfig?.instructionsFilePath === "string" && agent.adapterConfig.instructionsFilePath.trim().length > 0
+      ? agent.adapterConfig.instructionsFilePath
+      : null;
 
   const mutation = useMutation({
     mutationFn: (data: Partial<Agent>) =>
       agentsApi.update(agent.id, data as Record<string, unknown>),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.agents.detail(agent.id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.detail(agent.urlKey) });
       setForm(null);
     },
   });
@@ -2855,237 +2874,343 @@ function TeamMemberTab({ agent, companyId }: { agent: Agent; companyId: string }
     setForm({ ...(form ?? {}), [field]: value });
   }
 
-  function handleSave() {
-    if (!form) return;
-    mutation.mutate(form);
-  }
-
-  const tabItems = [
-    { value: "identity" as const, label: t("teamMember.tabs.identity") },
-    { value: "organization" as const, label: t("teamMember.tabs.organization") },
-    { value: "capabilities" as const, label: t("teamMember.tabs.capabilities") },
-    { value: "engine" as const, label: t("teamMember.tabs.engine") },
-  ];
-
   return (
     <div className="max-w-3xl space-y-6">
-      {/* Sub-tab bar */}
-      <div className="flex gap-1 border-b border-border">
-        {tabItems.map((item) => (
-          <button
-            key={item.value}
-            onClick={() => setTab(item.value)}
-            className={cn(
-              "px-3 py-2 text-sm font-medium border-b-2 transition-colors",
-              tab === item.value
-                ? "border-primary text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Identity tab */}
-      {tab === "identity" && (
-        <div className="rounded-lg border border-border bg-card p-6 space-y-5">
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.identity.name")}</label>
+      <div className="rounded-lg border border-border bg-card p-6 space-y-5">
+        <div>
+          <label className="block text-sm font-medium">{t("teamMember.identity.name")}</label>
+          <input
+            type="text"
+            value={current.name}
+            onChange={(e) => handleChange("name", e.target.value)}
+            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">{t("teamMember.identity.soul")}</label>
+          <p className="text-xs text-muted-foreground mt-0.5">{t("teamMember.identity.soulDescription")}</p>
+          <textarea
+            value={current.soul ?? ""}
+            onChange={(e) => handleChange("soul", e.target.value || null)}
+            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[120px]"
+            placeholder={t("teamMember.identity.soulPlaceholder")}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">{t("teamMember.identity.avatar")}</label>
+          <div className="mt-1 flex items-center gap-3">
+            <AgentIconPicker
+              value={current.icon}
+              onChange={(icon) => handleChange("icon", icon)}
+            >
+              <button className="shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-accent hover:bg-accent/80 transition-colors">
+                <AgentIcon icon={current.icon} className="h-5 w-5" />
+              </button>
+            </AgentIconPicker>
             <input
               type="text"
-              value={current.name}
-              onChange={(e) => handleChange("name", e.target.value)}
-              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={current.icon ?? ""}
+              onChange={(e) => handleChange("icon", e.target.value || null)}
+              className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+              placeholder={t("agentDetail.iconName")}
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.identity.soul")}</label>
-            <p className="text-xs text-muted-foreground mt-0.5">{t("teamMember.identity.soulDescription")}</p>
-            <textarea
-              value={current.soul ?? ""}
-              onChange={(e) => handleChange("soul", e.target.value || null)}
-              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[120px]"
-              placeholder={t("teamMember.identity.soulPlaceholder")}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.identity.avatar")}</label>
-            <div className="mt-1 flex items-center gap-3">
-              {current.icon && (
-                <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center text-lg">
-                  {current.icon}
-                </div>
-              )}
-              <input
-                type="text"
-                value={current.icon ?? ""}
-                onChange={(e) => handleChange("icon", e.target.value || null)}
-                className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                placeholder={t("agentDetail.iconName")}
-              />
-            </div>
-          </div>
-          {companyId && (
-            <div>
-              <label className="block text-sm font-medium">{t("teamMember.identity.memory")}</label>
-              <div className="mt-1">
-                <Link
-                  to="/memory"
-                  className="text-sm text-primary hover:underline"
-                >
-                  {t("teamMember.identity.viewMemory")} →
-                </Link>
-              </div>
-            </div>
-          )}
         </div>
-      )}
-
-      {/* Organization tab */}
-      {tab === "organization" && (
-        <div className="rounded-lg border border-border bg-card p-6 space-y-5">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium">{t("teamMember.organization.role")}</label>
-              <input
-                type="text"
-                value={current.role}
-                onChange={(e) => handleChange("role", e.target.value)}
-                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">{t("teamMember.organization.title")}</label>
-              <input
-                type="text"
-                value={current.title ?? ""}
-                onChange={(e) => handleChange("title", e.target.value || null)}
-                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              />
-            </div>
+        <div>
+          <label className="block text-sm font-medium">{t("agentDetail.instructionsFile")}</label>
+          <div className="mt-1 rounded-md border border-border bg-muted/30 px-3 py-2 text-sm font-mono break-all">
+            {instructionsPath ?? <span className="text-muted-foreground">{t("agentDetail.noInstructionsFile")}</span>}
           </div>
+        </div>
+        {companyId && (
           <div>
-            <label className="block text-sm font-medium">{t("teamMember.organization.status")}</label>
+            <label className="block text-sm font-medium">{t("teamMember.identity.memory")}</label>
             <div className="mt-1">
-              <Badge variant={current.status === "active" || current.status === "idle" ? "default" : "secondary"}>
-                {current.status}
-              </Badge>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium">{t("teamMember.organization.budget")}</label>
-              <div className="mt-1 text-sm">
-                {formatCents(current.budgetMonthlyCents)}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium">{t("teamMember.organization.spent")}</label>
-              <div className="mt-1 text-sm">
-                {formatCents(current.spentMonthlyCents)}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Capabilities tab */}
-      {tab === "capabilities" && (
-        <div className="rounded-lg border border-border bg-card p-6 space-y-5">
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.capabilities.jobDescription")}</label>
-            <textarea
-              value={current.capabilities ?? ""}
-              onChange={(e) => handleChange("capabilities", e.target.value || null)}
-              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[120px]"
-              placeholder={t("teamMember.capabilities.jobDescriptionPlaceholder")}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.capabilities.skills")}</label>
-            <p className="mt-1 text-sm text-muted-foreground">
-              <Link to="/settings/skills" className="text-primary hover:underline">
-                {t("teamMember.capabilities.skills")}
-              </Link>
-              {" — "}
-              {t("skills.description")}
-            </p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.capabilities.channels")}</label>
-            <p className="mt-1 text-sm text-muted-foreground">
-              <Link to="/settings/channels" className="text-primary hover:underline">
-                {t("teamMember.capabilities.channels")}
-              </Link>
-              {" — "}
-              {t("channels.description")}
-            </p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.capabilities.cronTasks")}</label>
-            <p className="mt-1 text-sm text-muted-foreground">
-              <Link to="/settings/cron" className="text-primary hover:underline">
-                {t("teamMember.capabilities.cronTasks")}
-              </Link>
-              {" — "}
-              {t("cron.description")}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Engine tab */}
-      {tab === "engine" && (
-        <div className="rounded-lg border border-border bg-card p-6 space-y-5">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium">{t("teamMember.engine.engineType")}</label>
-              <select
-                value={current.engineType ?? "process"}
-                onChange={(e) => handleChange("engineType", e.target.value)}
-                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              <Link
+                to="/memory"
+                className="text-sm text-primary hover:underline"
               >
-                {(["openclaw", "claude_local", "codex_local", "http", "process"] as const).map((type) => (
-                  <option key={type} value={type}>
-                    {t(`teamMember.engineTypes.${type}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium">{t("teamMember.engine.adapterType")}</label>
-              <div className="mt-1 text-sm text-muted-foreground">
-                {adapterLabels[current.adapterType] ?? current.adapterType}
-              </div>
+                {t("teamMember.identity.viewMemory")} →
+              </Link>
             </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.engine.adapterConfig")}</label>
-            <pre className="mt-1 rounded-md border border-border bg-muted/30 p-3 text-xs font-mono max-h-48 overflow-auto">
-              {JSON.stringify(current.adapterConfig, null, 2)}
-            </pre>
-          </div>
-          <div>
-            <label className="block text-sm font-medium">{t("teamMember.engine.runtimeConfig")}</label>
-            <pre className="mt-1 rounded-md border border-border bg-muted/30 p-3 text-xs font-mono max-h-48 overflow-auto">
-              {JSON.stringify(current.runtimeConfig, null, 2)}
-            </pre>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Save button */}
       {form !== null && (
         <div className="flex items-center justify-end gap-2">
           <Button variant="outline" size="sm" onClick={() => setForm(null)}>
             {t("common.cancel")}
           </Button>
-          <Button size="sm" onClick={handleSave} disabled={mutation.isPending}>
+          <Button size="sm" onClick={() => form && mutation.mutate(form)} disabled={mutation.isPending}>
             {mutation.isPending ? t("common.saving") : t("teamMember.saveChanges")}
           </Button>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ---- Organization Tab ---- */
+
+function OrganizationTab({
+  agent,
+  companyId,
+  agentBudgetSummary,
+  budgetMutation,
+  updatePermissions,
+}: {
+  agent: Agent;
+  companyId: string;
+  agentBudgetSummary: BudgetPolicySummary;
+  budgetMutation: { mutate: (amount: number) => void; isPending: boolean };
+  updatePermissions: { mutate: (canCreate: boolean) => void; isPending: boolean };
+}) {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const [form, setForm] = useState<Partial<Agent> | null>(null);
+  const current = { ...agent, ...form };
+
+  const mutation = useMutation({
+    mutationFn: (data: Partial<Agent>) =>
+      agentsApi.update(agent.id, data as Record<string, unknown>),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.detail(agent.id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.detail(agent.urlKey) });
+      setForm(null);
+    },
+  });
+
+  function handleChange(field: string, value: unknown) {
+    setForm({ ...(form ?? {}), [field]: value });
+  }
+
+  return (
+    <div className="max-w-3xl space-y-6">
+      {/* Role & Title */}
+      <div className="rounded-lg border border-border bg-card p-6 space-y-5">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.organization.role")}</label>
+            <input
+              type="text"
+              value={current.role}
+              onChange={(e) => handleChange("role", e.target.value)}
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">{t("teamMember.organization.title")}</label>
+            <input
+              type="text"
+              value={current.title ?? ""}
+              onChange={(e) => handleChange("title", e.target.value || null)}
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            />
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium">{t("teamMember.organization.status")}</label>
+          <div className="mt-1">
+            <Badge variant={current.status === "active" || current.status === "idle" ? "default" : "secondary"}>
+              {current.status}
+            </Badge>
+          </div>
+        </div>
+      </div>
+
+      {/* Budget policy card */}
+      {companyId && (
+        <div>
+          <h3 className="text-sm font-medium mb-3">{t("teamMember.organization.budget")}</h3>
+          <BudgetPolicyCard
+            summary={agentBudgetSummary}
+            isSaving={budgetMutation.isPending}
+            onSave={(amount) => budgetMutation.mutate(amount)}
+            variant="plain"
+          />
+        </div>
+      )}
+
+      {/* Permissions */}
+      <div>
+        <h3 className="text-sm font-medium mb-3">{t("teamMember.organization.permissions")}</h3>
+        <div className="border border-border rounded-lg p-4">
+          <div className="flex items-center justify-between text-sm">
+            <span>{t("agentDetail.canCreateNewAgents")}</span>
+            <Button
+              variant={agent.permissions?.canCreateAgents ? "default" : "outline"}
+              size="sm"
+              className="h-7 px-2.5 text-xs"
+              onClick={() =>
+                updatePermissions.mutate(!Boolean(agent.permissions?.canCreateAgents))
+              }
+              disabled={updatePermissions.isPending}
+            >
+              {agent.permissions?.canCreateAgents ? t("agentDetail.enabled") : t("agentDetail.disabled")}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* API Keys */}
+      <div>
+        <h3 className="text-sm font-medium mb-3">{t("agentDetail.apiKeys")}</h3>
+        <KeysTab agentId={agent.id} companyId={companyId || undefined} />
+      </div>
+
+      {form !== null && (
+        <div className="flex items-center justify-end gap-2">
+          <Button variant="outline" size="sm" onClick={() => setForm(null)}>
+            {t("common.cancel")}
+          </Button>
+          <Button size="sm" onClick={() => form && mutation.mutate(form)} disabled={mutation.isPending}>
+            {mutation.isPending ? t("common.saving") : t("teamMember.saveChanges")}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---- Capabilities Tab ---- */
+
+function CapabilitiesTab({ agent }: { agent: Agent }) {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const [form, setForm] = useState<Partial<Agent> | null>(null);
+  const current = { ...agent, ...form };
+
+  const mutation = useMutation({
+    mutationFn: (data: Partial<Agent>) =>
+      agentsApi.update(agent.id, data as Record<string, unknown>),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.detail(agent.id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.detail(agent.urlKey) });
+      setForm(null);
+    },
+  });
+
+  function handleChange(field: string, value: unknown) {
+    setForm({ ...(form ?? {}), [field]: value });
+  }
+
+  const { data: skillsData, isLoading: skillsLoading, error: skillsError } = useQuery({
+    queryKey: queryKeys.skills.available,
+    queryFn: () => agentsApi.availableSkills(),
+  });
+  const skills = skillsData?.skills ?? [];
+
+  return (
+    <div className="max-w-3xl space-y-6">
+      {/* Job description */}
+      <div className="rounded-lg border border-border bg-card p-6 space-y-5">
+        <div>
+          <label className="block text-sm font-medium">{t("teamMember.capabilities.jobDescription")}</label>
+          <textarea
+            value={current.capabilities ?? ""}
+            onChange={(e) => handleChange("capabilities", e.target.value || null)}
+            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[120px]"
+            placeholder={t("teamMember.capabilities.jobDescriptionPlaceholder")}
+          />
+        </div>
+      </div>
+
+      {/* Skills */}
+      <div className="rounded-lg border border-border bg-card p-6 space-y-4">
+        <h3 className="text-sm font-medium">{t("teamMember.capabilities.skills")}</h3>
+        {skillsLoading ? (
+          <p className="text-sm text-muted-foreground">{t("agentDetail.loadingAvailableSkills")}</p>
+        ) : skillsError ? (
+          <p className="text-sm text-destructive">
+            {skillsError instanceof Error ? skillsError.message : t("agentDetail.failedToLoadSkills")}
+          </p>
+        ) : skills.length === 0 ? (
+          <p className="text-sm text-muted-foreground">{t("agentDetail.noLocalSkillsWereFound")}</p>
+        ) : (
+          <div className="space-y-2">
+            {skills.map((skill) => (
+              <SkillRow key={skill.name} skill={skill} />
+            ))}
+          </div>
+        )}
+        <p className="text-xs text-muted-foreground">
+          <Link to="/settings/skills" className="text-primary hover:underline">
+            {t("agentDetail.manageSkills")}
+          </Link>
+        </p>
+      </div>
+
+      {/* Channels */}
+      <div className="rounded-lg border border-border bg-card p-6 space-y-3">
+        <h3 className="text-sm font-medium">{t("teamMember.capabilities.channels")}</h3>
+        <p className="text-sm text-muted-foreground">
+          <Link to="/settings/channels" className="text-primary hover:underline">
+            {t("agentDetail.manageChannels")}
+          </Link>
+        </p>
+      </div>
+
+      {/* Cron Tasks */}
+      <div className="rounded-lg border border-border bg-card p-6 space-y-3">
+        <h3 className="text-sm font-medium">{t("teamMember.capabilities.cronTasks")}</h3>
+        <p className="text-sm text-muted-foreground">
+          <Link to="/settings/cron" className="text-primary hover:underline">
+            {t("agentDetail.manageCronTasks")}
+          </Link>
+        </p>
+      </div>
+
+      {form !== null && (
+        <div className="flex items-center justify-end gap-2">
+          <Button variant="outline" size="sm" onClick={() => setForm(null)}>
+            {t("common.cancel")}
+          </Button>
+          <Button size="sm" onClick={() => form && mutation.mutate(form)} disabled={mutation.isPending}>
+            {mutation.isPending ? t("common.saving") : t("teamMember.saveChanges")}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---- Costs Tab ---- */
+
+function CostsTab({
+  runtimeState,
+  runs,
+  agentBudgetSummary,
+  budgetMutation,
+  resolvedCompanyId,
+}: {
+  runtimeState?: AgentRuntimeState;
+  runs: HeartbeatRun[];
+  agentBudgetSummary: BudgetPolicySummary;
+  budgetMutation: { mutate: (amount: number) => void; isPending: boolean };
+  resolvedCompanyId: string | null;
+}) {
+  const { t } = useTranslation();
+
+  return (
+    <div className="space-y-8">
+      {/* Budget policy */}
+      {resolvedCompanyId && (
+        <div className="max-w-3xl">
+          <BudgetPolicyCard
+            summary={agentBudgetSummary}
+            isSaving={budgetMutation.isPending}
+            onSave={(amount) => budgetMutation.mutate(amount)}
+            variant="plain"
+          />
+        </div>
+      )}
+
+      {/* Cost breakdown */}
+      <div className="space-y-3">
+        <h3 className="text-sm font-medium">{t("agentDetail.costBreakdown")}</h3>
+        <CostsSection runtimeState={runtimeState} runs={runs} />
+      </div>
     </div>
   );
 }
