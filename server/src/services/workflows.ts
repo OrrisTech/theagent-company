@@ -1,4 +1,5 @@
 import { and, asc, desc, eq, sql, count, max, inArray } from "drizzle-orm";
+import { execSync } from "node:child_process";
 import type { Db } from "@paperclipai/db";
 import {
   workflows,
@@ -7,6 +8,9 @@ import {
   workflowRuns,
   workflowStepRuns,
   workflowTemplates,
+  agents,
+  heartbeatRuns,
+  agentWakeupRequests,
 } from "@paperclipai/db";
 import type {
   WorkflowRunStatus,
@@ -21,6 +25,12 @@ import type {
   WorkflowSummary,
   WorkflowStepConditionConfig,
   WorkflowStepLoopConfig,
+  WorkflowStepPromptConfig,
+  WorkflowStepApiConfig,
+  WorkflowStepCliConfig,
+  WorkflowStepSkillConfig,
+  WorkflowStepToolUseConfig,
+  WorkflowStepWorkflowConfig,
 } from "@paperclipai/shared";
 import {
   WORKFLOW_DEFAULT_SYSTEM_CONCURRENCY,
@@ -717,37 +727,493 @@ export function workflowService(db: Db) {
 
         switch (step.type) {
           case "prompt": {
-            // In a real implementation, this would call the LLM via the agent engine.
-            // For now, record the resolved prompt as output.
-            output = { type: "prompt", resolvedInput, status: "executed" };
-            costCents = 0;
+            const cfg = resolvedInput as WorkflowStepPromptConfig;
+            const promptText = cfg.prompt;
+            if (!promptText) throw new Error("Prompt step is missing a 'prompt' field in config");
+
+            const apiKey = process.env.OPENAI_API_KEY;
+            if (apiKey) {
+              // Direct LLM call via OpenAI-compatible API
+              const model = cfg.model ?? "gpt-4o-mini";
+              const timeoutMs = (step.timeoutSeconds ?? 120) * 1000;
+              const controller = new AbortController();
+              const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+              try {
+                const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${apiKey}`,
+                  },
+                  body: JSON.stringify({
+                    model,
+                    messages: [{ role: "user", content: promptText }],
+                  }),
+                  signal: controller.signal,
+                });
+
+                if (!resp.ok) {
+                  const errBody = await resp.text().catch(() => "");
+                  throw new Error(`LLM API returned ${resp.status}: ${errBody.slice(0, 500)}`);
+                }
+
+                const json = (await resp.json()) as {
+                  choices?: Array<{ message?: { content?: string } }>;
+                  usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number };
+                };
+                const responseText = json.choices?.[0]?.message?.content ?? "";
+                const usage = json.usage ?? {};
+                const inputTokens = usage.prompt_tokens ?? 0;
+                const outputTokens = usage.completion_tokens ?? 0;
+                const tokensUsed = usage.total_tokens ?? inputTokens + outputTokens;
+
+                // Cost estimate: gpt-4o-mini ~$0.15/1M input, $0.60/1M output
+                costCents =
+                  Math.round(
+                    (inputTokens * 0.015 + outputTokens * 0.06) / 1000,
+                  ) || 0; // cents
+
+                output = {
+                  type: "prompt",
+                  response: responseText,
+                  model,
+                  tokensUsed,
+                  inputTokens,
+                  outputTokens,
+                };
+              } finally {
+                clearTimeout(timer);
+              }
+            } else {
+              // No API key — try to queue via heartbeat for the workflow's agent
+              const run = await db
+                .select()
+                .from(workflowRuns)
+                .where(eq(workflowRuns.id, runId))
+                .then((r) => r[0]);
+              const agentId = run?.agentId;
+              if (!agentId) {
+                throw new Error(
+                  "Prompt step failed: no OPENAI_API_KEY set and no agent assigned to the workflow run",
+                );
+              }
+
+              const wakeupRequest = await db
+                .insert(agentWakeupRequests)
+                .values({
+                  companyId: run.companyId,
+                  agentId,
+                  source: "automation",
+                  triggerDetail: "system",
+                  reason: `workflow_prompt:${runId}:${step.stepIndex}`,
+                  payload: { prompt: promptText },
+                  status: "pending",
+                })
+                .returning()
+                .then((rows) => rows[0]!);
+
+              const hbRun = await db
+                .insert(heartbeatRuns)
+                .values({
+                  companyId: run.companyId,
+                  agentId,
+                  invocationSource: "automation",
+                  triggerDetail: "system",
+                  status: "queued",
+                  wakeupRequestId: wakeupRequest.id,
+                  contextSnapshot: {
+                    source: "workflow",
+                    workflowRunId: runId,
+                    stepIndex: step.stepIndex,
+                    wakeReason: promptText,
+                  },
+                })
+                .returning()
+                .then((rows) => rows[0]!);
+
+              // Poll for completion (max timeout from step or 5 min)
+              const maxWaitMs = (step.timeoutSeconds ?? 300) * 1000;
+              const pollIntervalMs = 3000;
+              const deadline = Date.now() + maxWaitMs;
+              let completedRun: typeof hbRun | null = null;
+
+              while (Date.now() < deadline) {
+                await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
+                const current = await db
+                  .select()
+                  .from(heartbeatRuns)
+                  .where(eq(heartbeatRuns.id, hbRun.id))
+                  .then((r) => r[0] ?? null);
+
+                if (current && current.status !== "queued" && current.status !== "running") {
+                  completedRun = current;
+                  break;
+                }
+              }
+
+              if (!completedRun) {
+                throw new Error(
+                  `Prompt step timed out waiting for heartbeat run ${hbRun.id} after ${maxWaitMs / 1000}s`,
+                );
+              }
+
+              if (completedRun.status === "failed" || completedRun.status === "error") {
+                throw new Error(
+                  `Heartbeat run ${hbRun.id} failed: ${completedRun.error ?? "unknown error"}`,
+                );
+              }
+
+              output = {
+                type: "prompt",
+                response: completedRun.resultJson ?? completedRun.error ?? "",
+                model: "agent",
+                tokensUsed: 0,
+                heartbeatRunId: hbRun.id,
+              };
+              costCents = 0;
+            }
             break;
           }
           case "skill": {
-            output = { type: "skill", resolvedInput, status: "executed" };
+            const cfg = resolvedInput as WorkflowStepSkillConfig;
+            if (!cfg.skillId) throw new Error("Skill step is missing a 'skillId' in config");
+
+            // Queue a heartbeat run for the workflow's agent with the skill instruction
+            const run = await db
+              .select()
+              .from(workflowRuns)
+              .where(eq(workflowRuns.id, runId))
+              .then((r) => r[0]);
+            const agentId = run?.agentId;
+            if (!agentId) {
+              throw new Error("Skill step failed: no agent assigned to the workflow run");
+            }
+
+            const wakeupRequest = await db
+              .insert(agentWakeupRequests)
+              .values({
+                companyId: run.companyId,
+                agentId,
+                source: "automation",
+                triggerDetail: "system",
+                reason: `workflow_skill:${runId}:${step.stepIndex}`,
+                payload: { skillId: cfg.skillId, params: cfg.params },
+                status: "pending",
+              })
+              .returning()
+              .then((rows) => rows[0]!);
+
+            const hbRun = await db
+              .insert(heartbeatRuns)
+              .values({
+                companyId: run.companyId,
+                agentId,
+                invocationSource: "automation",
+                triggerDetail: "system",
+                status: "queued",
+                wakeupRequestId: wakeupRequest.id,
+                contextSnapshot: {
+                  source: "workflow",
+                  workflowRunId: runId,
+                  stepIndex: step.stepIndex,
+                  skillId: cfg.skillId,
+                  wakeReason: `Execute skill: ${cfg.skillId}`,
+                  ...(cfg.params ? { skillParams: cfg.params } : {}),
+                },
+              })
+              .returning()
+              .then((rows) => rows[0]!);
+
+            output = {
+              type: "skill",
+              skillId: cfg.skillId,
+              status: "queued",
+              runId: hbRun.id,
+            };
             costCents = 0;
             break;
           }
           case "api": {
-            // Real implementation would make HTTP calls
-            output = { type: "api", resolvedInput, status: "executed" };
-            costCents = 0;
+            const cfg = resolvedInput as WorkflowStepApiConfig;
+            if (!cfg.url) throw new Error("API step is missing a 'url' in config");
+
+            const method = (cfg.method ?? "GET").toUpperCase();
+            const timeoutMs = (step.timeoutSeconds ?? 30) * 1000;
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+            try {
+              const fetchOpts: RequestInit = {
+                method,
+                headers: {
+                  ...(cfg.headers ?? {}),
+                },
+                signal: controller.signal,
+              };
+
+              if (cfg.body && method !== "GET" && method !== "HEAD") {
+                const bodyStr = typeof cfg.body === "string" ? cfg.body : JSON.stringify(cfg.body);
+                fetchOpts.body = bodyStr;
+                // Set content-type if not already set
+                const hdrs = fetchOpts.headers as Record<string, string>;
+                if (!hdrs["Content-Type"] && !hdrs["content-type"]) {
+                  hdrs["Content-Type"] = "application/json";
+                }
+              }
+
+              const resp = await fetch(cfg.url, fetchOpts);
+
+              const contentType = resp.headers.get("content-type") ?? "";
+              let body: unknown;
+              if (contentType.includes("application/json")) {
+                body = await resp.json();
+              } else {
+                const text = await resp.text();
+                // Cap response body at 50KB
+                body = text.length > 50_000 ? text.slice(0, 50_000) + "...[truncated]" : text;
+              }
+
+              // Collect response headers
+              const respHeaders: Record<string, string> = {};
+              resp.headers.forEach((value, key) => {
+                respHeaders[key] = value;
+              });
+
+              output = {
+                type: "api",
+                status: resp.status,
+                statusText: resp.statusText,
+                headers: respHeaders,
+                body,
+              };
+              costCents = 0;
+
+              // Treat 4xx/5xx as errors so retry logic can kick in
+              if (!resp.ok) {
+                throw new Error(
+                  `API call to ${cfg.url} returned ${resp.status} ${resp.statusText}`,
+                );
+              }
+            } finally {
+              clearTimeout(timer);
+            }
             break;
           }
           case "cli": {
-            output = { type: "cli", resolvedInput, status: "executed" };
-            costCents = 0;
+            const cfg = resolvedInput as WorkflowStepCliConfig;
+            if (!cfg.command) throw new Error("CLI step is missing a 'command' in config");
+
+            // Basic security: block obviously destructive patterns
+            const dangerousPatterns = [
+              /\brm\s+(-rf?|--recursive)\s+\/\s*$/i,
+              /\brm\s+(-rf?|--recursive)\s+\/\s/i,
+              /\bmkfs\b/i,
+              /\bdd\s+.*of=\/dev\//i,
+              /:(){ :\|:& };:/,
+              /\bfork\s*bomb\b/i,
+            ];
+            for (const pattern of dangerousPatterns) {
+              if (pattern.test(cfg.command)) {
+                throw new Error(
+                  `CLI step blocked: command matches dangerous pattern — "${cfg.command.slice(0, 100)}"`,
+                );
+              }
+            }
+
+            const timeoutMs = (step.timeoutSeconds ?? 60) * 1000;
+            const MAX_OUTPUT = 50 * 1024; // 50KB
+
+            try {
+              const stdout = execSync(cfg.command, {
+                cwd: cfg.cwd || process.env.HOME || "/tmp",
+                timeout: timeoutMs,
+                maxBuffer: MAX_OUTPUT * 2,
+                encoding: "utf-8",
+                stdio: ["pipe", "pipe", "pipe"],
+              });
+
+              const trimmedStdout =
+                stdout.length > MAX_OUTPUT
+                  ? stdout.slice(0, MAX_OUTPUT) + "...[truncated]"
+                  : stdout;
+
+              output = {
+                type: "cli",
+                exitCode: 0,
+                stdout: trimmedStdout,
+                stderr: "",
+              };
+              costCents = 0;
+            } catch (execErr: unknown) {
+              const e = execErr as {
+                status?: number;
+                stdout?: string;
+                stderr?: string;
+                message?: string;
+              };
+              const stdoutStr = (e.stdout ?? "").toString();
+              const stderrStr = (e.stderr ?? "").toString();
+
+              output = {
+                type: "cli",
+                exitCode: e.status ?? 1,
+                stdout:
+                  stdoutStr.length > MAX_OUTPUT
+                    ? stdoutStr.slice(0, MAX_OUTPUT) + "...[truncated]"
+                    : stdoutStr,
+                stderr:
+                  stderrStr.length > MAX_OUTPUT
+                    ? stderrStr.slice(0, MAX_OUTPUT) + "...[truncated]"
+                    : stderrStr,
+              };
+              costCents = 0;
+
+              // Non-zero exit is an error — let retry logic handle it
+              throw new Error(
+                `CLI command exited with code ${e.status ?? 1}: ${stderrStr.slice(0, 500) || stdoutStr.slice(0, 500)}`,
+              );
+            }
             break;
           }
           case "tool_use": {
-            output = { type: "tool_use", resolvedInput, status: "executed" };
+            const cfg = resolvedInput as WorkflowStepToolUseConfig;
+            if (!cfg.toolId) throw new Error("Tool use step is missing a 'toolId' in config");
+
+            // Queue a heartbeat run for the workflow's agent
+            const run = await db
+              .select()
+              .from(workflowRuns)
+              .where(eq(workflowRuns.id, runId))
+              .then((r) => r[0]);
+            const agentId = run?.agentId;
+            if (!agentId) {
+              throw new Error("Tool use step failed: no agent assigned to the workflow run");
+            }
+
+            const wakeupRequest = await db
+              .insert(agentWakeupRequests)
+              .values({
+                companyId: run.companyId,
+                agentId,
+                source: "automation",
+                triggerDetail: "system",
+                reason: `workflow_tool:${runId}:${step.stepIndex}`,
+                payload: { toolId: cfg.toolId, params: cfg.params },
+                status: "pending",
+              })
+              .returning()
+              .then((rows) => rows[0]!);
+
+            const hbRun = await db
+              .insert(heartbeatRuns)
+              .values({
+                companyId: run.companyId,
+                agentId,
+                invocationSource: "automation",
+                triggerDetail: "system",
+                status: "queued",
+                wakeupRequestId: wakeupRequest.id,
+                contextSnapshot: {
+                  source: "workflow",
+                  workflowRunId: runId,
+                  stepIndex: step.stepIndex,
+                  toolId: cfg.toolId,
+                  wakeReason: `Use tool: ${cfg.toolId}`,
+                  ...(cfg.params ? { toolParams: cfg.params } : {}),
+                },
+              })
+              .returning()
+              .then((rows) => rows[0]!);
+
+            output = {
+              type: "tool_use",
+              toolId: cfg.toolId,
+              status: "queued",
+              runId: hbRun.id,
+            };
             costCents = 0;
             break;
           }
           case "workflow": {
-            // Nested workflow execution — trigger the child workflow synchronously
-            output = { type: "workflow", resolvedInput, status: "executed" };
-            costCents = 0;
+            const cfg = resolvedInput as WorkflowStepWorkflowConfig;
+            if (!cfg.workflowId) {
+              throw new Error("Workflow step is missing a 'workflowId' in config");
+            }
+
+            // Get the current run to obtain companyId
+            const currentRun = await db
+              .select()
+              .from(workflowRuns)
+              .where(eq(workflowRuns.id, runId))
+              .then((r) => r[0]);
+            if (!currentRun) throw new Error("Current workflow run not found");
+
+            // Trigger the nested workflow
+            const nestedRun = await triggerRun(
+              cfg.workflowId,
+              currentRun.companyId,
+              "event",
+              {
+                params: (cfg.params as Record<string, unknown>) ?? undefined,
+                agentId: currentRun.agentId ?? undefined,
+              },
+            );
+
+            // Poll for the nested workflow to complete
+            const maxWaitMs = (step.timeoutSeconds ?? 600) * 1000;
+            const pollIntervalMs = 3000;
+            const deadline = Date.now() + maxWaitMs;
+            let completedNestedRun: typeof currentRun | null = null;
+
+            while (Date.now() < deadline) {
+              await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
+              const nr = await db
+                .select()
+                .from(workflowRuns)
+                .where(eq(workflowRuns.id, nestedRun.id))
+                .then((r) => r[0] ?? null);
+
+              if (nr && (nr.status === "succeeded" || nr.status === "failed" || nr.status === "cancelled")) {
+                completedNestedRun = nr;
+                break;
+              }
+            }
+
+            if (!completedNestedRun) {
+              throw new Error(
+                `Nested workflow ${cfg.workflowId} timed out after ${maxWaitMs / 1000}s (run: ${nestedRun.id})`,
+              );
+            }
+
+            if (completedNestedRun.status === "failed") {
+              throw new Error(
+                `Nested workflow ${cfg.workflowId} failed: ${completedNestedRun.error ?? "unknown error"}`,
+              );
+            }
+
+            if (completedNestedRun.status === "cancelled") {
+              throw new Error(`Nested workflow ${cfg.workflowId} was cancelled`);
+            }
+
+            // Get the last step's output from the nested run
+            const nestedStepRuns = await db
+              .select()
+              .from(workflowStepRuns)
+              .where(eq(workflowStepRuns.workflowRunId, nestedRun.id))
+              .orderBy(desc(workflowStepRuns.stepIndex));
+            const lastStepOutput = nestedStepRuns[0]?.output ?? null;
+
+            output = {
+              type: "workflow",
+              workflowId: cfg.workflowId,
+              nestedRunId: nestedRun.id,
+              status: completedNestedRun.status,
+              output: lastStepOutput,
+              totalCostCents: completedNestedRun.totalCostCents,
+              totalDurationMs: completedNestedRun.totalDurationMs,
+            };
+            costCents = completedNestedRun.totalCostCents ?? 0;
             break;
           }
           default:

@@ -18,7 +18,6 @@ import {
   Clock,
   Palette,
   Globe,
-  Shield,
   LogOut,
   ChevronsUpDown,
   Plus,
@@ -409,7 +408,6 @@ export function Sidebar() {
           <SidebarNavItem to="/settings/channels" label={t("sidebar.channels")} icon={Radio} />
           <SidebarNavItem to="/settings/skills" label={t("sidebar.skills")} icon={Puzzle} />
           <SidebarNavItem to="/settings/cron" label={t("sidebar.cronHeartbeat")} icon={Clock} />
-          <SidebarNavItem to="/settings/security" label={t("sidebar.security")} icon={Shield} />
           <SidebarNavItem to="/settings/branding" label={t("sidebar.branding")} icon={Palette} />
           <SidebarNavItem to="/company/settings" label={t("settings.general")} icon={Settings} />
         </CollapsibleSection>

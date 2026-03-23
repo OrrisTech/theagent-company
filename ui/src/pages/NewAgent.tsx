@@ -358,13 +358,6 @@ export function NewAgent() {
           </div>
         </Section>
 
-        {/* ── Capabilities (能力) ── */}
-        <Section title={t("teamMember.tabs.capabilities")} subtitle="能力" defaultOpen={false}>
-          <p className="text-xs text-muted-foreground">
-            {t("common.comingSoon")} — Skills, channels, and work scope will be configurable here.
-          </p>
-        </Section>
-
         {/* ── Engine (引擎) ── */}
         <Section title={t("teamMember.tabs.engine")} subtitle="引擎">
           <AgentConfigForm

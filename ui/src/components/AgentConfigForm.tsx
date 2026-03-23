@@ -944,14 +944,13 @@ function AdapterEnvironmentResult({ result }: { result: AdapterEnvironmentTestRe
 
 const ENABLED_ADAPTER_TYPES = new Set(["claude_local", "codex_local", "gemini_local", "opencode_local", "cursor"]);
 
-/** Display list includes all real adapter types plus UI-only coming-soon entries. */
-const ADAPTER_DISPLAY_LIST: { value: string; label: string; comingSoon: boolean }[] = [
-  ...AGENT_ADAPTER_TYPES.map((t) => ({
+/** Display list includes only enabled adapter types (coming-soon entries are hidden). */
+const ADAPTER_DISPLAY_LIST: { value: string; label: string }[] = AGENT_ADAPTER_TYPES
+  .filter((t) => ENABLED_ADAPTER_TYPES.has(t))
+  .map((t) => ({
     value: t,
     label: adapterLabels[t] ?? t,
-    comingSoon: !ENABLED_ADAPTER_TYPES.has(t),
-  })),
-];
+  }));
 
 function AdapterTypeDropdown({
   value,
@@ -976,25 +975,16 @@ function AdapterTypeDropdown({
         {ADAPTER_DISPLAY_LIST.map((item) => (
           <button
             key={item.value}
-            disabled={item.comingSoon}
             className={cn(
-              "flex items-center justify-between w-full px-2 py-1.5 text-sm rounded",
-              item.comingSoon
-                ? "opacity-40 cursor-not-allowed"
-                : "hover:bg-accent/50",
-              item.value === value && !item.comingSoon && "bg-accent",
+              "flex items-center justify-between w-full px-2 py-1.5 text-sm rounded hover:bg-accent/50",
+              item.value === value && "bg-accent",
             )}
-            onClick={() => {
-              if (!item.comingSoon) onChange(item.value);
-            }}
+            onClick={() => onChange(item.value)}
           >
             <span className="inline-flex items-center gap-1.5">
               {item.value === "opencode_local" ? <OpenCodeLogoIcon className="h-3.5 w-3.5" /> : null}
               <span>{item.label}</span>
             </span>
-            {item.comingSoon && (
-              <span className="text-[10px] text-muted-foreground">{t("agentConfigForm.comingSoon")}</span>
-            )}
           </button>
         ))}
       </PopoverContent>

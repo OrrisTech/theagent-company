@@ -54,7 +54,6 @@ import { SkillsSettings } from "./pages/settings/SkillsSettings";
 import { CronSettings } from "./pages/settings/CronSettings";
 import { BrandingSettings } from "./pages/settings/BrandingSettings";
 import { LanguageSettings } from "./pages/settings/LanguageSettings";
-import { SecuritySettings } from "./pages/settings/SecuritySettings";
 import { queryKeys } from "./lib/queryKeys";
 import { useCompany } from "./context/CompanyContext";
 import { useDialog } from "./context/DialogContext";
@@ -198,7 +197,7 @@ function boardRoutes() {
       <Route path="settings/cron" element={<CronSettings />} />
       <Route path="settings/branding" element={<BrandingSettings />} />
       <Route path="settings/language" element={<LanguageSettings />} />
-      <Route path="settings/security" element={<SecuritySettings />} />
+      <Route path="settings/security" element={<Navigate to="/settings" replace />} />
       <Route path="design-guide" element={<DesignGuide />} />
       <Route path="tests/ux/runs" element={<RunTranscriptUxLab />} />
       <Route path=":pluginRoutePath" element={<PluginPage />} />

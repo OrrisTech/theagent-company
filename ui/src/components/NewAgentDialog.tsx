@@ -16,7 +16,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import {
-  Bot,
   ChevronDown,
   Code,
   Gem,
@@ -42,8 +41,7 @@ type AdapterType =
   | "gemini_local"
   | "opencode_local"
   | "pi_local"
-  | "cursor"
-  | "openclaw_gateway";
+  | "cursor";
 
 const ENGINE_OPTIONS: Array<{
   value: AdapterType;
@@ -56,7 +54,6 @@ const ENGINE_OPTIONS: Array<{
   { value: "opencode_local", label: "OpenCode", icon: OpenCodeLogoIcon },
   { value: "pi_local", label: "Pi", icon: Terminal },
   { value: "cursor", label: "Cursor", icon: MousePointer2 },
-  { value: "openclaw_gateway", label: "OpenClaw Gateway", icon: Bot },
 ];
 
 const ROLE_SUGGESTIONS = [

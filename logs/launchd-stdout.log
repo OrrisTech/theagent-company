@@ -887,3 +887,515 @@ Exit status 15
 [08:33:30] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 200[39m
 [08:33:42] [32mINFO[39m: [36mPOST /openclaw/skills/search 200[39m
 [08:33:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:33:52] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:34:02] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:34:12] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:34:22] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:34:31] [32mINFO[39m: [36mGET /ORR/settings/skills 200[39m
+[08:34:31] [32mINFO[39m: [36mGET /src/main.tsx 200[39m
+[08:34:31] [32mINFO[39m: [36mGET /@react-refresh 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@vite/client 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/lib/router.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/react.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/@tanstack_react-query.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/ToastContext.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/PanelContext.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/index.css 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/react-dom.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/i18n/index.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/plugins/bridge-init.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/react-dom_client.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/DialogContext.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/node_modules/.pnpm/vite@6.4.1_@types+node@24.12.0_jiti@2.6.1_lightningcss@1.30.2_tsx@4.21.0/node_modules/vite/dist/client/env.mjs 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/ThemeContext.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/SidebarContext.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/plugins/launchers.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/BreadcrumbContext.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-OS7ZSSJM.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/ColorSchemeContext.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/LiveUpdatesProvider.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/ui/tooltip.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/App.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/node_modules/.pnpm/@mdxeditor+editor@3.52.4_@codemirror+language@6.12.1_@lezer+highlight@1.2.3_@types+react-dom@_pzhotnbszb5q3cxok3ldaus4se/node_modules/@mdxeditor/editor/dist/style.css 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/context/CompanyContext.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/react-router-dom.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-VUF6PKAB.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/lib/company-routes.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-FDDYGJFK.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/i18next.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/i18n/zh.json?import 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-AJUF6BBH.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/react-i18next.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/i18next-browser-languagedetector.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/plugins/bridge.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/i18n/en.json?import 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/api/plugins.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/api/auth.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/index.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/plugins/slots.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/ui/button.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/lib/queryKeys.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/lib/utils.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/radix-ui.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Agents.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Projects.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/Layout.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/OnboardingWizard.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Issues.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Goals.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Activity.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/ExecutionWorkspaceDetail.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Companies.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/api/health.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/ProjectDetail.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/IssueDetail.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Dashboard.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Approvals.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Costs.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/AgentDetail.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/ApprovalDetail.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Inbox.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/GoalDetail.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/DesignGuide.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/CompanySettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/PluginSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/InstanceSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/lib/onboarding-route.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/InstanceExperimentalSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/lib/inbox.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/PluginManager.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/OrgChart.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/PluginPage.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Docs.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Workflows.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/TeamCollaboration.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Documents.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Collaboration.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Overview.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/UsageBudget.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/InviteLanding.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-6SA3DXMZ.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/RunTranscriptUxLab.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/WorkflowEditor.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Memory.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-PL3ZPCDQ.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/constants.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/BoardClaim.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/config-schema.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/NotFound.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/WorkflowRunDetail.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/NewAgent.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Notifications.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/settings/ChannelsSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/settings/CronSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/settings/SecuritySettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/PerformanceDashboard.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/Auth.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/settings/LanguageSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/settings/BrandingSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/settings/ModelsSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/pages/settings/SkillsSettings.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/api/companies.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/api/client.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/index.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/api.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/project-url-key.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/agent-url-key.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/project-mentions.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/class-variance-authority.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/EntityRow.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-JKQAKY6L.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/EmptyState.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-WOXY4TMI.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/tailwind-merge.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/clsx.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/api/projects.ts 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/ErrorBoundary.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/BreadcrumbBar.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/InstanceSidebar.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/PageSkeleton.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/Sidebar.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /node_modules/.vite/deps/lucide-react.js?v=b42fccea 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/PropertiesPanel.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/StatusBadge.tsx 200[39m
+[08:34:32] [32mINFO[39m: [36mGET /src/components/CommandPalette.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/NewIssueDialog.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/NewProjectDialog.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/hooks/useCompanyPageMemory.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/NewGoalDialog.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/MobileBottomNav.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/heartbeats.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/hooks/useKeyboardShortcuts.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/company-selection.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/NewAgentDialog.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/agents.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/WorktreeBanner.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/status-colors.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/instance-settings.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/PageTabBar.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ToastViewport.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/tabs.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/goals.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/onboarding-goal.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/agent-config-defaults.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/model-utils.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/agent-config-primitives.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/dialog.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/issues.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/execution-workspaces.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/cursor-local/src/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/select.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/OpenCodeLogoIcon.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/AsciiArtAnimation.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/PathInstructionsModal.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/hooks/useInboxBadge.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/popover.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ApprovalPayload.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/dropdown-menu.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/breadcrumb.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/gemini-local/src/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/timeAgo.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ActiveAgentsPanel.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/approvals.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/LiveRunWidget.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/dashboard.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/codex-local/src/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/PriorityIcon.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ScrollToBottom.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/IssueProperties.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/issueDetailBreadcrumb.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ActivityRow.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/Identity.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/separator.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/IssuesList.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/collapsible.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ApprovalCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/sheet.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/MetricCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/BudgetPolicyCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/scroll-area.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ActivityCharts.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/activity.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/budgets.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/StatusIcon.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/GoalTree.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/IssueDocumentsSection.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/input.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ProjectProperties.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/KanbanBoard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/hooks/useProjectOrder.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/InlineEditor.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/CommentThread.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/assets.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/AgentConfigForm.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/MarkdownBody.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/transcript/RunTranscriptView.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/BillerSpendCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/costs.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/badge.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/FinanceBillerCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/FinanceKindCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ProviderQuotaCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapter-utils/src/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/card.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/hooks/useDateRange.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/CopyText.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/AgentIconPicker.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/FinanceTimelineCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/checkbox.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/BudgetIncidentCard.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/access.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/label.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/textarea.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/IssueRow.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/skeleton.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/command.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/GoalProperties.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/JsonSchemaForm.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/CompanyPatternIcon.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/LanguageSwitcher.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/instanceSettings.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/FilterBar.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ui/avatar.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/workflows.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/openclaw.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/zod.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/collaboration.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/fixtures/runTranscriptFixtures.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/PlaceholderPage.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/branding.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/budget.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/company.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/agent.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/EventHorizonShader.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/work-product.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/project.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/instance.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/approval.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/issue.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/goal.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/execution-workspace.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/company-portability.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/finance.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/cost.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/asset.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/secret.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/access.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-E6AZFW2I.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/shared/src/validators/plugin.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/SidebarNavItem.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ThemeSwitcher.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/recent-assignees.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/SidebarProjects.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/assignees.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/InlineEntitySelector.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/MarkdownEditor.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/worktree-branding.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/transcript.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/company-page-memory.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/transcript/useLiveRunTranscripts.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/registry.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/project-order.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/api/secrets.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/kanban.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/@dnd-kit_sortable.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/lib/groupBy.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/@dnd-kit_utilities.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/@dnd-kit_core.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/claude-local/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/react-markdown.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/hooks/useAutosaveIndicator.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/remark-gfm.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/QuotaBar.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/ClaudeSubscriptionPanel.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/CodexSubscriptionPanel.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapter-utils/src/billing.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapter-utils/src/session-compaction.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapter-utils/src/log-redaction.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/cmdk.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/components/BudgetSidebarMarker.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/codex-local/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/@mdxeditor_editor.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/claude-local/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/gemini-local/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/pi-local/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/opencode-local/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/http/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/cursor/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/process/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/openclaw-gateway/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-C3NTU3JF.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-LXONKBQX.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-VWGQ4UTQ.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/local-workspace-runtime-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-JJZDJM26.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-PR74OI2W.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-57CR2ERI.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/codex-local/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/codex-local/src/ui/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/claude-local/src/ui/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/gemini-local/src/ui/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/gemini-local/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/pi-local/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/pi-local/src/ui/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/opencode-local/src/ui/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/opencode-local/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/http/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/http/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/http/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/cursor-local/src/ui/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/cursor/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/process/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/process/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/process/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/openclaw-gateway/src/ui/index.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-4FQJ5TMA.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/openclaw-gateway/config-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-VA7TEHD3.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/pi-local/src/ui/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/pi-local/src/ui/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-B7IRY4TQ.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-P5ZFRRE7.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-BPENMENF.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-LG6A6KYZ.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/codex-local/src/ui/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/codex-local/src/ui/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/gemini-local/src/ui/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /node_modules/.vite/deps/chunk-7EG5L34Q.js?v=b42fccea 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/gemini-local/src/ui/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/claude-local/src/ui/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/claude-local/src/ui/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/opencode-local/src/ui/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/opencode-local/src/ui/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/cursor-local/src/ui/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/openclaw-gateway/src/ui/build-config.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/cursor-local/src/ui/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/openclaw-gateway/src/ui/parse-stdout.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /src/adapters/runtime-json-fields.tsx 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/cursor-local/src/shared/stream.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /@fs/Users/james/Dev/theagent-company/packages/adapters/openclaw-gateway/src/shared/stream.ts 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /api/auth/get-session 200[39m
+[08:34:33] [32mINFO[39m: [36mGET / 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /favicon.svg 200[39m
+[08:34:33] [32mINFO[39m: [36mGET / 200[39m
+[08:34:33] [32mINFO[39m: [36mGET /plugins/ui-contributions 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/approvals 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /favicon.svg 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/join-requests?status=pending_approval 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/projects 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /openclaw/skills 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/issues?status=backlog%2Ctodo%2Cin_progress%2Cin_review%2Cblocked%2Cdone&touchedByUserId=me 304[39m
+[08:34:33] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 304[39m
+[08:34:44] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:34:46] [32mINFO[39m: [36mPOST /openclaw/skills/search 200[39m
+[08:34:54] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:35:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:35:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:35:24] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:35:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:35:44] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:35:54] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:36:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:36:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:36:24] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:45:27] [32mINFO[39m: [36mheartbeat timer tick enqueued runs[39m [90m{"checked":1,"enqueued":1,"skipped":0}[39m
+[08:45:27] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 200[39m
+[08:45:27] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 200[39m
+[08:45:27] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[08:45:27] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 200[39m
+[08:45:27] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 200[39m
+[08:45:27] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 304[39m
+[08:45:27] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 304[39m
+[08:45:45] [32mINFO[39m: [36mGET /issues/8fc6b4d4-6e3e-43bb-9cac-d82fa67de990/comments 200[39m
+[08:45:57] [32mINFO[39m: [36mheartbeat timer tick enqueued runs[39m [90m{"checked":1,"enqueued":1,"skipped":0}[39m
+[08:45:57] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 200[39m
+[08:45:57] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 200[39m
+[08:45:57] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 200[39m
+[08:45:58] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 304[39m
+[09:33:27] [32mINFO[39m: [36mAutomatic database backup complete: /Users/james/.paperclip/instances/default/data/backups/paperclip-20260323-203327.sql (4.9M)[39m [90m{"backupFile":"/Users/james/.paperclip/instances/default/data/backups/paperclip-20260323-203327.sql","sizeBytes":5097252,"prunedCount":0,"backupDir":"/Users/james/.paperclip/instances/default/data/backups","retentionDays":30}[39m
+8:42:47 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+8:42:47 PM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+8:42:51 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+8:43:04 PM [vite] (client) hmr update /src/components/Sidebar.tsx, /src/index.css
+8:43:10 PM [vite] (client) hmr update /src/pages/NewAgent.tsx, /src/index.css
+8:43:18 PM [vite] (client) hmr update /src/components/AgentConfigForm.tsx, /src/index.css
+8:43:27 PM [vite] (client) hmr update /src/components/AgentConfigForm.tsx, /src/index.css
+8:43:36 PM [vite] (client) hmr update /src/components/OnboardingWizard.tsx, /src/index.css
+8:43:54 PM [vite] (client) hmr update /src/components/OnboardingWizard.tsx, /src/index.css
+8:44:10 PM [vite] (client) hmr update /src/components/NewAgentDialog.tsx, /src/index.css
+8:44:17 PM [vite] (client) hmr update /src/components/NewAgentDialog.tsx, /src/index.css
+8:44:22 PM [vite] (client) hmr update /src/components/NewAgentDialog.tsx, /src/index.css
+8:45:54 PM [tsx] change in ./src/services/workflows.ts Restarting...
+c[09:45:56] [33mWARN[39m: [36mEmbedded PostgreSQL already running; reusing existing process (pid=37968, port=54329)[39m
+[09:45:57] [32mINFO[39m: [36mEmbedded PostgreSQL ready[39m
+[09:45:57] [32mINFO[39m: [36mAuthenticated mode auth origin configuration[39m [90m{"authBaseUrlMode":"auto","authPublicBaseUrl":null,"trustedOrigins":["https://zifeis-mac-mini.tailf9f88d.ts.net","http://zifeis-mac-mini.tailf9f88d.ts.net"],"trustedOriginsSource":{"derived":2,"env":0}}[39m
+
+[36m██████╗  █████╗ ██████╗ ███████╗██████╗  ██████╗██╗     ██╗██████╗ [0m
+[36m██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝██║     ██║██╔══██╗[0m
+[36m██████╔╝███████║██████╔╝█████╗  ██████╔╝██║     ██║     ██║██████╔╝[0m
+[36m██╔═══╝ ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗██║     ██║     ██║██╔═══╝ [0m
+[36m██║     ██║  ██║██║     ███████╗██║  ██║╚██████╗███████╗██║██║     [0m
+[36m╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝╚═╝     [0m
+[34m  ───────────────────────────────────────────────────────[0m
+[2mMode            [0m [32membedded-postgres[0m  |  [36mvite-dev-middleware[0m
+[2mDeploy          [0m authenticated (private)
+[2mAuth            [0m [32mready[0m
+[2mServer          [0m 3100
+[2mAPI             [0m http://localhost:3100/api [2m(health: http://localhost:3100/api/health)[0m
+[2mUI              [0m http://localhost:3100
+[2mDatabase        [0m /Users/james/.paperclip/instances/default/db [2m(pg:54329)[0m
+[2mMigrations      [0m already applied
+[2mAgent JWT       [0m [32mset[0m
+[2mHeartbeat       [0m enabled [2m(30000ms)[0m
+[2mDB Backup       [0m enabled [2m(every 60m, keep 30d)[0m
+[2mBackup Dir      [0m /Users/james/.paperclip/instances/default/data/backups
+[2mConfig          [0m /Users/james/.paperclip/instances/default/config.json
+[34m  ───────────────────────────────────────────────────────[0m
+
+[09:45:57] [32mINFO[39m: [36mplugin job coordinator started — listening to lifecycle events[39m [90m{"service":"plugin-job-coordinator"}[39m
+[09:45:57] [32mINFO[39m: [36mplugin job scheduler started[39m [90m{"service":"plugin-job-scheduler","tickIntervalMs":30000,"maxConcurrentJobs":10}[39m
+[09:45:57] [32mINFO[39m: [36minitializing plugin tool dispatcher[39m [90m{"service":"plugin-tool-dispatcher"}[39m
+[09:45:57] [32mINFO[39m: [36mplugin-loader: loading all ready plugins[39m [90m{"service":"plugin-loader"}[39m
+[09:45:57] [32mINFO[39m: [36mAutomatic database backups enabled[39m [90m{"intervalMinutes":60,"retentionDays":30,"backupDir":"/Users/james/.paperclip/instances/default/data/backups"}[39m
+[09:45:57] [32mINFO[39m: [36mServer listening on 0.0.0.0:3100[39m
+[09:45:57] [32mINFO[39m: [36mloaded tools from ready plugins[39m [90m{"service":"plugin-tool-dispatcher","readyPlugins":0,"registeredTools":0}[39m
+[09:45:57] [32mINFO[39m: [36mplugin tool dispatcher initialized[39m [90m{"service":"plugin-tool-dispatcher","totalTools":0}[39m
+[09:45:58] [32mINFO[39m: [36mplugin-loader: no ready plugins to load[39m [90m{"service":"plugin-loader"}[39m
+[09:46:28] [32mINFO[39m: [36mheartbeat timer tick enqueued runs[39m [90m{"checked":1,"enqueued":1,"skipped":0}[39m
+8:46:58 PM [tsx] change in ./src/services/workflows.ts Restarting...
+c[09:47:00] [33mWARN[39m: [36mEmbedded PostgreSQL already running; reusing existing process (pid=37968, port=54329)[39m
+[09:47:00] [32mINFO[39m: [36mEmbedded PostgreSQL ready[39m
+[09:47:00] [32mINFO[39m: [36mAuthenticated mode auth origin configuration[39m [90m{"authBaseUrlMode":"auto","authPublicBaseUrl":null,"trustedOrigins":["https://zifeis-mac-mini.tailf9f88d.ts.net","http://zifeis-mac-mini.tailf9f88d.ts.net"],"trustedOriginsSource":{"derived":2,"env":0}}[39m
+
+[36m██████╗  █████╗ ██████╗ ███████╗██████╗  ██████╗██╗     ██╗██████╗ [0m
+[36m██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝██║     ██║██╔══██╗[0m
+[36m██████╔╝███████║██████╔╝█████╗  ██████╔╝██║     ██║     ██║██████╔╝[0m
+[36m██╔═══╝ ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗██║     ██║     ██║██╔═══╝ [0m
+[36m██║     ██║  ██║██║     ███████╗██║  ██║╚██████╗███████╗██║██║     [0m
+[36m╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝╚═╝     [0m
+[34m  ───────────────────────────────────────────────────────[0m
+[2mMode            [0m [32membedded-postgres[0m  |  [36mvite-dev-middleware[0m
+[2mDeploy          [0m authenticated (private)
+[2mAuth            [0m [32mready[0m
+[2mServer          [0m 3100
+[2mAPI             [0m http://localhost:3100/api [2m(health: http://localhost:3100/api/health)[0m
+[2mUI              [0m http://localhost:3100
+[2mDatabase        [0m /Users/james/.paperclip/instances/default/db [2m(pg:54329)[0m
+[2mMigrations      [0m already applied
+[2mAgent JWT       [0m [32mset[0m
+[2mHeartbeat       [0m enabled [2m(30000ms)[0m
+[2mDB Backup       [0m enabled [2m(every 60m, keep 30d)[0m
+[2mBackup Dir      [0m /Users/james/.paperclip/instances/default/data/backups
+[2mConfig          [0m /Users/james/.paperclip/instances/default/config.json
+[34m  ───────────────────────────────────────────────────────[0m
+
+[09:47:01] [32mINFO[39m: [36mplugin job coordinator started — listening to lifecycle events[39m [90m{"service":"plugin-job-coordinator"}[39m
+[09:47:01] [32mINFO[39m: [36mplugin job scheduler started[39m [90m{"service":"plugin-job-scheduler","tickIntervalMs":30000,"maxConcurrentJobs":10}[39m
+[09:47:01] [32mINFO[39m: [36minitializing plugin tool dispatcher[39m [90m{"service":"plugin-tool-dispatcher"}[39m
+[09:47:01] [32mINFO[39m: [36mplugin-loader: loading all ready plugins[39m [90m{"service":"plugin-loader"}[39m
+[09:47:01] [32mINFO[39m: [36mAutomatic database backups enabled[39m [90m{"intervalMinutes":60,"retentionDays":30,"backupDir":"/Users/james/.paperclip/instances/default/data/backups"}[39m
+[09:47:01] [32mINFO[39m: [36mServer listening on 0.0.0.0:3100[39m
+[09:47:01] [32mINFO[39m: [36mloaded tools from ready plugins[39m [90m{"service":"plugin-tool-dispatcher","readyPlugins":0,"registeredTools":0}[39m
+[09:47:01] [32mINFO[39m: [36mplugin tool dispatcher initialized[39m [90m{"service":"plugin-tool-dispatcher","totalTools":0}[39m
+[09:47:01] [32mINFO[39m: [36mplugin-loader: no ready plugins to load[39m [90m{"service":"plugin-loader"}[39m
+8:47:22 PM [tsx] change in ./src/services/workflows.ts Restarting...
+c[09:47:24] [33mWARN[39m: [36mEmbedded PostgreSQL already running; reusing existing process (pid=37968, port=54329)[39m
+[09:47:24] [32mINFO[39m: [36mEmbedded PostgreSQL ready[39m
+[09:47:24] [32mINFO[39m: [36mAuthenticated mode auth origin configuration[39m [90m{"authBaseUrlMode":"auto","authPublicBaseUrl":null,"trustedOrigins":["https://zifeis-mac-mini.tailf9f88d.ts.net","http://zifeis-mac-mini.tailf9f88d.ts.net"],"trustedOriginsSource":{"derived":2,"env":0}}[39m
+
+[36m██████╗  █████╗ ██████╗ ███████╗██████╗  ██████╗██╗     ██╗██████╗ [0m
+[36m██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝██║     ██║██╔══██╗[0m
+[36m██████╔╝███████║██████╔╝█████╗  ██████╔╝██║     ██║     ██║██████╔╝[0m
+[36m██╔═══╝ ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗██║     ██║     ██║██╔═══╝ [0m
+[36m██║     ██║  ██║██║     ███████╗██║  ██║╚██████╗███████╗██║██║     [0m
+[36m╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝╚═╝     [0m
+[34m  ───────────────────────────────────────────────────────[0m
+[2mMode            [0m [32membedded-postgres[0m  |  [36mvite-dev-middleware[0m
+[2mDeploy          [0m authenticated (private)
+[2mAuth            [0m [32mready[0m
+[2mServer          [0m 3101 [2m(requested 3100)[0m
+[2mAPI             [0m http://localhost:3101/api [2m(health: http://localhost:3101/api/health)[0m
+[2mUI              [0m http://localhost:3101
+[2mDatabase        [0m /Users/james/.paperclip/instances/default/db [2m(pg:54329)[0m
+[2mMigrations      [0m already applied
+[2mAgent JWT       [0m [32mset[0m
+[2mHeartbeat       [0m enabled [2m(30000ms)[0m
+[2mDB Backup       [0m enabled [2m(every 60m, keep 30d)[0m
+[2mBackup Dir      [0m /Users/james/.paperclip/instances/default/data/backups
+[2mConfig          [0m /Users/james/.paperclip/instances/default/config.json
+[34m  ───────────────────────────────────────────────────────[0m
+
+[09:47:25] [32mINFO[39m: [36mplugin job coordinator started — listening to lifecycle events[39m [90m{"service":"plugin-job-coordinator"}[39m
+[09:47:25] [32mINFO[39m: [36mplugin job scheduler started[39m [90m{"service":"plugin-job-scheduler","tickIntervalMs":30000,"maxConcurrentJobs":10}[39m
+[09:47:25] [32mINFO[39m: [36minitializing plugin tool dispatcher[39m [90m{"service":"plugin-tool-dispatcher"}[39m
+[09:47:25] [32mINFO[39m: [36mplugin-loader: loading all ready plugins[39m [90m{"service":"plugin-loader"}[39m
+[09:47:25] [33mWARN[39m: [36mRequested port is busy; using next free port (requestedPort=3100, selectedPort=3101)[39m
+[09:47:25] [32mINFO[39m: [36mAutomatic database backups enabled[39m [90m{"intervalMinutes":60,"retentionDays":30,"backupDir":"/Users/james/.paperclip/instances/default/data/backups"}[39m
+[09:47:25] [32mINFO[39m: [36mServer listening on 0.0.0.0:3101[39m
+[09:47:25] [32mINFO[39m: [36mloaded tools from ready plugins[39m [90m{"service":"plugin-tool-dispatcher","readyPlugins":0,"registeredTools":0}[39m
+[09:47:25] [32mINFO[39m: [36mplugin tool dispatcher initialized[39m [90m{"service":"plugin-tool-dispatcher","totalTools":0}[39m
+[09:47:25] [32mINFO[39m: [36mplugin-loader: no ready plugins to load[39m [90m{"service":"plugin-loader"}[39m
