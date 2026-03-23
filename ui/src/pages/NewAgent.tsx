@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Shield, User } from "lucide-react";
+import { Shield, User, ChevronDown, ChevronRight } from "lucide-react";
 import { cn, agentUrl } from "../lib/utils";
 import { roleLabels } from "../components/agent-config-primitives";
 import { AgentConfigForm, type CreateConfigValues } from "../components/AgentConfigForm";
@@ -54,6 +54,43 @@ function createValuesForAdapterType(
     nextValues.model = "";
   }
   return nextValues;
+}
+
+/* Collapsible section wrapper */
+function Section({
+  title,
+  subtitle,
+  defaultOpen = true,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="border-b border-border last:border-b-0">
+      <button
+        className="flex items-center gap-2 w-full px-4 py-3 text-left hover:bg-accent/30 transition-colors"
+        onClick={() => setOpen(!open)}
+        type="button"
+      >
+        {open ? (
+          <ChevronDown className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+        ) : (
+          <ChevronRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+        )}
+        <div>
+          <span className="text-sm font-medium">{title}</span>
+          {subtitle && (
+            <span className="text-xs text-muted-foreground ml-2">{subtitle}</span>
+          )}
+        </div>
+      </button>
+      {open && <div className="px-4 pb-4">{children}</div>}
+    </div>
+  );
 }
 
 export function NewAgent() {
@@ -203,115 +240,140 @@ export function NewAgent() {
       </div>
 
       <div className="border border-border">
-        {/* Name */}
-        <div className="px-4 pt-4 pb-2">
-          <input
-            className="w-full text-lg font-semibold bg-transparent outline-none placeholder:text-muted-foreground/50"
-            placeholder={t("agentConfigForm.agentName")}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoFocus
+        {/* ── Identity (身份) ── */}
+        <Section title={t("teamMember.tabs.identity")} subtitle="身份">
+          {/* Name */}
+          <div className="space-y-3">
+            <input
+              className="w-full text-lg font-semibold bg-transparent outline-none placeholder:text-muted-foreground/50"
+              placeholder={t("agentConfigForm.agentName")}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoFocus
+            />
+            {/* Description / personality placeholder */}
+            <input
+              className="w-full bg-transparent outline-none text-sm text-muted-foreground placeholder:text-muted-foreground/40"
+              placeholder={t("agentConfigForm.describeWhatThisAgentCanDo")}
+            />
+          </div>
+        </Section>
+
+        {/* ── Organization (组织) ── */}
+        <Section title={t("teamMember.tabs.organization")} subtitle="组织">
+          <div className="space-y-3">
+            {/* Title */}
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">
+                {t("teamMember.organization.title")}
+              </label>
+              <input
+                className="w-full bg-transparent border border-border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground/40"
+                placeholder={t("newAgent.titleEGVpOfEngineering")}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+
+            {/* Role + Reports To */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <Popover open={roleOpen} onOpenChange={setRoleOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-1 text-xs hover:bg-accent/50 transition-colors",
+                      isFirstAgent && "opacity-60 cursor-not-allowed"
+                    )}
+                    disabled={isFirstAgent}
+                  >
+                    <Shield className="h-3 w-3 text-muted-foreground" />
+                    {roleLabels[effectiveRole] ?? effectiveRole}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-36 p-1" align="start">
+                  {AGENT_ROLES.map((r) => (
+                    <button
+                      key={r}
+                      className={cn(
+                        "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50",
+                        r === role && "bg-accent"
+                      )}
+                      onClick={() => { setRole(r); setRoleOpen(false); }}
+                    >
+                      {roleLabels[r] ?? r}
+                    </button>
+                  ))}
+                </PopoverContent>
+              </Popover>
+
+              <Popover open={reportsToOpen} onOpenChange={setReportsToOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-1 text-xs hover:bg-accent/50 transition-colors",
+                      isFirstAgent && "opacity-60 cursor-not-allowed"
+                    )}
+                    disabled={isFirstAgent}
+                  >
+                    {currentReportsTo ? (
+                      <>
+                        <AgentIcon icon={currentReportsTo.icon} className="h-3 w-3 text-muted-foreground" />
+                        {`Reports to ${currentReportsTo.name}`}
+                      </>
+                    ) : (
+                      <>
+                        <User className="h-3 w-3 text-muted-foreground" />
+                        {isFirstAgent ? "Reports to: N/A (CEO)" : "Reports to..."}
+                      </>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-48 p-1" align="start">
+                  <button
+                    className={cn(
+                      "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50",
+                      !reportsTo && "bg-accent"
+                    )}
+                    onClick={() => { setReportsTo(""); setReportsToOpen(false); }}
+                  >
+                    {t("newAgent.noManager")}
+                  </button>
+                  {(agents ?? []).map((a) => (
+                    <button
+                      key={a.id}
+                      className={cn(
+                        "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50 truncate",
+                        a.id === reportsTo && "bg-accent"
+                      )}
+                      onClick={() => { setReportsTo(a.id); setReportsToOpen(false); }}
+                    >
+                      <AgentIcon icon={a.icon} className="shrink-0 h-3 w-3 text-muted-foreground" />
+                      {a.name}
+                      <span className="text-muted-foreground ml-auto">{roleLabels[a.role] ?? a.role}</span>
+                    </button>
+                  ))}
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+        </Section>
+
+        {/* ── Capabilities (能力) ── */}
+        <Section title={t("teamMember.tabs.capabilities")} subtitle="能力" defaultOpen={false}>
+          <p className="text-xs text-muted-foreground">
+            {t("common.comingSoon")} — Skills, channels, and work scope will be configurable here.
+          </p>
+        </Section>
+
+        {/* ── Engine (引擎) ── */}
+        <Section title={t("teamMember.tabs.engine")} subtitle="引擎">
+          <AgentConfigForm
+            mode="create"
+            values={configValues}
+            onChange={(patch) => setConfigValues((prev) => ({ ...prev, ...patch }))}
+            adapterModels={adapterModels}
           />
-        </div>
-
-        {/* Title */}
-        <div className="px-4 pb-2">
-          <input
-            className="w-full bg-transparent outline-none text-sm text-muted-foreground placeholder:text-muted-foreground/40"
-            placeholder={t("newAgent.titleEGVpOfEngineering")}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        {/* Property chips: Role + Reports To */}
-        <div className="flex items-center gap-1.5 px-4 py-2 border-t border-border flex-wrap">
-          <Popover open={roleOpen} onOpenChange={setRoleOpen}>
-            <PopoverTrigger asChild>
-              <button
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-1 text-xs hover:bg-accent/50 transition-colors",
-                  isFirstAgent && "opacity-60 cursor-not-allowed"
-                )}
-                disabled={isFirstAgent}
-              >
-                <Shield className="h-3 w-3 text-muted-foreground" />
-                {roleLabels[effectiveRole] ?? effectiveRole}
-              </button>
-            </PopoverTrigger>
-            <PopoverContent className="w-36 p-1" align="start">
-              {AGENT_ROLES.map((r) => (
-                <button
-                  key={r}
-                  className={cn(
-                    "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50",
-                    r === role && "bg-accent"
-                  )}
-                  onClick={() => { setRole(r); setRoleOpen(false); }}
-                >
-                  {roleLabels[r] ?? r}
-                </button>
-              ))}
-            </PopoverContent>
-          </Popover>
-
-          <Popover open={reportsToOpen} onOpenChange={setReportsToOpen}>
-            <PopoverTrigger asChild>
-              <button
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-1 text-xs hover:bg-accent/50 transition-colors",
-                  isFirstAgent && "opacity-60 cursor-not-allowed"
-                )}
-                disabled={isFirstAgent}
-              >
-                {currentReportsTo ? (
-                  <>
-                    <AgentIcon icon={currentReportsTo.icon} className="h-3 w-3 text-muted-foreground" />
-                    {`Reports to ${currentReportsTo.name}`}
-                  </>
-                ) : (
-                  <>
-                    <User className="h-3 w-3 text-muted-foreground" />
-                    {isFirstAgent ? "Reports to: N/A (CEO)" : "Reports to..."}
-                  </>
-                )}
-              </button>
-            </PopoverTrigger>
-            <PopoverContent className="w-48 p-1" align="start">
-              <button
-                className={cn(
-                  "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50",
-                  !reportsTo && "bg-accent"
-                )}
-                onClick={() => { setReportsTo(""); setReportsToOpen(false); }}
-              >
-                {t("newAgent.noManager")}
-              </button>
-              {(agents ?? []).map((a) => (
-                <button
-                  key={a.id}
-                  className={cn(
-                    "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50 truncate",
-                    a.id === reportsTo && "bg-accent"
-                  )}
-                  onClick={() => { setReportsTo(a.id); setReportsToOpen(false); }}
-                >
-                  <AgentIcon icon={a.icon} className="shrink-0 h-3 w-3 text-muted-foreground" />
-                  {a.name}
-                  <span className="text-muted-foreground ml-auto">{roleLabels[a.role] ?? a.role}</span>
-                </button>
-              ))}
-            </PopoverContent>
-          </Popover>
-        </div>
-
-        {/* Shared config form */}
-        <AgentConfigForm
-          mode="create"
-          values={configValues}
-          onChange={(patch) => setConfigValues((prev) => ({ ...prev, ...patch }))}
-          adapterModels={adapterModels}
-        />
+        </Section>
 
         {/* Footer */}
         <div className="border-t border-border px-4 py-3">
@@ -330,7 +392,7 @@ export function NewAgent() {
               disabled={!name.trim() || createAgent.isPending}
               onClick={handleSubmit}
             >
-              {createAgent.isPending ? "Creating…" : t("newAgent.createAgent")}
+              {createAgent.isPending ? t("newAgent.creatingAgent") : t("newAgent.createAgent")}
             </Button>
           </div>
         </div>

@@ -107,9 +107,9 @@ function MessagesPanel({ companyId }: { companyId: string }) {
           <Send className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted-foreground" />
           <div className="min-w-0 flex-1">
             <div className="flex items-baseline gap-2 text-sm">
-              <span className="font-medium">{msg.fromAgentName ?? "Agent"}</span>
+              <span className="font-medium">{msg.fromAgentName ?? "Member"}</span>
               <ArrowRight className="h-3 w-3 text-muted-foreground" />
-              <span className="font-medium">{msg.toAgentName ?? "Agent"}</span>
+              <span className="font-medium">{msg.toAgentName ?? "Member"}</span>
               <span className="ml-auto text-xs text-muted-foreground">
                 {new Date(msg.createdAt).toLocaleString()}
               </span>
@@ -169,7 +169,7 @@ function DailyReportsPanel({ companyId }: { companyId: string }) {
             <div key={report.id} className="rounded-lg border border-border p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium">{report.agentName ?? "Agent"}</span>
+                  <span className="font-medium">{report.agentName ?? "Member"}</span>
                   <span className="text-xs text-muted-foreground">{report.reportDate}</span>
                 </div>
                 <span className="text-xs text-muted-foreground">
@@ -368,7 +368,7 @@ function OnboardingPanel({ companyId }: { companyId: string }) {
         <div key={flow.id} className="rounded-lg border border-border p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="font-medium">{flow.agentName ?? "Agent"}</span>
+              <span className="font-medium">{flow.agentName ?? "Member"}</span>
               <StatusBadge status={flow.status} type="onboarding" />
             </div>
             <span className="text-xs text-muted-foreground">
@@ -435,7 +435,7 @@ function FeedbackPanel({ companyId }: { companyId: string }) {
       {entries.map((entry: FeedbackEntry) => (
         <div key={entry.id} className="rounded-lg border border-border/50 px-4 py-3 hover:bg-muted/30">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">{entry.agentName ?? "Agent"}</span>
+            <span className="text-sm font-medium">{entry.agentName ?? "Member"}</span>
             <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
               {entry.category}
             </span>
