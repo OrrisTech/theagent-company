@@ -460,7 +460,9 @@ export function Sidebar() {
               <HelpCircle className="h-4 w-4" />
             </Link>
           </Button>
-          <div className="flex-1" />
+        </div>
+        {/* Links row */}
+        <div className="flex items-center gap-1 px-1 flex-wrap">
           <a href="/terms" className="text-[10px] text-muted-foreground/60 hover:text-foreground transition-colors">{t("user.terms")}</a>
           <span className="text-[10px] text-muted-foreground/30">·</span>
           <a href="/privacy" className="text-[10px] text-muted-foreground/60 hover:text-foreground transition-colors">{t("user.privacy")}</a>
