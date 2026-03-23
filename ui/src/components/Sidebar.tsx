@@ -411,7 +411,6 @@ export function Sidebar() {
           <SidebarNavItem to="/settings/cron" label={t("sidebar.cronHeartbeat")} icon={Clock} />
           <SidebarNavItem to="/settings/security" label={t("sidebar.security")} icon={Shield} />
           <SidebarNavItem to="/settings/branding" label={t("sidebar.branding")} icon={Palette} />
-          <SidebarNavItem to="/settings/language" label={t("sidebar.language")} icon={Globe} />
           <SidebarNavItem to="/company/settings" label={t("settings.general")} icon={Settings} />
         </CollapsibleSection>
 

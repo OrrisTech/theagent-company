@@ -7,7 +7,8 @@ import { accessApi } from "../api/access";
 import { assetsApi } from "../api/assets";
 import { queryKeys } from "../lib/queryKeys";
 import { Button } from "@/components/ui/button";
-import { Settings, Check } from "lucide-react";
+import { Settings, Check, Globe } from "lucide-react";
+import { LanguageSelector } from "../components/LanguageSwitcher";
 import { CompanyPatternIcon } from "../components/CompanyPatternIcon";
 import {
   Field,
@@ -512,6 +513,26 @@ export function CompanySettings() {
                   : t("companySettings.failedToArchiveCompany")}
               </span>
             )}
+          </div>
+        </div>
+      </div>
+      {/* Language */}
+      <div className="space-y-4">
+        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+          {t("sidebar.language")}
+        </div>
+        <div className="rounded-md border border-border px-4 py-4">
+          <div className="flex items-start gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
+              <Globe className="h-5 w-5 text-muted-foreground" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-sm font-medium">{t("language.title")}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{t("language.description")}</p>
+              <div className="mt-3">
+                <LanguageSelector />
+              </div>
+            </div>
           </div>
         </div>
       </div>
