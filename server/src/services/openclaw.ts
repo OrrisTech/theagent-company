@@ -1057,46 +1057,36 @@ export function openclawService(db: Db) {
     searchSkills: async (
       query: string,
     ): Promise<{ id: string; name: string; description: string; installCommand?: string }[]> => {
-      // TODO: Replace with real clawhub.com API when available
-      // For now, attempt real API call with fallback to mock data
+      const { execSync } = await import("node:child_process");
       try {
-        const url = `https://clawhub.com/api/skills?q=${encodeURIComponent(query)}`;
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000);
-        const res = await fetch(url, { signal: controller.signal });
-        clearTimeout(timeout);
-        if (res.ok) {
-          return (await res.json()) as { id: string; name: string; description: string; installCommand?: string }[];
-        }
-      } catch {
-        // API not available yet — return mock data
-      }
+        // Use clawhub CLI for real search (vector search on clawhub.com)
+        const raw = execSync(
+          `npx clawhub@latest search ${JSON.stringify(query)}`,
+          { timeout: 30_000, encoding: "utf-8", env: { ...process.env, NO_COLOR: "1" } },
+        ).trim();
 
-      // Mock data for development
-      return [
-        {
-          id: "weather",
-          name: "weather",
-          description: "Get current weather and forecasts via wttr.in or Open-Meteo.",
-          installCommand: "openclaw skills install weather",
-        },
-        {
-          id: "github",
-          name: "github",
-          description: "GitHub operations via gh CLI: issues, PRs, CI runs, code review.",
-          installCommand: "openclaw skills install github",
-        },
-        {
-          id: "summarize",
-          name: "summarize",
-          description: "Summarize or extract text/transcripts from URLs, podcasts, and local files.",
-          installCommand: "openclaw skills install summarize",
-        },
-      ].filter(
-        (s) =>
-          s.name.toLowerCase().includes(query.toLowerCase()) ||
-          s.description.toLowerCase().includes(query.toLowerCase()),
-      );
+        // Parse output: each line is "slug  Display Name  (score)"
+        const results: { id: string; name: string; description: string; installCommand?: string }[] = [];
+        for (const line of raw.split("\n")) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith("-") || trimmed.startsWith("Searching")) continue;
+          // Format: "slug  Display Name  (score)"
+          const match = trimmed.match(/^(\S+)\s+(.+?)\s+\([\d.]+\)$/);
+          if (match) {
+            const [, slug, displayName] = match;
+            results.push({
+              id: slug!,
+              name: displayName!.trim(),
+              description: `clawhub.com/skills/${slug}`,
+              installCommand: `npx clawhub@latest install ${slug}`,
+            });
+          }
+        }
+        return results;
+      } catch {
+        // Fallback if clawhub CLI not available
+        return [];
+      }
     },
 
     /** Delete a skill directory */
