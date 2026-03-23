@@ -33,6 +33,7 @@ import { SidebarNavItem } from "./SidebarNavItem";
 import { SidebarProjects } from "./SidebarProjects";
 import { ThemeSwitcherButton } from "./ThemeSwitcher";
 import { useDialog } from "../context/DialogContext";
+import { useColorScheme } from "../context/ColorSchemeContext";
 import { useCompany } from "../context/CompanyContext";
 import { heartbeatsApi } from "../api/heartbeats";
 import { authApi } from "../api/auth";
@@ -105,6 +106,41 @@ function LanguageMenu() {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/* ── Color Scheme Picker ── */
+
+const SCHEME_DOTS: { scheme: import("../context/ColorSchemeContext").ColorScheme; color: string }[] = [
+  { scheme: "amber", color: "oklch(0.65 0.18 55)" },
+  { scheme: "mono", color: "oklch(0.55 0 0)" },
+  { scheme: "blue", color: "oklch(0.55 0.18 250)" },
+  { scheme: "rose", color: "oklch(0.58 0.20 350)" },
+  { scheme: "emerald", color: "oklch(0.55 0.17 155)" },
+  { scheme: "arctic", color: "oklch(0.60 0.12 210)" },
+];
+
+function ColorSchemePicker() {
+  const { t } = useTranslation();
+  const { scheme, setScheme } = useColorScheme();
+
+  return (
+    <div className="flex items-center gap-1" title={t("colorScheme.label")}>
+      {SCHEME_DOTS.map((dot) => (
+        <button
+          key={dot.scheme}
+          onClick={() => setScheme(dot.scheme)}
+          title={t(`colorScheme.${dot.scheme}`)}
+          className={cn(
+            "h-3.5 w-3.5 rounded-full border transition-all",
+            scheme === dot.scheme
+              ? "border-foreground scale-110 ring-1 ring-foreground/30"
+              : "border-transparent opacity-60 hover:opacity-100",
+          )}
+          style={{ backgroundColor: dot.color }}
+        />
+      ))}
     </div>
   );
 }
@@ -402,6 +438,7 @@ export function Sidebar() {
         <div className="flex items-center gap-0.5 px-1">
           <ThemeSwitcherButton />
           <LanguageMenu />
+          <ColorSchemePicker />
           <Button variant="ghost" size="icon-sm" className="text-muted-foreground" asChild>
             <Link to="/docs" title={t("user.help")}>
               <HelpCircle className="h-4 w-4" />

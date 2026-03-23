@@ -52,3 +52,5 @@
 [01:02:44] [32mINFO[39m: [36mloaded tools from ready plugins[39m [90m{"service":"plugin-tool-dispatcher","readyPlugins":0,"registeredTools":0}[39m
 [01:02:44] [32mINFO[39m: [36mplugin tool dispatcher initialized[39m [90m{"service":"plugin-tool-dispatcher","totalTools":0}[39m
 [01:02:44] [32mINFO[39m: [36mplugin-loader: no ready plugins to load[39m [90m{"service":"plugin-loader"}[39m
+[01:41:44] [32mINFO[39m: [36mheartbeat timer tick enqueued runs[39m [90m{"checked":1,"enqueued":1,"skipped":0}[39m
+[02:02:44] [32mINFO[39m: [36mAutomatic database backup complete: /Users/james/.paperclip/instances/default/data/backups/paperclip-20260323-130244.sql (4.6M)[39m [90m{"backupFile":"/Users/james/.paperclip/instances/default/data/backups/paperclip-20260323-130244.sql","sizeBytes":4867524,"prunedCount":0,"backupDir":"/Users/james/.paperclip/instances/default/data/backups","retentionDays":30}[39m

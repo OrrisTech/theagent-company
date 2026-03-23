@@ -147,6 +147,15 @@
     "system": "跟随系统",
     "switchTo": "切换到{{mode}}模式"
   },
+  "colorScheme": {
+    "label": "配色方案",
+    "amber": "琥珀",
+    "mono": "单色",
+    "blue": "蓝色",
+    "rose": "玫瑰",
+    "emerald": "翡翠",
+    "arctic": "冰蓝"
+  },
   "branding": {
     "title": "品牌设置",
     "description": "自定义应用的外观和风格。",

@@ -1,4 +1,14 @@
 import { useEffect, useRef } from "react";
+import { useColorScheme, type ColorScheme } from "../context/ColorSchemeContext";
+
+const SCHEME_FILTERS: Record<ColorScheme, string> = {
+  amber: "none",
+  mono: "grayscale(1)",
+  blue: "hue-rotate(175deg)",
+  rose: "hue-rotate(300deg) saturate(1.1)",
+  emerald: "hue-rotate(90deg) saturate(1.2)",
+  arctic: "hue-rotate(180deg) saturate(0.5) brightness(1.1)",
+};
 
 const SHADER_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -415,6 +425,7 @@ void main() {
 
 export function EventHorizonShader() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const { scheme } = useColorScheme();
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -433,11 +444,14 @@ export function EventHorizonShader() {
     return () => iframe.removeEventListener("load", onLoad);
   }, []);
 
+  const filterStyle = SCHEME_FILTERS[scheme];
+
   return (
     <iframe
       ref={iframeRef}
       srcDoc={SHADER_HTML}
       className="w-full h-full border-none block"
+      style={filterStyle !== "none" ? { filter: filterStyle } : undefined}
       title="Event Horizon"
       sandbox="allow-scripts"
     />

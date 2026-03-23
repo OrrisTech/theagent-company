@@ -147,6 +147,15 @@
     "system": "System",
     "switchTo": "Switch to {{mode}} mode"
   },
+  "colorScheme": {
+    "label": "Color scheme",
+    "amber": "Amber",
+    "mono": "Mono",
+    "blue": "Blue",
+    "rose": "Rose",
+    "emerald": "Emerald",
+    "arctic": "Arctic"
+  },
   "branding": {
     "title": "Branding",
     "description": "Customize the look and feel of your application.",
