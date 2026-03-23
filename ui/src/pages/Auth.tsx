@@ -77,18 +77,18 @@ export function AuthPage() {
         <EventHorizonShader />
       </div>
 
-      {/* Form overlay */}
-      <div className="relative z-10 flex items-center justify-center min-h-full px-4">
-        <div className="w-full max-w-md rounded-2xl border border-white/10 bg-black/60 backdrop-blur-xl shadow-2xl shadow-black/50 px-8 py-10">
+      {/* Form overlay — pinned left so black hole stays visible */}
+      <div className="relative z-10 flex items-center min-h-full px-6 md:px-12 lg:px-20">
+        <div className="w-full max-w-sm rounded-2xl border border-white/20 bg-white/15 backdrop-blur-2xl shadow-xl px-8 py-10">
           <div className="flex items-center gap-2 mb-8">
-            <Sparkles className="h-4 w-4 text-neutral-400" />
-            <span className="text-sm font-medium text-neutral-200">{t("auth.paperclip")}</span>
+            <Sparkles className="h-4 w-4 text-white/60" />
+            <span className="text-sm font-medium text-white/80">{t("auth.paperclip")}</span>
           </div>
 
           <h1 className="text-xl font-semibold text-white">
             {mode === "sign_in" ? t("auth.signInTitle") : t("auth.createAccountTitle")}
           </h1>
-          <p className="mt-1 text-sm text-neutral-400">
+          <p className="mt-1 text-sm text-white/50">
             {mode === "sign_in"
               ? t("auth.signInSubtitle")
               : t("auth.signUpSubtitle")}
@@ -108,9 +108,9 @@ export function AuthPage() {
           >
             {mode === "sign_up" && (
               <div>
-                <label className="text-xs text-neutral-400 mb-1 block">{t("teamMember.identity.name")}</label>
+                <label className="text-xs text-white/50 mb-1 block">{t("teamMember.identity.name")}</label>
                 <input
-                  className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-orange-500/50 placeholder:text-neutral-500"
+                  className="w-full rounded-md border border-white/15 bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-white/30 placeholder:text-white/30"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   autoComplete="name"
@@ -119,9 +119,9 @@ export function AuthPage() {
               </div>
             )}
             <div>
-              <label className="text-xs text-neutral-400 mb-1 block">{t("channels.types.email")}</label>
+              <label className="text-xs text-white/50 mb-1 block">{t("channels.types.email")}</label>
               <input
-                className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-orange-500/50 placeholder:text-neutral-500"
+                className="w-full rounded-md border border-white/15 bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-white/30 placeholder:text-white/30"
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
@@ -130,9 +130,9 @@ export function AuthPage() {
               />
             </div>
             <div>
-              <label className="text-xs text-neutral-400 mb-1 block">{t("auth.password")}</label>
+              <label className="text-xs text-white/50 mb-1 block">{t("auth.password")}</label>
               <input
-                className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-orange-500/50 placeholder:text-neutral-500"
+                className="w-full rounded-md border border-white/15 bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-white/30 placeholder:text-white/30"
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
@@ -144,7 +144,7 @@ export function AuthPage() {
               type="submit"
               disabled={mutation.isPending}
               aria-disabled={!canSubmit || mutation.isPending}
-              className={`w-full bg-orange-600 hover:bg-orange-500 text-white border-0 ${!canSubmit && !mutation.isPending ? "opacity-50" : ""}`}
+              className={`w-full bg-white/20 hover:bg-white/30 text-white border border-white/15 backdrop-blur ${!canSubmit && !mutation.isPending ? "opacity-50" : ""}`}
             >
               {mutation.isPending
                 ? t("auth.working")
@@ -154,11 +154,11 @@ export function AuthPage() {
             </Button>
           </form>
 
-          <div className="mt-5 text-sm text-neutral-400">
+          <div className="mt-5 text-sm text-white/40">
             {mode === "sign_in" ? t("auth.needAccount") : t("auth.alreadyHaveAccount")}{" "}
             <button
               type="button"
-              className="font-medium text-white underline underline-offset-2"
+              className="font-medium text-white/80 underline underline-offset-2 hover:text-white"
               onClick={() => {
                 setError(null);
                 setMode(mode === "sign_in" ? "sign_up" : "sign_in");
