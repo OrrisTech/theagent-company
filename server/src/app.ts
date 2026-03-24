@@ -7,6 +7,7 @@ import type { DeploymentExposure, DeploymentMode } from "@theagentcompany/shared
 import type { StorageService } from "./storage/types.js";
 import { httpLogger, errorHandler } from "./middleware/index.js";
 import { actorMiddleware } from "./middleware/auth.js";
+import { loadOpenClawTokenConfig } from "./auth/openclaw-token.js";
 import { boardMutationGuard } from "./middleware/board-mutation-guard.js";
 import { privateHostnameGuard, resolvePrivateHostnameAllowSet } from "./middleware/private-hostname-guard.js";
 import { healthRoutes } from "./routes/health.js";
@@ -99,10 +100,12 @@ export async function createApp(
       bindHost: opts.bindHost,
     }),
   );
+  const openclawTokenConfig = loadOpenClawTokenConfig();
   app.use(
     actorMiddleware(db, {
       deploymentMode: opts.deploymentMode,
       resolveSession: opts.resolveSession,
+      openclawTokenConfig,
     }),
   );
   app.get("/api/auth/get-session", (req, res) => {

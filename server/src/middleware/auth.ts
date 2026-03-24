@@ -6,6 +6,12 @@ import { agentApiKeys, agents, companyMemberships, instanceUserRoles } from "@th
 import { verifyLocalAgentJwt } from "../agent-auth-jwt.js";
 import type { DeploymentMode } from "@theagentcompany/shared";
 import type { BetterAuthSessionResult } from "../auth/better-auth.js";
+import {
+  extractOpenClawToken,
+  validateOpenClawToken,
+  resolveOrCreateTacUser,
+  type OpenClawTokenConfig,
+} from "../auth/openclaw-token.js";
 import { logger } from "./logger.js";
 
 function hashToken(token: string) {
@@ -15,6 +21,7 @@ function hashToken(token: string) {
 interface ActorMiddlewareOptions {
   deploymentMode: DeploymentMode;
   resolveSession?: (req: Request) => Promise<BetterAuthSessionResult | null>;
+  openclawTokenConfig?: OpenClawTokenConfig;
 }
 
 export function actorMiddleware(db: Db, opts: ActorMiddlewareOptions): RequestHandler {
@@ -25,6 +32,38 @@ export function actorMiddleware(db: Db, opts: ActorMiddlewareOptions): RequestHa
         : { type: "none", source: "none" };
 
     const runIdHeader = req.header("x-tac-run-id");
+
+    // ── OpenClaw token auth (checked before bearer token and session) ──
+    if (opts.openclawTokenConfig?.enabled) {
+      const openclawToken = extractOpenClawToken(req);
+      if (openclawToken) {
+        try {
+          const validation = await validateOpenClawToken(openclawToken, opts.openclawTokenConfig);
+          if (validation.valid && validation.userId) {
+            const tacUser = await resolveOrCreateTacUser(db, {
+              userId: validation.userId,
+              userName: validation.userName,
+              email: validation.email,
+            });
+            req.actor = {
+              type: "board",
+              userId: tacUser.userId,
+              companyIds: tacUser.companyIds,
+              isInstanceAdmin: tacUser.isInstanceAdmin,
+              runId: runIdHeader ?? undefined,
+              source: "openclaw_token",
+            };
+            next();
+            return;
+          }
+        } catch (err) {
+          logger.warn(
+            { err, method: req.method, url: req.originalUrl },
+            "OpenClaw token auth failed",
+          );
+        }
+      }
+    }
 
     const authHeader = req.header("authorization");
     if (!authHeader?.toLowerCase().startsWith("bearer ")) {
