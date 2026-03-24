@@ -4537,3 +4537,73 @@ Exit status 2
       "line": "309",
       "routine": "BackendInitialize"
     }
+9:30:01 AM [tsx] change in ./../packages/plugins/sdk/dist/index.js Rerunning...
+c[22:30:04] [32mINFO[39m: [36mUsing embedded PostgreSQL because no DATABASE_URL set (dataDir=/Users/james/.paperclip/instances/default/db, port=54329)[39m
+[22:30:04] [32mINFO[39m: [36mEmbedded PostgreSQL cluster already exists (/Users/james/.paperclip/instances/default/db/PG_VERSION); skipping init[39m
+[22:30:04] [31mERROR[39m: [36mEmbedded PostgreSQL failed; showing buffered startup logs[39m [90m{"phase":"start","recentLogs":["2026-03-24 09:30:04.911 AEDT [96771] FATAL:  lock file \"postmaster.pid\" already exists","2026-03-24 09:30:04.911 AEDT [96771] HINT:  Is another postmaster (PID 96770) running in data directory \"/Users/james/.paperclip/instances/default/db\"?"]}[39m
+[22:30:04] [31mERROR[39m: [36mTAC server failed to start[39m
+11:16:59 AM [tsx] change in ./src/adapters/registry.ts Rerunning...
+c[00:17:00] [32mINFO[39m: [36mUsing embedded PostgreSQL because no DATABASE_URL set (dataDir=/Users/james/.paperclip/instances/default/db, port=54329)[39m
+[00:17:00] [32mINFO[39m: [36mEmbedded PostgreSQL cluster already exists (/Users/james/.paperclip/instances/default/db/PG_VERSION); skipping init[39m
+[00:17:00] [31mERROR[39m: [36mTAC server failed to start[39m 
+    err: {
+      "type": "PostgresError",
+      "message": "password authentication failed for user \"tac\"",
+      "stack":
+          PostgresError: password authentication failed for user "tac"
+              at ErrorResponse (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/connection.js:817:22)
+              at handle (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/connection.js:489:6)
+              at Socket.data (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/connection.js:324:9)
+              at Socket.emit (node:events:508:20)
+              at addChunk (node:internal/streams/readable:564:12)
+              at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+              at Readable.push (node:internal/streams/readable:395:5)
+              at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+              at cachedError (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/query.js:170:23)
+              at new Query (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/query.js:36:24)
+              at sql (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/index.js:112:11)
+              at ensurePostgresDatabase (/Users/james/Dev/theagent-company/packages/db/src/client.ts:756:28)
+      "name": "PostgresError",
+      "severity_local": "FATAL",
+      "severity": "FATAL",
+      "code": "28P01",
+      "file": "auth.c",
+      "line": "320",
+      "routine": "auth_failed"
+    }
+11:17:07 AM [tsx] change in ./src/adapters/registry.ts Rerunning...
+c11:18:18 AM [tsx] change in ./../packages/plugins/sdk/dist/index.js Rerunning...
+c[00:18:22] [33mWARN[39m: [36mEmbedded PostgreSQL port is in use; using next free port (requestedPort=54329, selectedPort=54330)[39m
+[00:18:22] [32mINFO[39m: [36mUsing embedded PostgreSQL because no DATABASE_URL set (dataDir=/Users/james/.paperclip/instances/default/db, port=54330)[39m
+[00:18:22] [32mINFO[39m: [36mEmbedded PostgreSQL cluster already exists (/Users/james/.paperclip/instances/default/db/PG_VERSION); skipping init[39m
+[00:18:22] [31mERROR[39m: [36mEmbedded PostgreSQL failed; showing buffered startup logs[39m [90m{"phase":"start","recentLogs":["2026-03-24 11:18:22.126 AEDT [5378] FATAL:  lock file \"postmaster.pid\" is empty","2026-03-24 11:18:22.126 AEDT [5378] HINT:  Either another server is starting, or the lock file is the remnant of a previous server startup crash."]}[39m
+[00:18:22] [31mERROR[39m: [36mTAC server failed to start[39m
+11:20:58 AM [tsx] change in ./../packages/plugins/sdk/dist/index.js Rerunning...
+c[00:21:00] [32mINFO[39m: [36mUsing embedded PostgreSQL because no DATABASE_URL set (dataDir=/Users/james/.paperclip/instances/default/db, port=54329)[39m
+[00:21:00] [32mINFO[39m: [36mEmbedded PostgreSQL cluster already exists (/Users/james/.paperclip/instances/default/db/PG_VERSION); skipping init[39m
+[00:21:01] [31mERROR[39m: [36mTAC server failed to start[39m 
+    err: {
+      "type": "PostgresError",
+      "message": "password authentication failed for user \"tac\"",
+      "stack":
+          PostgresError: password authentication failed for user "tac"
+              at ErrorResponse (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/connection.js:817:22)
+              at handle (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/connection.js:489:6)
+              at Socket.data (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/connection.js:324:9)
+              at Socket.emit (node:events:508:20)
+              at addChunk (node:internal/streams/readable:564:12)
+              at readableAddChunkPushByteMode (node:internal/streams/readable:515:3)
+              at Readable.push (node:internal/streams/readable:395:5)
+              at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+              at cachedError (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/query.js:170:23)
+              at new Query (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/query.js:36:24)
+              at sql (file:///Users/james/Dev/theagent-company/node_modules/.pnpm/postgres@3.4.8/node_modules/postgres/src/index.js:112:11)
+              at ensurePostgresDatabase (/Users/james/Dev/theagent-company/packages/db/src/client.ts:756:28)
+      "name": "PostgresError",
+      "severity_local": "FATAL",
+      "severity": "FATAL",
+      "code": "28P01",
+      "file": "auth.c",
+      "line": "320",
+      "routine": "auth_failed"
+    }
