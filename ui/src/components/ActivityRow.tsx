@@ -21,7 +21,7 @@ const ACTION_VERBS: Record<string, string> = {
   "agent.updated": "updated",
   "agent.paused": "paused",
   "agent.resumed": "resumed",
-  "agent.terminated": "terminated",
+  "agent.terminated": "fired",
   "agent.key_created": "created API key for",
   "agent.budget_updated": "updated budget for",
   "agent.runtime_session_reset": "reset session for",

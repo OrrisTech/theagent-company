@@ -7510,3 +7510,442 @@ dist/assets/index-DdNW1pto.js                         2,227.46 kB │ gzip: 618.
 [03:04:27] [32mINFO[39m: [36mloaded tools from ready plugins[39m [90m{"service":"plugin-tool-dispatcher","readyPlugins":0,"registeredTools":0}[39m
 [03:04:27] [32mINFO[39m: [36mplugin tool dispatcher initialized[39m [90m{"service":"plugin-tool-dispatcher","totalTools":0}[39m
 [03:04:27] [32mINFO[39m: [36mplugin-loader: no ready plugins to load[39m [90m{"service":"plugin-loader"}[39m
+2:04:53 PM [tsx] Previous process hasn't exited yet. Force killing...
+2:04:53 PM [tsx] Previous process hasn't exited yet. Force killing...
+[tac] Building UI...
+
+> @theagentcompany/ui@0.0.1 build /Users/james/Dev/theagent-company/ui
+> tsc -b && vite build
+
+vite v6.4.1 building for production...
+transforming...
+✓ 4790 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                           3.60 kB │ gzip:   1.15 kB
+dist/assets/index-BRGJR2vN.css                          230.61 kB │ gzip:  36.59 kB
+dist/assets/clone-Dn4jRtrl.js                             0.10 kB │ gzip:   0.11 kB
+dist/assets/channel-BIOeODaN.js                           0.11 kB │ gzip:   0.13 kB
+dist/assets/init-Gi6I4Gst.js                              0.15 kB │ gzip:   0.13 kB
+dist/assets/chunk-QZHKN3VN-CEWeTpA7.js                    0.19 kB │ gzip:   0.16 kB
+dist/assets/chunk-55IACEB6-KaQtuZu7.js                    0.24 kB │ gzip:   0.21 kB
+dist/assets/chunk-4BX2VUAB-moFcLJgp.js                    0.30 kB │ gzip:   0.20 kB
+dist/assets/diff-DbItnlRl.js                              0.31 kB │ gzip:   0.24 kB
+dist/assets/chunk-FMBD7UC4-8cH9QXbz.js                    0.37 kB │ gzip:   0.27 kB
+dist/assets/chunk-QN33PNHL-ihJ0z047.js                    0.53 kB │ gzip:   0.37 kB
+dist/assets/stateDiagram-v2-4FDKWEC3-DPLXOoQh.js          0.57 kB │ gzip:   0.36 kB
+dist/assets/classDiagram-2ON5EDUG-DL8LLNXr.js             0.61 kB │ gzip:   0.37 kB
+dist/assets/classDiagram-v2-WZHVMYZB-DL8LLNXr.js          0.61 kB │ gzip:   0.37 kB
+dist/assets/brainfuck-C4LP7Hcl.js                         0.61 kB │ gzip:   0.33 kB
+dist/assets/properties-C78fOPTZ.js                        0.67 kB │ gzip:   0.34 kB
+dist/assets/cmake-BQqOBYOt.js                             0.78 kB │ gzip:   0.46 kB
+dist/assets/asciiarmor-Df11BRmG.js                        0.79 kB │ gzip:   0.40 kB
+dist/assets/http-DBlCnlav.js                              0.85 kB │ gzip:   0.42 kB
+dist/assets/protobuf-ChK-085T.js                          0.86 kB │ gzip:   0.52 kB
+dist/assets/solr-DehyRSwq.js                              0.87 kB │ gzip:   0.45 kB
+dist/assets/infoDiagram-HS3SLOUP-CsH0qSjH.js              0.87 kB │ gzip:   0.53 kB
+dist/assets/troff-wAsdV37c.js                             0.96 kB │ gzip:   0.44 kB
+dist/assets/spreadsheet-BCZA_wO0.js                       1.14 kB │ gzip:   0.54 kB
+dist/assets/toml-Bm5Em-hy.js                              1.14 kB │ gzip:   0.54 kB
+dist/assets/ordinal-Cboi1Yqb.js                           1.19 kB │ gzip:   0.57 kB
+dist/assets/mbox-CNhZ1qSd.js                              1.40 kB │ gzip:   0.65 kB
+dist/assets/chunk-TZMSLE5B-hSLxs-nM.js                    1.44 kB │ gzip:   0.64 kB
+dist/assets/sieve-C3Gn_uJK.js                             1.62 kB │ gzip:   0.77 kB
+dist/assets/rpm-CTu-6PCP.js                               1.62 kB │ gzip:   0.82 kB
+dist/assets/factor-kuTfRLto.js                            1.67 kB │ gzip:   0.61 kB
+dist/assets/z80-Hz9HOZM7.js                               1.75 kB │ gzip:   0.81 kB
+dist/assets/eiffel-CnydiIhH.js                            1.81 kB │ gzip:   0.91 kB
+dist/assets/elm-vLlmbW-K.js                               1.89 kB │ gzip:   0.81 kB
+dist/assets/mathematica-DTrFuWx2.js                       1.92 kB │ gzip:   0.81 kB
+dist/assets/dockerfile-BKs6k2Af.js                        1.95 kB │ gzip:   0.67 kB
+dist/assets/turtle-B1tBg_DP.js                            1.98 kB │ gzip:   0.90 kB
+dist/assets/ebnf-CDyGwa7X.js                              1.99 kB │ gzip:   0.80 kB
+dist/assets/smalltalk-CnHTOXQT.js                         2.01 kB │ gzip:   0.85 kB
+dist/assets/dtd-DF_7sFjM.js                               2.06 kB │ gzip:   0.87 kB
+dist/assets/mumps-BT43cFF4.js                             2.07 kB │ gzip:   0.98 kB
+dist/assets/fcl-Kvtd6kyn.js                               2.08 kB │ gzip:   0.95 kB
+dist/assets/ntriples-BfvgReVJ.js                          2.10 kB │ gzip:   0.74 kB
+dist/assets/yacas-BJ4BC0dw.js                             2.15 kB │ gzip:   1.09 kB
+dist/assets/simple-mode-GW_nhZxv.js                       2.28 kB │ gzip:   1.09 kB
+dist/assets/apl-B4CMkyY2.js                               2.30 kB │ gzip:   1.20 kB
+dist/assets/pascal--L3eBynH.js                            2.30 kB │ gzip:   1.19 kB
+dist/assets/octave-Ck1zUtKM.js                            2.31 kB │ gzip:   1.09 kB
+dist/assets/commonlisp-DBKNyK5s.js                        2.32 kB │ gzip:   1.09 kB
+dist/assets/tcl-DVfN8rqt.js                               2.36 kB │ gzip:   1.22 kB
+dist/assets/webidl-ZXfAyPTL.js                            2.52 kB │ gzip:   1.24 kB
+dist/assets/pig-CevX1Tat.js                               2.53 kB │ gzip:   1.35 kB
+dist/assets/puppet-DMA9R1ak.js                            2.54 kB │ gzip:   1.19 kB
+dist/assets/forth-Ffai-XNe.js                             2.54 kB │ gzip:   1.31 kB
+dist/assets/shell-CjFT_Tl9.js                             2.57 kB │ gzip:   1.20 kB
+dist/assets/_basePickBy-CPQE9OdE.js                       2.59 kB │ gzip:   1.29 kB
+dist/assets/index-VmHa5Tji.js                             2.59 kB │ gzip:   1.55 kB
+dist/assets/velocity-D8B20fx6.js                          2.67 kB │ gzip:   1.11 kB
+dist/assets/tiddlywiki-DO-Gjzrf.js                        2.78 kB │ gzip:   1.06 kB
+dist/assets/modelica-Dc1JOy9r.js                          2.79 kB │ gzip:   1.28 kB
+dist/assets/index-BVaX5Lr0.js                             2.81 kB │ gzip:   1.54 kB
+dist/assets/oz-BzwKVEFT.js                                2.90 kB │ gzip:   1.28 kB
+dist/assets/r-B6wPVr8A.js                                 2.94 kB │ gzip:   1.36 kB
+dist/assets/stex-C3f8Ysf7.js                              3.12 kB │ gzip:   1.20 kB
+dist/assets/tiki-DGYXhP31.js                              3.25 kB │ gzip:   1.26 kB
+dist/assets/vhdl-lSbBsy5d.js                              3.35 kB │ gzip:   1.51 kB
+dist/assets/lua-BgMRiT3U.js                               3.40 kB │ gzip:   1.42 kB
+dist/assets/arc-f8qrwdeW.js                               3.42 kB │ gzip:   1.45 kB
+dist/assets/mscgen-BA5vi2Kp.js                            3.51 kB │ gzip:   0.97 kB
+dist/assets/sparql-DkYu6x3z.js                            3.55 kB │ gzip:   1.61 kB
+dist/assets/cypher-C_CwsFkJ.js                            3.56 kB │ gzip:   1.52 kB
+dist/assets/index-C2ml9Edc.js                             3.58 kB │ gzip:   1.77 kB
+dist/assets/d-pRatUO7H.js                                 3.72 kB │ gzip:   1.67 kB
+dist/assets/coffeescript-S37ZYGWr.js                      3.87 kB │ gzip:   1.67 kB
+dist/assets/vb-CmGdzxic.js                                3.90 kB │ gzip:   1.78 kB
+dist/assets/swift-BzpIVaGY.js                             3.96 kB │ gzip:   1.78 kB
+dist/assets/asn1-EdZsLKOL.js                              3.98 kB │ gzip:   1.92 kB
+dist/assets/q-pXgVlZs6.js                                 4.03 kB │ gzip:   1.66 kB
+dist/assets/ttcn-cfg-B9xdYoR4.js                          4.05 kB │ gzip:   1.69 kB
+dist/assets/dylan-DwRh75JA.js                             4.05 kB │ gzip:   1.64 kB
+dist/assets/livescript-BwQOo05w.js                        4.09 kB │ gzip:   1.62 kB
+dist/assets/groovy-D9Dt4D0W.js                            4.14 kB │ gzip:   1.76 kB
+dist/assets/haskell-Cw1EW3IL.js                           4.17 kB │ gzip:   1.86 kB
+dist/assets/asterisk-B-8jnY81.js                          4.48 kB │ gzip:   1.78 kB
+dist/assets/diagram-S2PKOQOG-6nCBhH9U.js                  4.52 kB │ gzip:   1.97 kB
+dist/assets/gas-Bneqetm1.js                               4.57 kB │ gzip:   1.28 kB
+dist/assets/fortran-DYz_wnZ1.js                           4.65 kB │ gzip:   2.00 kB
+dist/assets/defaultLocale-DX6XiGOO.js                     4.69 kB │ gzip:   2.17 kB
+dist/assets/mllike-CXdrOF99.js                            4.79 kB │ gzip:   1.54 kB
+dist/assets/ttcn-CfJYG6tj.js                              4.80 kB │ gzip:   2.10 kB
+dist/assets/ecl-Cabwm37j.js                               5.13 kB │ gzip:   2.29 kB
+dist/assets/crystal-SjHAIU92.js                           5.13 kB │ gzip:   2.05 kB
+dist/assets/ruby-B2Rjki9n.js                              5.16 kB │ gzip:   2.13 kB
+dist/assets/index-CQdZ87a5.js                             5.24 kB │ gzip:   2.44 kB
+dist/assets/julia-DuME0IfC.js                             5.39 kB │ gzip:   2.12 kB
+dist/assets/pieDiagram-ADFJNKIX-DLgGZgYF.js               5.44 kB │ gzip:   2.41 kB
+dist/assets/linear-0VYUovF0.js                            5.66 kB │ gzip:   2.31 kB
+dist/assets/vbscript-BuJXcnF6.js                          5.82 kB │ gzip:   2.55 kB
+dist/assets/mirc-CjQqDB4T.js                              5.92 kB │ gzip:   2.66 kB
+dist/assets/graph-Cnb5_gV1.js                             5.92 kB │ gzip:   1.88 kB
+dist/assets/cobol-CWcv1MsR.js                             6.20 kB │ gzip:   2.91 kB
+dist/assets/diagram-QEK2KX5R-6obEA389.js                  6.23 kB │ gzip:   2.62 kB
+dist/assets/scheme-C41bIUwD.js                            6.37 kB │ gzip:   2.39 kB
+dist/assets/python-BuPzkPfP.js                            6.48 kB │ gzip:   2.71 kB
+dist/assets/xquery-DzFWVndE.js                            6.62 kB │ gzip:   2.56 kB
+dist/assets/pug-DeIclll2.js                               6.67 kB │ gzip:   1.95 kB
+dist/assets/textile-CnDTJFAw.js                           6.80 kB │ gzip:   2.43 kB
+dist/assets/nsis-LdVXkNf5.js                              6.81 kB │ gzip:   2.96 kB
+dist/assets/nginx-DdIZxoE0.js                             7.34 kB │ gzip:   2.73 kB
+dist/assets/powershell-CFHJl5sT.js                        7.77 kB │ gzip:   3.30 kB
+dist/assets/haxe-H-WmDvRZ.js                              7.89 kB │ gzip:   2.92 kB
+dist/assets/erlang-BNw1qcRV.js                            8.10 kB │ gzip:   2.86 kB
+dist/assets/verilog-C6RDOZhf.js                           8.24 kB │ gzip:   3.47 kB
+dist/assets/sas-B4kiWyti.js                               9.33 kB │ gzip:   4.07 kB
+dist/assets/perl-CdXCOZ3F.js                              9.75 kB │ gzip:   3.40 kB
+dist/assets/gherkin-heZmZLOM.js                          10.16 kB │ gzip:   4.96 kB
+dist/assets/stateDiagram-FKZM4ZOC-gJq-9qCd.js            10.56 kB │ gzip:   3.71 kB
+dist/assets/clojure-BMjYHr_A.js                          10.82 kB │ gzip:   3.96 kB
+dist/assets/dagre-6UL2VRFP-C2gpa5g-.js                   11.44 kB │ gzip:   4.28 kB
+dist/assets/idl-BEugSyMb.js                              11.63 kB │ gzip:   4.54 kB
+dist/assets/_baseUniq-X-DUQPdB.js                        11.90 kB │ gzip:   4.63 kB
+dist/assets/index-3-7ufO_m.js                            12.87 kB │ gzip:   5.57 kB
+dist/assets/index-56IRP0m1.js                            14.97 kB │ gzip:   5.97 kB
+dist/assets/diagram-PSM6KHXK-BFoHzrid.js                 16.16 kB │ gzip:   5.78 kB
+dist/assets/index-A4TG-ydv.js                            16.49 kB │ gzip:   7.30 kB
+dist/assets/javascript-iXu5QeM3.js                       17.08 kB │ gzip:   5.72 kB
+dist/assets/index-BqTNOY_v.js                            19.86 kB │ gzip:   9.13 kB
+dist/assets/kanban-definition-3W4ZIXB7-B9VvKj8U.js       20.78 kB │ gzip:   7.27 kB
+dist/assets/index-Dbt5Cmv_.js                            21.09 kB │ gzip:   9.20 kB
+dist/assets/mindmap-definition-VGOIOE7T-C6IQVd6v.js      21.21 kB │ gzip:   7.34 kB
+dist/assets/clike-B9uivgTg.js                            22.30 kB │ gzip:   7.79 kB
+dist/assets/sankeyDiagram-TZEHDZUN-LwgNv5C-.js           22.41 kB │ gzip:   8.19 kB
+dist/assets/index-UjoDngoh.js                            23.24 kB │ gzip:  10.08 kB
+dist/assets/journeyDiagram-XKPGCS4Q-D49NJ1GK.js          23.72 kB │ gzip:   8.34 kB
+dist/assets/timeline-definition-IT6M3QCI-Bo2w7Gbl.js     23.89 kB │ gzip:   8.31 kB
+dist/assets/gitGraphDiagram-V2S2FVAM-DnzYQ_Eh.js         24.90 kB │ gzip:   7.67 kB
+dist/assets/erDiagram-Q2GNP2WA-BCelgXKp.js               25.52 kB │ gzip:   8.84 kB
+dist/assets/stylus-B533Al4x.js                           25.80 kB │ gzip:   8.62 kB
+dist/assets/index-BUvOxaRo.js                            26.03 kB │ gzip:  11.44 kB
+dist/assets/index-ByG7-X2x.js                            26.39 kB │ gzip:   8.82 kB
+dist/assets/css-BnMrqG3P.js                              27.13 kB │ gzip:   8.49 kB
+dist/assets/layout-DhOL1u4h.js                           27.39 kB │ gzip:   9.72 kB
+dist/assets/index-gg73bP2-.js                            28.86 kB │ gzip:  11.46 kB
+dist/assets/requirementDiagram-UZGBJVZJ-CG4ZlmJO.js      30.44 kB │ gzip:   9.45 kB
+dist/assets/index-Bslluw3R.js                            30.97 kB │ gzip:  12.42 kB
+dist/assets/index-DgQwtWng.js                            32.50 kB │ gzip:  13.05 kB
+dist/assets/quadrantDiagram-AYHSOK5B-DNwIHXRL.js         34.50 kB │ gzip:  10.07 kB
+dist/assets/chunk-DI55MBZ5-DOh2Ec1Y.js                   36.80 kB │ gzip:  11.85 kB
+dist/assets/sql-D0XecflT.js                              37.05 kB │ gzip:  10.91 kB
+dist/assets/xychartDiagram-PRI3JC2R-BsxrhqBd.js          40.39 kB │ gzip:  11.44 kB
+dist/assets/vendor-tanstack-C2Y_hnmp.js                  40.82 kB │ gzip:  12.17 kB
+dist/assets/index-BVgI1tll.js                            40.91 kB │ gzip:  16.24 kB
+dist/assets/index-DRySCw9S.js                            44.33 kB │ gzip:  15.39 kB
+dist/assets/index-CwO5DObD.js                            45.28 kB │ gzip:  18.73 kB
+dist/assets/chunk-B4BG7PRW-rrhEIsWo.js                   45.41 kB │ gzip:  14.55 kB
+dist/assets/vendor-dnd-DWWskIVA.js                       50.12 kB │ gzip:  16.60 kB
+dist/assets/vendor-i18n-B5Y2hUFy.js                      58.17 kB │ gzip:  18.90 kB
+dist/assets/flowDiagram-NV44I4VS--awzC7bL.js             61.29 kB │ gzip:  19.39 kB
+dist/assets/ganttDiagram-JELNMOA3-RHDtyd7S.js            68.48 kB │ gzip:  22.95 kB
+dist/assets/c4Diagram-YG6GDRKO-Bhb6Vyca.js               70.34 kB │ gzip:  19.62 kB
+dist/assets/index-5LTx6hGD.js                            70.98 kB │ gzip:  25.16 kB
+dist/assets/blockDiagram-VD42YOAC-CQIKxQHk.js            73.33 kB │ gzip:  20.75 kB
+dist/assets/cose-bilkent-S5V4N54A-D91sOlyQ.js            81.89 kB │ gzip:  22.47 kB
+dist/assets/index-CEYz1FRc.js                            86.81 kB │ gzip:  33.63 kB
+dist/assets/index-D4AG2WKV.js                            98.03 kB │ gzip:  28.03 kB
+dist/assets/sequenceDiagram-WL72ISMW-Cbi4zYgN.js         98.31 kB │ gzip:  26.86 kB
+dist/assets/index-wLMG8AnC.js                           100.73 kB │ gzip:  32.62 kB
+dist/assets/vendor-radix-Cxi8QeZV.js                    117.25 kB │ gzip:  35.68 kB
+dist/assets/architectureDiagram-VXUJARFQ-DSD0HPqx.js    149.14 kB │ gzip:  42.00 kB
+dist/assets/katex-O9d3_IXG.js                           258.51 kB │ gzip:  76.54 kB
+dist/assets/cytoscape.esm-BQaXIfA_.js                   442.44 kB │ gzip: 141.29 kB
+dist/assets/treemap-GDKQZRPO-C69sQjnM.js                454.87 kB │ gzip: 107.69 kB
+dist/assets/vendor-react-bbBl97cl.js                    477.93 kB │ gzip: 152.31 kB
+dist/assets/mermaid.core-iNiDC6RX.js                    498.96 kB │ gzip: 139.36 kB
+dist/assets/index-DdNW1pto.js                         2,227.46 kB │ gzip: 618.85 kB
+✓ built in 7.19s
+[tac] Starting server...
+
+> @theagentcompany/server@0.3.1 dev:watch /Users/james/Dev/theagent-company/server
+> cross-env TAC_MIGRATION_PROMPT=never TAC_MIGRATION_AUTO_APPLY=true tsx watch --ignore ../ui/node_modules --ignore ../ui/.vite --ignore ../ui/dist src/index.ts
+
+[03:05:09] [32mINFO[39m: [36mUsing embedded PostgreSQL because no DATABASE_URL set (dataDir=/Users/james/.paperclip/instances/default/db, port=54329)[39m
+[03:05:09] [32mINFO[39m: [36mEmbedded PostgreSQL cluster already exists (/Users/james/.paperclip/instances/default/db/PG_VERSION); skipping init[39m
+
+[36m██████╗  █████╗ ██████╗ ███████╗██████╗  ██████╗██╗     ██╗██████╗ [0m
+[36m██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝██║     ██║██╔══██╗[0m
+[36m██████╔╝███████║██████╔╝█████╗  ██████╔╝██║     ██║     ██║██████╔╝[0m
+[36m██╔═══╝ ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗██║     ██║     ██║██╔═══╝ [0m
+[36m██║     ██║  ██║██║     ███████╗██║  ██║╚██████╗███████╗██║██║     [0m
+[36m╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝╚═╝     [0m
+[34m  ───────────────────────────────────────────────────────[0m
+[2mMode            [0m [32membedded-postgres[0m  |  [35mstatic-ui[0m
+[2mDeploy          [0m authenticated (private)
+[2mAuth            [0m [32mready[0m
+[2mServer          [0m 3100
+[2mAPI             [0m http://localhost:3100/api [2m(health: http://localhost:3100/api/health)[0m
+[2mUI              [0m http://localhost:3100
+[2mDatabase        [0m /Users/james/.paperclip/instances/default/db [2m(pg:54329)[0m
+[2mMigrations      [0m already applied
+[2mAgent JWT       [0m [33mmissing (run `pnpm theagentcompany onboard`)[0m
+[2mHeartbeat       [0m enabled [2m(30000ms)[0m
+[2mDB Backup       [0m enabled [2m(every 60m, keep 30d)[0m
+[2mBackup Dir      [0m /Users/james/.paperclip/instances/default/data/backups
+[2mConfig          [0m /Users/james/.paperclip/instances/default/config.json
+[33m  ───────────────────────────────────────────────────────[0m
+[34m  ───────────────────────────────────────────────────────[0m
+
+[03:05:09] [32mINFO[39m: [36mEmbedded PostgreSQL ready[39m
+[03:05:09] [32mINFO[39m: [36mAuthenticated mode auth origin configuration[39m [90m{"authBaseUrlMode":"auto","authPublicBaseUrl":null,"trustedOrigins":["https://zifeis-mac-mini.tailf9f88d.ts.net","http://zifeis-mac-mini.tailf9f88d.ts.net"],"trustedOriginsSource":{"derived":2,"env":0}}[39m
+[03:05:09] [32mINFO[39m: [36mplugin job coordinator started — listening to lifecycle events[39m [90m{"service":"plugin-job-coordinator"}[39m
+[03:05:09] [32mINFO[39m: [36mplugin job scheduler started[39m [90m{"service":"plugin-job-scheduler","tickIntervalMs":30000,"maxConcurrentJobs":10}[39m
+[03:05:09] [32mINFO[39m: [36minitializing plugin tool dispatcher[39m [90m{"service":"plugin-tool-dispatcher"}[39m
+[03:05:09] [32mINFO[39m: [36mplugin-loader: loading all ready plugins[39m [90m{"service":"plugin-loader"}[39m
+[03:05:09] [32mINFO[39m: [36mAutomatic database backups enabled[39m [90m{"intervalMinutes":60,"retentionDays":30,"backupDir":"/Users/james/.paperclip/instances/default/data/backups"}[39m
+[03:05:09] [32mINFO[39m: [36mServer listening on 0.0.0.0:3100[39m
+[03:05:09] [32mINFO[39m: [36mloaded tools from ready plugins[39m [90m{"service":"plugin-tool-dispatcher","readyPlugins":0,"registeredTools":0}[39m
+[03:05:09] [32mINFO[39m: [36mplugin tool dispatcher initialized[39m [90m{"service":"plugin-tool-dispatcher","totalTools":0}[39m
+[03:05:09] [32mINFO[39m: [36mplugin-loader: no ready plugins to load[39m [90m{"service":"plugin-loader"}[39m
+[03:05:39] [32mINFO[39m: [36mheartbeat timer tick enqueued runs[39m [90m{"checked":1,"enqueued":1,"skipped":0}[39m
+[03:05:39] [33mWARN[39m: [36mlocal agent jwt secret missing or invalid; running without injected TAC_API_KEY[39m [90m{"companyId":"b9e2b5c9-9f24-49ca-bf0e-be3a6832453d","agentId":"5d9dfff8-7844-4dd6-a646-1475884e2ea2","runId":"7bd35118-6ed7-4a69-8feb-5d3af5280242","adapterType":"claude_local"}[39m
+[03:06:03] [32mINFO[39m: [36mGET / 200[39m
+[03:06:09] [32mINFO[39m: [36mheartbeat timer tick enqueued runs[39m [90m{"checked":1,"enqueued":1,"skipped":0}[39m
+[03:07:40] [32mINFO[39m: [36mGET /ORR/agents/all 200[39m
+[03:07:41] [32mINFO[39m: [36mGET /assets/index-BRGJR2vN.css 200[39m
+[03:07:41] [32mINFO[39m: [36mGET /assets/vendor-i18n-B5Y2hUFy.js 200[39m
+[03:07:41] [32mINFO[39m: [36mGET /assets/vendor-tanstack-C2Y_hnmp.js 200[39m
+[03:07:41] [32mINFO[39m: [36mGET /assets/vendor-dnd-DWWskIVA.js 200[39m
+[03:07:41] [32mINFO[39m: [36mGET /assets/vendor-radix-Cxi8QeZV.js 200[39m
+[03:07:41] [32mINFO[39m: [36mGET /assets/vendor-react-bbBl97cl.js 200[39m
+[03:07:51] [32mINFO[39m: [36mGET /assets/index-DdNW1pto.js 200[39m
+[03:07:57] [33mWARN[39m: [36mGET /api/auth/get-session 401[39m [90m{"routePath":"/api/auth/get-session"}[39m
+[03:07:57] [32mINFO[39m: [36mGET / 200[39m
+[03:07:57] [33mWARN[39m: [36mGET /api/companies 403[39m [90m{"routePath":"/"}[39m
+[03:07:57] [32mINFO[39m: [36mGET /favicon.svg 200[39m
+[03:08:06] [32mINFO[39m: [36mPOST /api/auth/sign-in/email 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /api/auth/get-session 200[39m
+[03:08:06] [32mINFO[39m: [36mGET / 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /favicon.svg 304[39m
+[03:08:06] [32mINFO[39m: [36mGET /plugins/ui-contributions 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/approvals 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/org 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/join-requests?status=pending_approval 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/projects 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 200[39m
+[03:08:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/issues?status=backlog%2Ctodo%2Cin_progress%2Cin_review%2Cblocked%2Cdone&touchedByUserId=me 200[39m
+[03:08:42] [32mINFO[39m: [36mGET /api/auth/get-session 304[39m
+[03:08:42] [32mINFO[39m: [36mGET / 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /plugins/ui-contributions 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/join-requests?status=pending_approval 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/approvals 304[39m
+[03:08:42] [32mINFO[39m: [36mGET / 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/org 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/projects 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 304[39m
+[03:08:42] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/issues?status=backlog%2Ctodo%2Cin_progress%2Cin_review%2Cblocked%2Cdone&touchedByUserId=me 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /api/auth/get-session 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /plugins/ui-contributions 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/approvals 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/join-requests?status=pending_approval 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/org 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 304[39m
+[03:10:34] [32mINFO[39m: [36mGET / 304[39m
+[03:10:34] [32mINFO[39m: [36mGET / 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/projects 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/issues?status=backlog%2Ctodo%2Cin_progress%2Cin_review%2Cblocked%2Cdone&touchedByUserId=me 304[39m
+[03:10:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 304[39m
+[03:10:36] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/openclaw/usage 200[39m
+[03:10:36] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/costs/by-project 304[39m
+[03:10:37] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/goals 304[39m
+[03:10:37] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/activity 304[39m
+[03:10:37] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/issues 304[39m
+[03:10:38] [32mINFO[39m: [36mGET /collaboration/performance?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 304[39m
+[03:10:39] [32mINFO[39m: [36mGET /openclaw/documents 200[39m
+[03:10:43] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/openclaw/memory/1bd3c829-92b2-4731-8359-c16b895f553a 200[39m
+[03:10:44] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:10:44] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/openclaw/memory/5d9dfff8-7844-4dd6-a646-1475884e2ea2 200[39m
+[03:10:47] [32mINFO[39m: [36mGET /openclaw/models 304[39m
+[03:10:49] [32mINFO[39m: [36mGET /openclaw/channels 304[39m
+[03:10:54] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:10:59] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/budgets/overview 304[39m
+[03:10:59] [32mINFO[39m: [36mGET /agents/founding-engineer?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 304[39m
+[03:10:59] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs?agentId=1bd3c829-92b2-4731-8359-c16b895f553a 304[39m
+[03:10:59] [32mINFO[39m: [36mGET /agents/1bd3c829-92b2-4731-8359-c16b895f553a/runtime-state?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 304[39m
+[03:11:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:11:07] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 304[39m
+[03:11:07] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/budgets/overview 304[39m
+[03:11:09] [32mINFO[39m: [36mPOST /agents/1bd3c829-92b2-4731-8359-c16b895f553a/terminate?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 200[39m
+[03:11:10] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs?agentId=1bd3c829-92b2-4731-8359-c16b895f553a 304[39m
+[03:11:10] [33mWARN[39m: [36mGET /api/agents/founding-engineer?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 404[39m [90m{"reqQuery":{"companyId":"b9e2b5c9-9f24-49ca-bf0e-be3a6832453d"},"routePath":"/agents/:id"}[39m
+[03:11:10] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 200[39m
+[03:11:10] [32mINFO[39m: [36mGET /agents/1bd3c829-92b2-4731-8359-c16b895f553a/runtime-state?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 304[39m
+[03:11:10] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 200[39m
+[03:11:10] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs?agentId=1bd3c829-92b2-4731-8359-c16b895f553a 304[39m
+[03:11:10] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 304[39m
+[03:11:11] [33mWARN[39m: [36mGET /api/agents/founding-engineer?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 404[39m [90m{"reqQuery":{"companyId":"b9e2b5c9-9f24-49ca-bf0e-be3a6832453d"},"routePath":"/agents/:id"}[39m
+[03:11:13] [33mWARN[39m: [36mGET /api/agents/founding-engineer?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 404[39m [90m{"reqQuery":{"companyId":"b9e2b5c9-9f24-49ca-bf0e-be3a6832453d"},"routePath":"/agents/:id"}[39m
+[03:11:14] [32mINFO[39m: [36mPOST /agents/1bd3c829-92b2-4731-8359-c16b895f553a/terminate?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 200[39m
+[03:11:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs?agentId=1bd3c829-92b2-4731-8359-c16b895f553a 304[39m
+[03:11:14] [33mWARN[39m: [36mGET /api/agents/founding-engineer?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 404[39m [90m{"reqQuery":{"companyId":"b9e2b5c9-9f24-49ca-bf0e-be3a6832453d"},"routePath":"/agents/:id"}[39m
+[03:11:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 304[39m
+[03:11:14] [32mINFO[39m: [36mGET /agents/1bd3c829-92b2-4731-8359-c16b895f553a/runtime-state?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 304[39m
+[03:11:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 304[39m
+[03:11:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs?agentId=1bd3c829-92b2-4731-8359-c16b895f553a 304[39m
+[03:11:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 304[39m
+[03:11:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:11:15] [33mWARN[39m: [36mGET /api/agents/founding-engineer?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 404[39m [90m{"reqQuery":{"companyId":"b9e2b5c9-9f24-49ca-bf0e-be3a6832453d"},"routePath":"/agents/:id"}[39m
+[03:11:17] [33mWARN[39m: [36mGET /api/agents/founding-engineer?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 404[39m [90m{"reqQuery":{"companyId":"b9e2b5c9-9f24-49ca-bf0e-be3a6832453d"},"routePath":"/agents/:id"}[39m
+[03:11:21] [33mWARN[39m: [36mGET /api/agents/founding-engineer?companyId=b9e2b5c9-9f24-49ca-bf0e-be3a6832453d 404[39m [90m{"reqQuery":{"companyId":"b9e2b5c9-9f24-49ca-bf0e-be3a6832453d"},"routePath":"/agents/:id"}[39m
+[03:11:24] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:11:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:11:37] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/budgets/overview 304[39m
+[03:11:44] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:11:55] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:11:59] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/org 200[39m
+[03:11:59] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:11:59] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 304[39m
+[03:12:01] [32mINFO[39m: [36mGET /ORR/agents/all 200[39m
+[03:12:01] [32mINFO[39m: [36mGET /assets/vendor-i18n-B5Y2hUFy.js 200[39m
+[03:12:01] [32mINFO[39m: [36mGET /assets/index-BRGJR2vN.css 200[39m
+[03:12:01] [32mINFO[39m: [36mGET /assets/vendor-dnd-DWWskIVA.js 200[39m
+[03:12:01] [32mINFO[39m: [36mGET /assets/vendor-radix-Cxi8QeZV.js 200[39m
+[03:12:01] [32mINFO[39m: [36mGET /assets/vendor-tanstack-C2Y_hnmp.js 200[39m
+[03:12:01] [32mINFO[39m: [36mGET /assets/vendor-react-bbBl97cl.js 200[39m
+[03:12:03] [32mINFO[39m: [36mGET /assets/index-DdNW1pto.js 200[39m
+[03:12:04] [32mINFO[39m: [36mGET / 200[39m
+[03:12:04] [32mINFO[39m: [36mGET /api/auth/get-session 200[39m
+[03:12:04] [32mINFO[39m: [36mGET / 200[39m
+[03:12:04] [32mINFO[39m: [36mGET /favicon.svg 200[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/join-requests?status=pending_approval 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/approvals 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /plugins/ui-contributions 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /favicon.svg 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/org 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/agents 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/projects 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/dashboard 304[39m
+[03:12:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/issues?status=backlog%2Ctodo%2Cin_progress%2Cin_review%2Cblocked%2Cdone&touchedByUserId=me 304[39m
+[03:12:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:12:19] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:12:24] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:12:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:12:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:12:44] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:12:49] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:12:54] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:13:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:13:04] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:13:14] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:13:19] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:13:24] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:13:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:13:34] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:13:44] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:13:49] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:13:54] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:14:05] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:14:05] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:14:15] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:14:20] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:14:25] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:14:35] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:14:35] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:14:45] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:14:50] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:14:55] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:15:05] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:15:05] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:15:15] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:15:20] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:15:26] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:15:35] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:15:36] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:15:46] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:15:50] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:15:56] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:16:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/heartbeat-runs 304[39m
+[03:16:06] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+[03:16:16] [32mINFO[39m: [36mGET /companies/b9e2b5c9-9f24-49ca-bf0e-be3a6832453d/live-runs 304[39m
+2:16:17 PM [tsx] change in ./../packages/plugins/sdk/dist/index.js Restarting...
+[03:16:17] [32mINFO[39m: [36mStopping embedded PostgreSQL[39m [90m{"signal":"SIGTERM"}[39m
+c[03:16:20] [33mWARN[39m: [36mEmbedded PostgreSQL already running; reusing existing process (pid=59753, port=54329)[39m
+
+[36m██████╗  █████╗ ██████╗ ███████╗██████╗  ██████╗██╗     ██╗██████╗ [0m
+[36m██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝██║     ██║██╔══██╗[0m
+[36m██████╔╝███████║██████╔╝█████╗  ██████╔╝██║     ██║     ██║██████╔╝[0m
+[36m██╔═══╝ ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗██║     ██║     ██║██╔═══╝ [0m
+[36m██║     ██║  ██║██║     ███████╗██║  ██║╚██████╗███████╗██║██║     [0m
+[36m╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝╚═╝     [0m
+[34m  ───────────────────────────────────────────────────────[0m
+[2mMode            [0m [32membedded-postgres[0m  |  [35mstatic-ui[0m
+[2mDeploy          [0m authenticated (private)
+[2mAuth            [0m [32mready[0m
+[2mServer          [0m 3101 [2m(requested 3100)[0m
+[2mAPI             [0m http://localhost:3101/api [2m(health: http://localhost:3101/api/health)[0m
+[2mUI              [0m http://localhost:3101
+[2mDatabase        [0m /Users/james/.paperclip/instances/default/db [2m(pg:54329)[0m
+[2mMigrations      [0m already applied
+[2mAgent JWT       [0m [33mmissing (run `pnpm theagentcompany onboard`)[0m
+[2mHeartbeat       [0m enabled [2m(30000ms)[0m
+[2mDB Backup       [0m enabled [2m(every 60m, keep 30d)[0m
+[2mBackup Dir      [0m /Users/james/.paperclip/instances/default/data/backups
+[2mConfig          [0m /Users/james/.paperclip/instances/default/config.json
+[33m  ───────────────────────────────────────────────────────[0m
+[34m  ───────────────────────────────────────────────────────[0m
+
+[03:16:20] [32mINFO[39m: [36mEmbedded PostgreSQL ready[39m
+[03:16:20] [32mINFO[39m: [36mAuthenticated mode auth origin configuration[39m [90m{"authBaseUrlMode":"auto","authPublicBaseUrl":null,"trustedOrigins":["https://zifeis-mac-mini.tailf9f88d.ts.net","http://zifeis-mac-mini.tailf9f88d.ts.net"],"trustedOriginsSource":{"derived":2,"env":0}}[39m
+[03:16:21] [32mINFO[39m: [36mplugin job coordinator started — listening to lifecycle events[39m [90m{"service":"plugin-job-coordinator"}[39m
+[03:16:21] [32mINFO[39m: [36mplugin job scheduler started[39m [90m{"service":"plugin-job-scheduler","tickIntervalMs":30000,"maxConcurrentJobs":10}[39m
+[03:16:21] [32mINFO[39m: [36minitializing plugin tool dispatcher[39m [90m{"service":"plugin-tool-dispatcher"}[39m
+[03:16:21] [32mINFO[39m: [36mplugin-loader: loading all ready plugins[39m [90m{"service":"plugin-loader"}[39m
+[03:16:21] [33mWARN[39m: [36mRequested port is busy; using next free port (requestedPort=3100, selectedPort=3101)[39m
+[03:16:21] [32mINFO[39m: [36mAutomatic database backups enabled[39m [90m{"intervalMinutes":60,"retentionDays":30,"backupDir":"/Users/james/.paperclip/instances/default/data/backups"}[39m
+[03:16:21] [32mINFO[39m: [36mServer listening on 0.0.0.0:3101[39m
+[03:16:21] [32mINFO[39m: [36mloaded tools from ready plugins[39m [90m{"service":"plugin-tool-dispatcher","readyPlugins":0,"registeredTools":0}[39m
+[03:16:21] [32mINFO[39m: [36mplugin tool dispatcher initialized[39m [90m{"service":"plugin-tool-dispatcher","totalTools":0}[39m
+[03:16:21] [32mINFO[39m: [36mplugin-loader: no ready plugins to load[39m [90m{"service":"plugin-loader"}[39m

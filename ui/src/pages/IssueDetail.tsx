@@ -75,7 +75,7 @@ const ACTION_LABELS: Record<string, string> = {
   "agent.updated": "updated the member",
   "agent.paused": "paused the member",
   "agent.resumed": "resumed the member",
-  "agent.terminated": "terminated the member",
+  "agent.terminated": "fired the member",
   "heartbeat.invoked": "invoked a heartbeat",
   "heartbeat.cancelled": "cancelled a heartbeat",
   "approval.created": "requested approval",

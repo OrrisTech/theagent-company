@@ -874,7 +874,9 @@
     "live": "实时",
     "copyAgentId": "复制成员 ID",
     "resetSessions": "重置会话",
-    "terminate": "终止",
+    "fire": "解雇",
+    "fireConfirmTitle": "确定要解雇 {{name}} 吗？",
+    "fireConfirmMessage": "这将停止所有正在运行的任务，并将其从活跃岗位中移除。",
     "thisAgentIsPendingBoardApprovalAndCannotBeInvokedY": "此成员正在等待审批，暂时无法调用。",
     "viewDetailsRarr": "查看详情 &rarr;",
     "recentIssues": "最近的任务",
@@ -1852,7 +1854,7 @@
     "createOne": "创建一个"
   },
   "agents": {
-    "showTerminated": "显示已终止",
+    "showFired": "显示已解雇",
     "noAgentsMatchTheSelectedFilter": "没有匹配所选筛选条件的成员。",
     "noOrganizationalHierarchyDefined": "未定义组织架构。",
     "selectCompanyToView": "请选择公司以查看成员。",
@@ -2294,7 +2296,7 @@
     "deleted": "删除了",
     "paused": "暂停了",
     "resumed": "恢复了",
-    "terminated": "终止了",
+    "fired": "解雇了",
     "createdApiKeyFor": "创建了 API 密钥",
     "updatedBudgetFor": "更新了预算",
     "resetSessionFor": "重置了会话",

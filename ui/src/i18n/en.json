@@ -874,7 +874,9 @@
     "live": "Live",
     "copyAgentId": "Copy Member ID",
     "resetSessions": "Reset Sessions",
-    "terminate": "Terminate",
+    "fire": "Fire",
+    "fireConfirmTitle": "Are you sure you want to fire {{name}}?",
+    "fireConfirmMessage": "This will stop all running tasks and remove them from active duty.",
     "thisAgentIsPendingBoardApprovalAndCannotBeInvokedY": "This member is pending board approval and cannot be invoked yet.",
     "viewDetailsRarr": "View details &rarr;",
     "recentIssues": "Recent Issues",
@@ -1852,7 +1854,7 @@
     "createOne": "Create one"
   },
   "agents": {
-    "showTerminated": "Show terminated",
+    "showFired": "Show fired",
     "noAgentsMatchTheSelectedFilter": "No members match the selected filter.",
     "noOrganizationalHierarchyDefined": "No organizational hierarchy defined.",
     "selectCompanyToView": "Select a company to view members.",
@@ -2294,7 +2296,7 @@
     "deleted": "deleted",
     "paused": "paused",
     "resumed": "resumed",
-    "terminated": "terminated",
+    "fired": "fired",
     "createdApiKeyFor": "created API key for",
     "updatedBudgetFor": "updated budget for",
     "resetSessionFor": "reset session for",

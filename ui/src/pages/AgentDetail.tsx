@@ -882,12 +882,16 @@ export function AgentDetail() {
               <button
                 className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50 text-destructive"
                 onClick={() => {
+                  const confirmed = window.confirm(
+                    `${t("agentDetail.fireConfirmTitle", { name: agent?.name ?? "" })}\n\n${t("agentDetail.fireConfirmMessage")}`,
+                  );
+                  if (!confirmed) return;
                   agentAction.mutate("terminate");
                   setMoreOpen(false);
                 }}
               >
                 <Trash2 className="h-3 w-3" />
-                {t("agentDetail.terminate")}
+                {t("agentDetail.fire")}
               </button>
             </PopoverContent>
           </Popover>

@@ -177,7 +177,7 @@ export function Agents() {
                   )}>
                     {showTerminated && <span className="text-background text-[10px] leading-none">&#10003;</span>}
                   </span>
-                  {t("agents.showTerminated")}
+                  {t("agents.showFired")}
                 </button>
               </div>
             )}
