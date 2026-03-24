@@ -498,6 +498,7 @@
       "claude_local": "Claude（本地）",
       "codex_local": "Codex（本地）",
       "anthropic_api": "Anthropic API",
+      "openai_api": "OpenAI API",
       "http": "HTTP API",
       "process": "进程"
     },

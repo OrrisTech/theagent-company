@@ -71,6 +71,14 @@ import {
   agentConfigurationDoc as anthropicApiAgentConfigurationDoc,
   models as anthropicApiModels,
 } from "@theagentcompany/adapter-anthropic-api";
+import {
+  execute as openaiApiExecute,
+  testEnvironment as openaiApiTestEnvironment,
+} from "@theagentcompany/adapter-openai-api/server";
+import {
+  agentConfigurationDoc as openaiApiAgentConfigurationDoc,
+  models as openaiApiModels,
+} from "@theagentcompany/adapter-openai-api";
 import { processAdapter } from "./process/index.js";
 import { httpAdapter } from "./http/index.js";
 
@@ -174,10 +182,20 @@ const anthropicApiAdapter: ServerAdapterModule = {
   agentConfigurationDoc: anthropicApiAgentConfigurationDoc,
 };
 
+const openaiApiAdapter: ServerAdapterModule = {
+  type: "openai_api",
+  execute: openaiApiExecute,
+  testEnvironment: openaiApiTestEnvironment,
+  models: openaiApiModels,
+  supportsLocalAgentJwt: false,
+  agentConfigurationDoc: openaiApiAgentConfigurationDoc,
+};
+
 const adaptersByType = new Map<string, ServerAdapterModule>(
   [
     claudeLocalAdapter,
     anthropicApiAdapter,
+    openaiApiAdapter,
     codexLocalAdapter,
     openCodeLocalAdapter,
     piLocalAdapter,

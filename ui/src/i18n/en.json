@@ -498,6 +498,7 @@
       "claude_local": "Claude (Local)",
       "codex_local": "Codex (Local)",
       "anthropic_api": "Anthropic API",
+      "openai_api": "OpenAI API",
       "http": "HTTP API",
       "process": "Process"
     },

@@ -45,6 +45,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.888.0",
     "@theagentcompany/adapter-anthropic-api": "workspace:*",
+    "@theagentcompany/adapter-openai-api": "workspace:*",
     "@theagentcompany/adapter-claude-local": "workspace:*",
     "@theagentcompany/adapter-codex-local": "workspace:*",
     "@theagentcompany/adapter-cursor-local": "workspace:*",
