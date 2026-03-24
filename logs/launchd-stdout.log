@@ -4984,3 +4984,8 @@ Exit status 2
       "line": "320",
       "routine": "auth_failed"
     }
+12:02:20 PM [tsx] change in ./../packages/plugins/sdk/dist/index.js Rerunning...
+c[01:02:23] [32mINFO[39m: [36mUsing embedded PostgreSQL because no DATABASE_URL set (dataDir=/Users/james/.paperclip/instances/default/db, port=54329)[39m
+[01:02:23] [32mINFO[39m: [36mEmbedded PostgreSQL cluster already exists (/Users/james/.paperclip/instances/default/db/PG_VERSION); skipping init[39m
+[01:02:23] [31mERROR[39m: [36mEmbedded PostgreSQL failed; showing buffered startup logs[39m [90m{"phase":"start","recentLogs":["2026-03-24 12:02:23.027 AEDT [34716] FATAL:  lock file \"postmaster.pid\" already exists","2026-03-24 12:02:23.027 AEDT [34716] HINT:  Is another postmaster (PID 34715) running in data directory \"/Users/james/.paperclip/instances/default/db\"?"]}[39m
+[01:02:23] [31mERROR[39m: [36mTAC server failed to start[39m

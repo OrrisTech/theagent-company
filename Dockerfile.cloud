@@ -1,5 +1,5 @@
-# Dockerfile — Full image for local development
-# Includes local CLI binaries (claude-code, codex, opencode) for local adapters.
+# Dockerfile.cloud — Slim image for cloud deployments
+# No local CLI binaries (claude-code, codex, opencode) — uses API adapters only.
 
 FROM node:lts-trixie-slim AS base
 RUN apt-get update \
@@ -39,8 +39,8 @@ RUN test -f server/dist/index.js || (echo "ERROR: server build output missing" &
 FROM base AS production
 WORKDIR /app
 COPY --chown=node:node --from=build /app /app
-RUN npm install --global --omit=dev @anthropic-ai/claude-code@latest @openai/codex@latest opencode-ai \
-  && mkdir -p /tac \
+# No local CLI installs — cloud uses API adapters (anthropic_api, openai_api)
+RUN mkdir -p /tac \
   && chown node:node /tac
 
 ENV NODE_ENV=production \
@@ -52,7 +52,8 @@ ENV NODE_ENV=production \
   TAC_INSTANCE_ID=default \
   TAC_CONFIG=/tac/instances/default/config.json \
   TAC_DEPLOYMENT_MODE=authenticated \
-  TAC_DEPLOYMENT_EXPOSURE=private
+  TAC_DEPLOYMENT_EXPOSURE=private \
+  TAC_CLOUD_MODE=true
 
 VOLUME ["/tac"]
 EXPOSE 3100

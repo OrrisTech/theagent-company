@@ -1,0 +1,28 @@
+# Railway deployment template for The Agent Company
+# https://railway.app
+
+$schema: https://railway.app/railway.schema.json
+
+services:
+  # PostgreSQL database
+  - name: tac-db
+    image: postgres:17-alpine
+    env:
+      POSTGRES_USER: tac
+      POSTGRES_PASSWORD: tac
+      POSTGRES_DB: tac
+
+  # The Agent Company server
+  - name: tac-server
+    image: .
+    env:
+      DATABASE_URL: ${postgres-postgresql-78036-PUBLIC_URL}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      TAC_DEPLOYMENT_MODE: authenticated
+      TAC_DEPLOYMENT_EXPOSURE: private
+      TAC_CLOUD_MODE: "true"
+      PORT: "3100"
+      HOST: "0.0.0.0"
+      SERVE_UI: "true"
+    ports:
+      - "3100"
