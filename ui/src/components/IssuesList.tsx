@@ -61,10 +61,10 @@ const defaultViewState: IssueViewState = {
 };
 
 const quickFilterPresets = [
-  { label: "All", statuses: [] as string[] },
-  { label: "Active", statuses: ["todo", "in_progress", "in_review", "blocked"] },
-  { label: "Backlog", statuses: ["backlog"] },
-  { label: "Done", statuses: ["done", "cancelled"] },
+  { labelKey: "common.issueFilters.all", statuses: [] as string[] },
+  { labelKey: "common.issueFilters.active", statuses: ["todo", "in_progress", "in_review", "blocked"] },
+  { labelKey: "common.issueFilters.backlog", statuses: ["backlog"] },
+  { labelKey: "common.issueFilters.done", statuses: ["done", "cancelled"] },
 ];
 
 function getViewState(key: string): IssueViewState {
@@ -392,7 +392,7 @@ export function IssuesList({
                       const isActive = arraysEqual(viewState.statuses, preset.statuses);
                       return (
                         <button
-                          key={preset.label}
+                          key={preset.labelKey}
                           className={`px-2.5 py-1 text-xs rounded-full border transition-colors ${
                             isActive
                               ? "bg-primary text-primary-foreground border-primary"
@@ -400,7 +400,7 @@ export function IssuesList({
                           }`}
                           onClick={() => updateView({ statuses: isActive ? [] : [...preset.statuses] })}
                         >
-                          {preset.label}
+                          {t(preset.labelKey)}
                         </button>
                       );
                     })}

@@ -98,6 +98,38 @@
       "team": "团队",
       "agent": "成员",
       "task": "任务"
+    },
+    "adapterLabels": {
+      "claude_local": "Claude（本地）",
+      "codex_local": "Codex（本地）",
+      "gemini_local": "Gemini CLI（本地）",
+      "opencode_local": "OpenCode（本地）",
+      "openclaw_gateway": "OpenClaw Gateway",
+      "cursor": "Cursor（本地）",
+      "pi_local": "Pi（本地）",
+      "anthropic_api": "Anthropic API",
+      "openai_api": "OpenAI API",
+      "process": "进程",
+      "http": "HTTP"
+    },
+    "adapterLabelsShort": {
+      "claude_local": "Claude",
+      "codex_local": "Codex",
+      "gemini_local": "Gemini",
+      "opencode_local": "OpenCode",
+      "openclaw_gateway": "OpenClaw Gateway",
+      "cursor": "Cursor",
+      "pi_local": "Pi",
+      "anthropic_api": "Anthropic API",
+      "openai_api": "OpenAI API",
+      "process": "进程",
+      "http": "HTTP"
+    },
+    "issueFilters": {
+      "all": "全部",
+      "active": "进行中",
+      "backlog": "待办",
+      "done": "已完成"
     }
   },
   "sidebar": {
@@ -497,6 +529,10 @@
       "openclaw": "OpenClaw",
       "claude_local": "Claude（本地）",
       "codex_local": "Codex（本地）",
+      "gemini_local": "Gemini CLI（本地）",
+      "opencode_local": "OpenCode（本地）",
+      "cursor": "Cursor（本地）",
+      "pi_local": "Pi（本地）",
       "anthropic_api": "Anthropic API",
       "openai_api": "OpenAI API",
       "http": "HTTP API",
@@ -1893,7 +1929,14 @@
     "openClawGateway": "OpenClaw Gateway",
     "invokeOpenClawViaGateway": "OpenClaw Gateway",
     "process": "进程",
-    "runLocalCommand": "运行本地命令"
+    "runLocalCommand": "运行本地命令",
+    "nameLabel": "名称",
+    "namePlaceholder": "例如：Alice、Bob、创始工程师",
+    "roleLabel": "角色",
+    "rolePlaceholder": "例如：工程师、产品经理、设计师",
+    "engineLabel": "引擎",
+    "advancedSetup": "高级设置",
+    "hire": "招聘"
   },
   "runTranscriptView": {
     "user": "用户",
@@ -2292,7 +2335,13 @@
     "getStartedByCreating": "开始创建一个公司和招聘你的第一个成员。",
     "addAgent": "招聘成员",
     "startOnboarding": "开始引导",
-    "loading": "加载中..."
+    "loading": "加载中...",
+    "instanceSetupRequired": "需要初始化实例",
+    "bootstrapInviteActive": "尚无实例管理员。引导邀请已激活。请查看启动日志获取首个管理员邀请 URL，或运行以下命令重新生成：",
+    "bootstrapInviteNeeded": "尚无实例管理员。在你的环境中运行以下命令以生成首个管理员邀请 URL：",
+    "noCompaniesTitle": "创建你的第一个公司",
+    "noCompaniesDescription": "创建一个公司开始使用。",
+    "newCompany": "新建公司"
   },
   "adapterConfig": {
     "agentInstructionsFile": "成员指令文件",

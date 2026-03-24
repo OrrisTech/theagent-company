@@ -17,7 +17,7 @@ import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { queryKeys } from "../lib/queryKeys";
 import { AgentConfigForm } from "../components/AgentConfigForm";
 import { PageTabBar } from "../components/PageTabBar";
-import { adapterLabels, roleLabels } from "../components/agent-config-primitives";
+import { adapterLabels, roleLabels, getAdapterLabel } from "../components/agent-config-primitives";
 import { getUIAdapter, buildTranscript } from "../adapters";
 import { StatusBadge } from "../components/StatusBadge";
 import { agentStatusDot, agentStatusDotDefault } from "../lib/status-colors";
@@ -775,7 +775,7 @@ export function AgentDetail() {
             <p className="text-sm text-muted-foreground truncate">
               {agent.title ?? (roleLabels[agent.role] ?? agent.role)}
               <span className="mx-1.5">·</span>
-              {adapterLabels[agent.adapterType] ?? agent.adapterType}
+              {getAdapterLabel(t, agent.adapterType)}
             </p>
             {agentBudgetSummary.isActive && (
               <div className="flex items-center gap-2 mt-1">

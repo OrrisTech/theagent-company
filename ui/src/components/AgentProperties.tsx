@@ -9,22 +9,12 @@ import { Identity } from "./Identity";
 import { formatDate, agentUrl } from "../lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { useTranslation } from "react-i18next";
+import { getAdapterLabel } from "./agent-config-primitives";
 
 interface AgentPropertiesProps {
   agent: Agent;
   runtimeState?: AgentRuntimeState;
 }
-
-const adapterLabels: Record<string, string> = {
-  claude_local: "Claude (local)",
-  codex_local: "Codex (local)",
-  gemini_local: "Gemini CLI (local)",
-  opencode_local: "OpenCode (local)",
-  openclaw_gateway: "OpenClaw Gateway",
-  cursor: "Cursor (local)",
-  process: "Process",
-  http: "HTTP",
-};
 
 const roleLabels = AGENT_ROLE_LABELS as Record<string, string>;
 
@@ -64,7 +54,7 @@ export function AgentProperties({ agent, runtimeState }: AgentPropertiesProps) {
           </PropertyRow>
         )}
         <PropertyRow label={t("agentConfigForm.adapter")}>
-          <span className="text-sm font-mono">{adapterLabels[agent.adapterType] ?? agent.adapterType}</span>
+          <span className="text-sm font-mono">{getAdapterLabel(t, agent.adapterType)}</span>
         </PropertyRow>
       </div>
 

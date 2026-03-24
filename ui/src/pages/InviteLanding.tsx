@@ -9,20 +9,10 @@ import { Button } from "@/components/ui/button";
 import { AGENT_ADAPTER_TYPES } from "@theagentcompany/shared";
 import type { AgentAdapterType, JoinRequest } from "@theagentcompany/shared";
 import { useTranslation } from "react-i18next";
+import { getAdapterLabel } from "../components/agent-config-primitives";
 
 type JoinType = "human" | "agent";
 const joinAdapterOptions: AgentAdapterType[] = [...AGENT_ADAPTER_TYPES];
-
-const adapterLabels: Record<string, string> = {
-  claude_local: "Claude (local)",
-  codex_local: "Codex (local)",
-  gemini_local: "Gemini CLI (local)",
-  opencode_local: "OpenCode (local)",
-  openclaw_gateway: "OpenClaw Gateway",
-  cursor: "Cursor (local)",
-  process: "Process",
-  http: "HTTP",
-};
 
 const ENABLED_INVITE_ADAPTERS = new Set(["claude_local", "codex_local", "gemini_local", "opencode_local", "cursor"]);
 
@@ -269,7 +259,7 @@ export function InviteLandingPage() {
               >
                 {joinAdapterOptions.map((type) => (
                   <option key={type} value={type} disabled={!ENABLED_INVITE_ADAPTERS.has(type)}>
-                    {adapterLabels[type]}{!ENABLED_INVITE_ADAPTERS.has(type) ? " (Coming soon)" : ""}
+                    {getAdapterLabel(t, type)}{!ENABLED_INVITE_ADAPTERS.has(type) ? ` (${t("common.comingSoon")})` : ""}
                   </option>
                 ))}
               </select>

@@ -12,6 +12,7 @@ import { AgentIcon } from "../components/AgentIconPicker";
 import { Network } from "lucide-react";
 import { AGENT_ROLE_LABELS, type Agent } from "@theagentcompany/shared";
 import { useTranslation } from "react-i18next";
+import { getAdapterLabel } from "../components/agent-config-primitives";
 
 // Layout constants
 const CARD_W = 200;
@@ -116,16 +117,7 @@ function collectEdges(nodes: LayoutNode[]): Array<{ parent: LayoutNode; child: L
 
 // ── Status dot colors (raw hex for SVG) ─────────────────────────────────
 
-const adapterLabels: Record<string, string> = {
-  claude_local: "Claude",
-  codex_local: "Codex",
-  gemini_local: "Gemini",
-  opencode_local: "OpenCode",
-  cursor: "Cursor",
-  openclaw_gateway: "OpenClaw Gateway",
-  process: "Process",
-  http: "HTTP",
-};
+// Adapter labels are now provided by getAdapterLabel() from agent-config-primitives
 
 const statusDotColor: Record<string, string> = {
   running: "#22d3ee",
@@ -411,7 +403,7 @@ export function OrgChart() {
                   </span>
                   {agent && (
                     <span className="text-[10px] text-muted-foreground/60 font-mono leading-tight mt-1">
-                      {adapterLabels[agent.adapterType] ?? agent.adapterType}
+                      {getAdapterLabel(t, agent.adapterType, true)}
                     </span>
                   )}
                 </div>

@@ -98,6 +98,38 @@
       "team": "Team",
       "agent": "Member",
       "task": "Task"
+    },
+    "adapterLabels": {
+      "claude_local": "Claude (local)",
+      "codex_local": "Codex (local)",
+      "gemini_local": "Gemini CLI (local)",
+      "opencode_local": "OpenCode (local)",
+      "openclaw_gateway": "OpenClaw Gateway",
+      "cursor": "Cursor (local)",
+      "pi_local": "Pi (local)",
+      "anthropic_api": "Anthropic API",
+      "openai_api": "OpenAI API",
+      "process": "Process",
+      "http": "HTTP"
+    },
+    "adapterLabelsShort": {
+      "claude_local": "Claude",
+      "codex_local": "Codex",
+      "gemini_local": "Gemini",
+      "opencode_local": "OpenCode",
+      "openclaw_gateway": "OpenClaw Gateway",
+      "cursor": "Cursor",
+      "pi_local": "Pi",
+      "anthropic_api": "Anthropic API",
+      "openai_api": "OpenAI API",
+      "process": "Process",
+      "http": "HTTP"
+    },
+    "issueFilters": {
+      "all": "All",
+      "active": "Active",
+      "backlog": "Backlog",
+      "done": "Done"
     }
   },
   "sidebar": {
@@ -497,6 +529,10 @@
       "openclaw": "OpenClaw",
       "claude_local": "Claude (Local)",
       "codex_local": "Codex (Local)",
+      "gemini_local": "Gemini CLI (Local)",
+      "opencode_local": "OpenCode (Local)",
+      "cursor": "Cursor (Local)",
+      "pi_local": "Pi (Local)",
       "anthropic_api": "Anthropic API",
       "openai_api": "OpenAI API",
       "http": "HTTP API",
@@ -1893,7 +1929,14 @@
     "openClawGateway": "OpenClaw Gateway",
     "invokeOpenClawViaGateway": "OpenClaw Gateway",
     "process": "Process",
-    "runLocalCommand": "Run a local command"
+    "runLocalCommand": "Run a local command",
+    "nameLabel": "Name",
+    "namePlaceholder": "e.g. Alice, Bob, Founding Engineer",
+    "roleLabel": "Role",
+    "rolePlaceholder": "e.g. Engineer, PM, Designer",
+    "engineLabel": "Engine",
+    "advancedSetup": "Advanced setup",
+    "hire": "Hire"
   },
   "runTranscriptView": {
     "user": "User",
@@ -2292,7 +2335,13 @@
     "getStartedByCreating": "Get started by creating a company and hiring your first member.",
     "addAgent": "Hire Member",
     "startOnboarding": "Start Onboarding",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "instanceSetupRequired": "Instance setup required",
+    "bootstrapInviteActive": "No instance admin exists yet. A bootstrap invite is already active. Check your startup logs for the first admin invite URL, or run this command to rotate it:",
+    "bootstrapInviteNeeded": "No instance admin exists yet. Run this command in your environment to generate the first admin invite URL:",
+    "noCompaniesTitle": "Create your first company",
+    "noCompaniesDescription": "Get started by creating a company.",
+    "newCompany": "New Company"
   },
   "adapterConfig": {
     "agentInstructionsFile": "Member instructions file",

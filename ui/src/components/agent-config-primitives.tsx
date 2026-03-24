@@ -58,6 +58,7 @@ export const help: Record<string, string> = {
   budgetMonthlyCents: "Monthly spending limit in cents. 0 means no limit.",
 };
 
+/** Static fallback adapter labels (used when outside React context). */
 export const adapterLabels: Record<string, string> = {
   claude_local: "Claude (local)",
   codex_local: "Codex (local)",
@@ -65,9 +66,29 @@ export const adapterLabels: Record<string, string> = {
   opencode_local: "OpenCode (local)",
   openclaw_gateway: "OpenClaw Gateway",
   cursor: "Cursor (local)",
+  pi_local: "Pi (local)",
+  anthropic_api: "Anthropic API",
+  openai_api: "OpenAI API",
   process: "Process",
   http: "HTTP",
 };
+
+/**
+ * Returns a translated adapter label for the given adapter type.
+ * Falls back to the static adapterLabels if no i18n key exists.
+ */
+export function getAdapterLabel(
+  t: (key: string, opts?: Record<string, string>) => string,
+  adapterType: string,
+  short = false,
+): string {
+  const ns = short ? "common.adapterLabelsShort" : "common.adapterLabels";
+  const key = `${ns}.${adapterType}`;
+  const translated = t(key);
+  // If t() returns the key itself, fall back to the static map
+  if (translated === key) return adapterLabels[adapterType] ?? adapterType;
+  return translated;
+}
 
 export const roleLabels = AGENT_ROLE_LABELS as Record<string, string>;
 

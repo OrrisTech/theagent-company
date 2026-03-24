@@ -20,19 +20,9 @@ import { Button } from "@/components/ui/button";
 import { Bot, Plus, List, GitBranch, SlidersHorizontal } from "lucide-react";
 import { AGENT_ROLE_LABELS, type Agent } from "@theagentcompany/shared";
 import { useTranslation } from "react-i18next";
+import { getAdapterLabel } from "../components/agent-config-primitives";
 
-const adapterLabels: Record<string, string> = {
-  claude_local: "Claude",
-  codex_local: "Codex",
-  gemini_local: "Gemini",
-  opencode_local: "OpenCode",
-  cursor: "Cursor",
-  openclaw_gateway: "OpenClaw Gateway",
-  process: "Process",
-  http: "HTTP",
-};
-
-const engineLabels: Record<string, string> = {
+const engineLabelsStatic: Record<string, string> = {
   openclaw: "OpenClaw",
   claude_local: "Claude",
   codex_local: "Codex",
@@ -40,15 +30,15 @@ const engineLabels: Record<string, string> = {
   process: "Process",
 };
 
-/** Build a concise engine label like "openclaw · claude-opus-4" */
-function engineLabel(agent: Agent): string {
-  const engine = engineLabels[agent.engineType ?? "process"] ?? agent.engineType ?? "Process";
-  const adapter = adapterLabels[agent.adapterType] ?? agent.adapterType;
+const roleLabels = AGENT_ROLE_LABELS as Record<string, string>;
+
+/** Build a concise engine label like "OpenClaw · Claude" */
+function engineLabel(agent: Agent, t: (key: string) => string): string {
+  const engine = engineLabelsStatic[agent.engineType ?? "process"] ?? agent.engineType ?? "Process";
+  const adapter = getAdapterLabel(t, agent.adapterType, true);
   if (engine === adapter) return engine;
   return `${engine} · ${adapter}`;
 }
-
-const roleLabels = AGENT_ROLE_LABELS as Record<string, string>;
 
 type FilterTab = "all" | "active" | "paused" | "error";
 
@@ -275,8 +265,8 @@ export function Agents() {
                           liveCount={liveRunByAgent.get(agent.id)!.liveCount}
                         />
                       )}
-                      <span className="text-xs text-muted-foreground font-mono w-24 text-right truncate" title={engineLabel(agent)}>
-                        {engineLabel(agent)}
+                      <span className="text-xs text-muted-foreground font-mono w-24 text-right truncate" title={engineLabel(agent, t)}>
+                        {engineLabel(agent, t)}
                       </span>
                       <span className="text-xs text-muted-foreground w-16 text-right">
                         {agent.lastHeartbeatAt ? relativeTime(agent.lastHeartbeatAt) : "—"}
@@ -334,6 +324,7 @@ function OrgTreeNode({
   agentMap: Map<string, Agent>;
   liveRunByAgent: Map<string, { runId: string; liveCount: number }>;
 }) {
+  const { t } = useTranslation();
   const agent = agentMap.get(node.id);
 
   const statusColor = agentStatusDot[node.status] ?? agentStatusDotDefault;
@@ -376,8 +367,8 @@ function OrgTreeNode({
             )}
             {agent && (
               <>
-                <span className="text-xs text-muted-foreground font-mono w-24 text-right truncate" title={engineLabel(agent)}>
-                  {engineLabel(agent)}
+                <span className="text-xs text-muted-foreground font-mono w-24 text-right truncate" title={engineLabel(agent, t)}>
+                  {engineLabel(agent, t)}
                 </span>
                 <span className="text-xs text-muted-foreground w-16 text-right">
                   {agent.lastHeartbeatAt ? relativeTime(agent.lastHeartbeatAt) : "—"}

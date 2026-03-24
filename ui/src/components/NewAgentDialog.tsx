@@ -174,10 +174,10 @@ export function NewAgentDialog() {
         <div className="p-5 space-y-4">
           {/* Name */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">Name</label>
+            <label className="text-xs font-medium text-muted-foreground">{t("newAgentDialog.nameLabel")}</label>
             <input
               className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground/50"
-              placeholder="e.g. Alice, Bob, Founding Engineer"
+              placeholder={t("newAgentDialog.namePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoFocus
@@ -189,10 +189,10 @@ export function NewAgentDialog() {
 
           {/* Role */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">Role</label>
+            <label className="text-xs font-medium text-muted-foreground">{t("newAgentDialog.roleLabel")}</label>
             <input
               className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground/50"
-              placeholder="e.g. Engineer, PM, Designer"
+              placeholder={t("newAgentDialog.rolePlaceholder")}
               value={role}
               onChange={(e) => setRole(e.target.value)}
             />
@@ -217,7 +217,7 @@ export function NewAgentDialog() {
 
           {/* Engine */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground">Engine</label>
+            <label className="text-xs font-medium text-muted-foreground">{t("newAgentDialog.engineLabel")}</label>
             <Popover open={engineOpen} onOpenChange={setEngineOpen}>
               <PopoverTrigger asChild>
                 <button className="flex items-center justify-between w-full rounded-md border border-border px-3 py-2 text-sm hover:bg-accent/50 transition-colors">
@@ -260,14 +260,14 @@ export function NewAgentDialog() {
               onClick={handleAdvanced}
               type="button"
             >
-              Advanced setup →
+              {t("newAgentDialog.advancedSetup")} →
             </button>
             <Button
               size="sm"
               disabled={!name.trim() || hireMember.isPending}
               onClick={handleHire}
             >
-              {hireMember.isPending ? t("newAgent.creatingAgent") : "Hire"}
+              {hireMember.isPending ? t("newAgent.creatingAgent") : t("newAgentDialog.hire")}
             </Button>
           </div>
         </div>
