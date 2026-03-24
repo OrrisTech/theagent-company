@@ -1,5 +1,8 @@
 import * as p from "@clack/prompts";
 import path from "node:path";
+import { execFile as execFileCb } from "node:child_process";
+import { promisify } from "node:util";
+import { randomBytes } from "node:crypto";
 import pc from "picocolors";
 import {
   AUTH_BASE_URL_MODES,
@@ -15,7 +18,12 @@ import {
 } from "@theagentcompany/shared";
 import { configExists, readConfig, resolveConfigPath, writeConfig } from "../config/store.js";
 import type { TacConfig } from "../config/schema.js";
-import { ensureAgentJwtSecret, resolveAgentJwtEnvFile } from "../config/env.js";
+import {
+  ensureAgentJwtSecret,
+  resolveAgentJwtEnvFile,
+  mergeTacEnvEntries,
+  resolveTacEnvFile,
+} from "../config/env.js";
 import { ensureLocalSecretsKeyFile } from "../config/secrets-key.js";
 import { promptDatabase } from "../prompts/database.js";
 import { promptLlm } from "../prompts/llm.js";
@@ -34,6 +42,11 @@ import {
 import { bootstrapCeoInvite } from "./auth-bootstrap-ceo.js";
 import { printTacCliBanner } from "../utils/banner.js";
 
+const execFile = promisify(execFileCb);
+
+/* ── Types ────────────────────────────────────────────────────────────── */
+
+type EngineMode = "local_cli" | "api_keys" | "openclaw_gateway";
 type SetupMode = "quickstart" | "advanced";
 
 type OnboardOptions = {
@@ -44,6 +57,67 @@ type OnboardOptions = {
 };
 
 type OnboardDefaults = Pick<TacConfig, "database" | "logging" | "server" | "auth" | "storage" | "secrets">;
+
+/* ── CLI detection ────────────────────────────────────────────────────── */
+
+const DETECTABLE_CLIS = ["claude", "codex", "opencode", "pi"] as const;
+type DetectableCli = (typeof DETECTABLE_CLIS)[number];
+
+interface CliInfo {
+  path: string;
+  version: string | null;
+}
+
+/** Try to get the version string from a CLI binary. */
+async function getCliVersion(cmd: string): Promise<string | null> {
+  try {
+    const { stdout } = await execFile(cmd, ["--version"], { timeout: 5_000 });
+    // Extract version-like pattern from output (e.g. "v1.0.17" or "1.0.17")
+    const match = stdout.match(/v?(\d+\.\d+\.\d+(?:-[a-z0-9.]+)?)/i);
+    return match ? `v${match[1].replace(/^v/i, "")}` : stdout.trim().split("\n")[0] || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Detect locally installed CLI tools that can serve as agent engines.
+ * Returns a map of CLI name → { path, version }.
+ */
+async function detectLocalCLIs(): Promise<Map<DetectableCli, CliInfo>> {
+  const results = new Map<DetectableCli, CliInfo>();
+  await Promise.all(
+    DETECTABLE_CLIS.map(async (cmd) => {
+      try {
+        const { stdout } = await execFile("which", [cmd], { timeout: 3_000 });
+        const binPath = stdout.trim();
+        if (binPath) {
+          const version = await getCliVersion(binPath);
+          results.set(cmd, { path: binPath, version });
+        }
+      } catch {
+        // CLI not found — skip
+      }
+    }),
+  );
+  return results;
+}
+
+/** Pretty-print CLI detection results. */
+function printDetectionResults(detected: Map<DetectableCli, CliInfo>): void {
+  p.log.step("Checking local environment...");
+  for (const cmd of DETECTABLE_CLIS) {
+    const info = detected.get(cmd);
+    if (info) {
+      const ver = info.version ? ` (${info.version})` : "";
+      p.log.message(`${pc.green("✓")} ${pc.bold(cmd)} — found${ver}`);
+    } else {
+      p.log.message(`${pc.dim("✗")} ${pc.dim(cmd)} — not found (optional)`);
+    }
+  }
+}
+
+/* ── Env helpers ──────────────────────────────────────────────────────── */
 
 const ONBOARD_ENV_KEYS = [
   "TAC_PUBLIC_URL",
@@ -98,6 +172,23 @@ function resolvePathFromEnv(rawValue: string | undefined): string | null {
   if (!rawValue || rawValue.trim().length === 0) return null;
   return path.resolve(expandHomePrefix(rawValue.trim()));
 }
+
+/**
+ * Auto-generate BETTER_AUTH_SECRET if not already set in env or .env file.
+ * Uses the same .env file as the JWT secret.
+ */
+function ensureBetterAuthSecret(configPath?: string): { secret: string; created: boolean } {
+  const existing = process.env.BETTER_AUTH_SECRET?.trim();
+  if (existing) return { secret: existing, created: false };
+
+  const envFilePath = resolveTacEnvFile(configPath);
+  const secret = randomBytes(32).toString("hex");
+  mergeTacEnvEntries({ BETTER_AUTH_SECRET: secret }, envFilePath);
+  process.env.BETTER_AUTH_SECRET = secret;
+  return { secret, created: true };
+}
+
+/* ── Infrastructure defaults from env ────────────────────────────────── */
 
 function quickstartDefaultsFromEnv(): {
   defaults: OnboardDefaults;
@@ -233,6 +324,158 @@ function canCreateBootstrapInviteImmediately(config: Pick<TacConfig, "database" 
   return config.server.deploymentMode === "authenticated" && config.database.mode !== "embedded-postgres";
 }
 
+/* ── Engine-specific prompts ─────────────────────────────────────────── */
+
+/**
+ * Local CLI mode: detect installed CLIs, display results.
+ * No extra config is required — agents are created later in the UI.
+ */
+async function handleLocalCliMode(): Promise<void> {
+  const s = p.spinner();
+  s.start("Detecting local CLIs...");
+  const detected = await detectLocalCLIs();
+  s.stop(`Found ${detected.size} CLI(s)`);
+  printDetectionResults(detected);
+
+  if (detected.size === 0) {
+    p.log.warn(
+      pc.yellow(
+        "No agent CLIs found. Install at least one (claude, codex, opencode, or pi) to run agents locally.",
+      ),
+    );
+  }
+}
+
+/**
+ * API Keys mode: prompt for Anthropic and/or OpenAI API keys.
+ * Keys are stored in the instance .env file for adapter use.
+ */
+async function handleApiKeysMode(configPath?: string): Promise<void> {
+  const anthropicKey = await p.text({
+    message: "Anthropic API key (ANTHROPIC_API_KEY)",
+    placeholder: "sk-ant-... (leave empty to skip)",
+    defaultValue: process.env.ANTHROPIC_API_KEY ?? "",
+  });
+  if (p.isCancel(anthropicKey)) {
+    p.cancel("Setup cancelled.");
+    process.exit(0);
+  }
+
+  const openaiKey = await p.text({
+    message: "OpenAI API key (OPENAI_API_KEY)",
+    placeholder: "sk-... (leave empty to skip)",
+    defaultValue: process.env.OPENAI_API_KEY ?? "",
+  });
+  if (p.isCancel(openaiKey)) {
+    p.cancel("Setup cancelled.");
+    process.exit(0);
+  }
+
+  // Store keys in the .env file
+  const envFilePath = resolveTacEnvFile(configPath);
+  const entries: Record<string, string> = {};
+  if (typeof anthropicKey === "string" && anthropicKey.trim()) {
+    entries.ANTHROPIC_API_KEY = anthropicKey.trim();
+    process.env.ANTHROPIC_API_KEY = anthropicKey.trim();
+  }
+  if (typeof openaiKey === "string" && openaiKey.trim()) {
+    entries.OPENAI_API_KEY = openaiKey.trim();
+    process.env.OPENAI_API_KEY = openaiKey.trim();
+  }
+
+  if (Object.keys(entries).length > 0) {
+    mergeTacEnvEntries(entries, envFilePath);
+    p.log.success(`Saved API key(s) to ${pc.dim(envFilePath)}`);
+  } else {
+    p.log.warn(pc.yellow("No API keys provided. You can add them later in the .env file."));
+  }
+
+  // Validate keys if provided
+  for (const [label, key, validateFn] of [
+    ["Anthropic", entries.ANTHROPIC_API_KEY, validateAnthropicKey] as const,
+    ["OpenAI", entries.OPENAI_API_KEY, validateOpenaiKey] as const,
+  ]) {
+    if (key) {
+      const s = p.spinner();
+      s.start(`Validating ${label} API key...`);
+      const result = await validateFn(key);
+      if (result === "valid") {
+        s.stop(`${label} API key is valid`);
+      } else if (result === "invalid") {
+        s.stop(pc.yellow(`${label} API key appears invalid — you can update it later`));
+      } else {
+        s.stop(pc.yellow(`Could not validate ${label} API key — continuing anyway`));
+      }
+    }
+  }
+}
+
+async function validateAnthropicKey(key: string): Promise<"valid" | "invalid" | "unknown"> {
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": key,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-5-20250929",
+        max_tokens: 1,
+        messages: [{ role: "user", content: "hi" }],
+      }),
+    });
+    if (res.ok || res.status === 400) return "valid";
+    if (res.status === 401) return "invalid";
+    return "unknown";
+  } catch {
+    return "unknown";
+  }
+}
+
+async function validateOpenaiKey(key: string): Promise<"valid" | "invalid" | "unknown"> {
+  try {
+    const res = await fetch("https://api.openai.com/v1/models", {
+      headers: { Authorization: `Bearer ${key}` },
+    });
+    if (res.ok) return "valid";
+    if (res.status === 401) return "invalid";
+    return "unknown";
+  } catch {
+    return "unknown";
+  }
+}
+
+/**
+ * OpenClaw Gateway mode: prompt for the gateway URL.
+ * Stored in .env for adapter use.
+ */
+async function handleOpenClawGatewayMode(configPath?: string): Promise<void> {
+  const gatewayUrl = await p.text({
+    message: "OpenClaw Gateway URL",
+    placeholder: "https://gateway.openclaw.dev",
+    validate: (value) => {
+      if (!value.trim()) return "Gateway URL is required";
+      try {
+        new URL(value.trim());
+      } catch {
+        return "Must be a valid URL";
+      }
+    },
+  });
+  if (p.isCancel(gatewayUrl)) {
+    p.cancel("Setup cancelled.");
+    process.exit(0);
+  }
+
+  const envFilePath = resolveTacEnvFile(configPath);
+  mergeTacEnvEntries({ OPENCLAW_GATEWAY_URL: (gatewayUrl as string).trim() }, envFilePath);
+  process.env.OPENCLAW_GATEWAY_URL = (gatewayUrl as string).trim();
+  p.log.success(`Saved gateway URL to ${pc.dim(envFilePath)}`);
+}
+
+/* ── Main onboard flow ───────────────────────────────────────────────── */
+
 export async function onboard(opts: OnboardOptions): Promise<void> {
   printTacCliBanner();
   p.intro(pc.bgCyan(pc.black(" theagentcompany onboard ")));
@@ -258,31 +501,67 @@ export async function onboard(opts: OnboardOptions): Promise<void> {
     }
   }
 
-  let setupMode: SetupMode = "quickstart";
+  /* ── Step 1: Engine mode selection ───────────────────────────────── */
+
+  let engineMode: EngineMode = "local_cli";
   if (opts.yes) {
-    p.log.message(pc.dim("`--yes` enabled: using Quickstart defaults."));
+    p.log.message(pc.dim("`--yes` enabled: using Local CLI defaults."));
   } else {
-    const setupModeChoice = await p.select({
-      message: "Choose setup path",
+    const engineChoice = await p.select({
+      message: "How do you want to run agents?",
       options: [
         {
-          value: "quickstart" as const,
-          label: "Quickstart",
-          hint: "Recommended: local defaults + ready to run",
+          value: "local_cli" as const,
+          label: "Local CLI",
+          hint: "Auto-detect installed CLIs (claude, codex, opencode, pi)",
         },
         {
-          value: "advanced" as const,
-          label: "Advanced setup",
-          hint: "Customize database, server, storage, and more",
+          value: "api_keys" as const,
+          label: "API Keys",
+          hint: "Use Anthropic and/or OpenAI API keys directly",
+        },
+        {
+          value: "openclaw_gateway" as const,
+          label: "OpenClaw Gateway",
+          hint: "Connect to an OpenClaw Gateway instance",
         },
       ],
-      initialValue: "quickstart",
+      initialValue: "local_cli",
     });
-    if (p.isCancel(setupModeChoice)) {
+    if (p.isCancel(engineChoice)) {
       p.cancel("Setup cancelled.");
       return;
     }
-    setupMode = setupModeChoice as SetupMode;
+    engineMode = engineChoice as EngineMode;
+  }
+
+  /* ── Step 2: Engine-specific setup ───────────────────────────────── */
+
+  if (engineMode === "local_cli") {
+    await handleLocalCliMode();
+  } else if (engineMode === "api_keys") {
+    await handleApiKeysMode(configPath);
+  } else if (engineMode === "openclaw_gateway") {
+    await handleOpenClawGatewayMode(configPath);
+  }
+
+  /* ── Step 3: Infrastructure setup ────────────────────────────────── */
+
+  let setupMode: SetupMode = "quickstart";
+
+  // For local CLI mode, default to quickstart. For other modes, still offer the choice.
+  if (!opts.yes) {
+    const customizeInfra = await p.confirm({
+      message: "Customize infrastructure? (database, storage, server)",
+      initialValue: false,
+    });
+    if (p.isCancel(customizeInfra)) {
+      p.cancel("Setup cancelled.");
+      return;
+    }
+    if (customizeInfra) {
+      setupMode = "advanced";
+    }
   }
 
   let llm: TacConfig["llm"] | undefined;
@@ -321,37 +600,15 @@ export async function onboard(opts: OnboardOptions): Promise<void> {
       s.start("Validating API key...");
       try {
         if (llm.provider === "claude") {
-          const res = await fetch("https://api.anthropic.com/v1/messages", {
-            method: "POST",
-            headers: {
-              "x-api-key": llm.apiKey,
-              "anthropic-version": "2023-06-01",
-              "content-type": "application/json",
-            },
-            body: JSON.stringify({
-              model: "claude-sonnet-4-5-20250929",
-              max_tokens: 1,
-              messages: [{ role: "user", content: "hi" }],
-            }),
-          });
-          if (res.ok || res.status === 400) {
-            s.stop("API key is valid");
-          } else if (res.status === 401) {
-            s.stop(pc.yellow("API key appears invalid — you can update it later"));
-          } else {
-            s.stop(pc.yellow("Could not validate API key — continuing anyway"));
-          }
+          const result = await validateAnthropicKey(llm.apiKey);
+          if (result === "valid") s.stop("API key is valid");
+          else if (result === "invalid") s.stop(pc.yellow("API key appears invalid — you can update it later"));
+          else s.stop(pc.yellow("Could not validate API key — continuing anyway"));
         } else {
-          const res = await fetch("https://api.openai.com/v1/models", {
-            headers: { Authorization: `Bearer ${llm.apiKey}` },
-          });
-          if (res.ok) {
-            s.stop("API key is valid");
-          } else if (res.status === 401) {
-            s.stop(pc.yellow("API key appears invalid — you can update it later"));
-          } else {
-            s.stop(pc.yellow("Could not validate API key — continuing anyway"));
-          }
+          const result = await validateOpenaiKey(llm.apiKey);
+          if (result === "valid") s.stop("API key is valid");
+          else if (result === "invalid") s.stop(pc.yellow("API key appears invalid — you can update it later"));
+          else s.stop(pc.yellow("Could not validate API key — continuing anyway"));
         }
       } catch {
         s.stop(pc.yellow("Could not reach API — continuing anyway"));
@@ -382,19 +639,17 @@ export async function onboard(opts: OnboardOptions): Promise<void> {
       ),
     );
   } else {
-    p.log.step(pc.bold("Quickstart"));
-    p.log.message(pc.dim("Using quickstart defaults."));
+    p.log.step(pc.bold("Infrastructure"));
+    p.log.message(pc.dim("Using quickstart defaults (embedded database, file storage, local encrypted secrets)."));
     if (usedEnvKeys.length > 0) {
       p.log.message(pc.dim(`Environment-aware defaults active (${usedEnvKeys.length} env var(s) detected).`));
-    } else {
-      p.log.message(
-        pc.dim("No environment overrides detected: embedded database, file storage, local encrypted secrets."),
-      );
     }
     for (const ignored of ignoredEnvKeys) {
       p.log.message(pc.dim(`Ignored ${ignored.key}: ${ignored.reason}`));
     }
   }
+
+  /* ── Step 4: Auth secrets ────────────────────────────────────────── */
 
   const jwtSecret = ensureAgentJwtSecret(configPath);
   const envFilePath = resolveAgentJwtEnvFile(configPath);
@@ -405,6 +660,15 @@ export async function onboard(opts: OnboardOptions): Promise<void> {
   } else {
     p.log.info(`Using existing ${pc.cyan("TAC_AGENT_JWT_SECRET")} in ${pc.dim(envFilePath)}`);
   }
+
+  const authSecret = ensureBetterAuthSecret(configPath);
+  if (authSecret.created) {
+    p.log.success(`Created ${pc.cyan("BETTER_AUTH_SECRET")} in ${pc.dim(envFilePath)}`);
+  } else {
+    p.log.info(`Using existing ${pc.cyan("BETTER_AUTH_SECRET")}`);
+  }
+
+  /* ── Step 5: Write config ────────────────────────────────────────── */
 
   const config: TacConfig = {
     $meta: {
@@ -430,28 +694,32 @@ export async function onboard(opts: OnboardOptions): Promise<void> {
 
   writeConfig(config, opts.config);
 
+  /* ── Step 6: Quickstart summary ──────────────────────────────────── */
+
+  const engineModeLabel =
+    engineMode === "local_cli" ? "Local CLI" : engineMode === "api_keys" ? "API Keys" : "OpenClaw Gateway";
+
   p.note(
     [
+      `Engine mode: ${engineModeLabel}`,
       `Database: ${database.mode}`,
-      llm ? `LLM: ${llm.provider}` : "LLM: not configured",
-      `Logging: ${logging.mode} -> ${logging.logDir}`,
-      `Server: ${server.deploymentMode}/${server.exposure} @ ${server.host}:${server.port}`,
-      `Allowed hosts: ${server.allowedHostnames.length > 0 ? server.allowedHostnames.join(", ") : "(loopback only)"}`,
-      `Auth URL mode: ${auth.baseUrlMode}${auth.publicBaseUrl ? ` (${auth.publicBaseUrl})` : ""}`,
+      llm ? `LLM: ${llm.provider}` : null,
+      `Server: ${server.host}:${server.port}`,
       `Storage: ${storage.provider}`,
-      `Secrets: ${secrets.provider} (strict mode ${secrets.strictMode ? "on" : "off"})`,
-      "Agent auth: TAC_AGENT_JWT_SECRET configured",
-    ].join("\n"),
+      `Secrets: ${secrets.provider}`,
+    ]
+      .filter(Boolean)
+      .join("\n"),
     "Configuration saved",
   );
 
   p.note(
     [
-      `Run: ${pc.cyan("theagentcompany run")}`,
-      `Reconfigure later: ${pc.cyan("theagentcompany configure")}`,
-      `Diagnose setup: ${pc.cyan("theagentcompany doctor")}`,
+      `Start: ${pc.cyan("theagentcompany run")}`,
+      `Reconfigure: ${pc.cyan("theagentcompany configure")}`,
+      `Diagnose: ${pc.cyan("theagentcompany doctor")}`,
     ].join("\n"),
-    "Next commands",
+    "Next steps",
   );
 
   if (canCreateBootstrapInviteImmediately({ database, server })) {
