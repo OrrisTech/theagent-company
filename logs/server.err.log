@@ -164,3 +164,21 @@ Node.js v25.8.1
 [deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
 [deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
 [deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+2026-03-24T03:04:27.380Z WARN [Better Auth]: [better-auth] Base URL could not be determined. Please set a valid base URL using the baseURL config option or the BETTER_AUTH_BASE_URL environment variable. Without this, callbacks and redirects may not work correctly.
+2026-03-24T03:04:27.380Z WARN [Better Auth]: [better-auth] Warning: your BETTER_AUTH_SECRET should be at least 32 characters long for adequate security. Generate one with `npx @better-auth/cli secret` or `openssl rand -base64 32`.
+2026-03-24T03:04:27.380Z WARN [Better Auth]: [better-auth] Warning: your BETTER_AUTH_SECRET appears low-entropy. Use a randomly generated secret for production.
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac
+[deprecation] ~/.paperclip is deprecated, migrate to ~/.tac

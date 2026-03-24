@@ -454,7 +454,9 @@ export async function startServer(): Promise<StartedServer> {
       resolveBetterAuthSessionFromHeaders,
     } = await import("./auth/better-auth.js");
     const betterAuthSecret =
-      process.env.BETTER_AUTH_SECRET?.trim() ?? process.env.TAC_AGENT_JWT_SECRET?.trim();
+      process.env.BETTER_AUTH_SECRET?.trim() ??
+      process.env.TAC_AGENT_JWT_SECRET?.trim() ??
+      process.env.PAPERCLIP_AGENT_JWT_SECRET?.trim(); // backward compat
     if (!betterAuthSecret) {
       throw new Error(
         "authenticated mode requires BETTER_AUTH_SECRET (or TAC_AGENT_JWT_SECRET) to be set",
