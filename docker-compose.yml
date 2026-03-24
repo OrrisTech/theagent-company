@@ -23,6 +23,7 @@ services:
       DATABASE_URL: postgres://tac:tac@db:5432/tac
       PORT: "3100"
       SERVE_UI: "true"
+      TAC_CLOUD_MODE: "true"
       TAC_DEPLOYMENT_MODE: "authenticated"
       TAC_DEPLOYMENT_EXPOSURE: "private"
       TAC_PUBLIC_URL: "${TAC_PUBLIC_URL:-http://localhost:3100}"

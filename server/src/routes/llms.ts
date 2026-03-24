@@ -2,7 +2,7 @@ import { Router, type Request } from "express";
 import type { Db } from "@theagentcompany/db";
 import { AGENT_ICON_NAMES } from "@theagentcompany/shared";
 import { forbidden } from "../errors.js";
-import { listServerAdapters } from "../adapters/index.js";
+import { getAvailableAdapters, listServerAdapters } from "../adapters/index.js";
 import { agentService } from "../services/agents.js";
 
 function hasCreatePermission(agent: { role: string; permissions: Record<string, unknown> | null | undefined }) {
@@ -27,7 +27,7 @@ export function llmRoutes(db: Db) {
 
   router.get("/llms/agent-configuration.txt", async (req, res) => {
     await assertCanRead(req);
-    const adapters = listServerAdapters().sort((a, b) => a.type.localeCompare(b.type));
+    const adapters = getAvailableAdapters().sort((a, b) => a.type.localeCompare(b.type));
     const lines = [
       "# The Agent Company Agent Configuration Index",
       "",

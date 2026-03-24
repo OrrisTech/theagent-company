@@ -22,6 +22,7 @@ import {
   instanceUserRoles,
 } from "@theagentcompany/db";
 import detectPort from "detect-port";
+import { isCloudMode } from "./cloud-mode.js";
 import { createApp } from "./app.js";
 import { loadConfig } from "./config.js";
 import { logger } from "./middleware/logger.js";
@@ -243,6 +244,11 @@ export async function startServer(): Promise<StartedServer> {
     logger.info("Using external PostgreSQL via DATABASE_URL/config");
     activeDatabaseConnectionString = config.databaseUrl;
     startupDbInfo = { mode: "external-postgres", connectionString: config.databaseUrl };
+  } else if (isCloudMode()) {
+    throw new Error(
+      "Cloud mode requires DATABASE_URL. Set DATABASE_URL to connect to an external PostgreSQL instance. " +
+        "Embedded PostgreSQL is not supported in cloud/Docker deployments.",
+    );
   } else {
     const moduleName = "embedded-postgres";
     let EmbeddedPostgres: EmbeddedPostgresCtor;

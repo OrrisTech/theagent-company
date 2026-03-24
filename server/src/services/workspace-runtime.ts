@@ -8,6 +8,7 @@ import type { AdapterRuntimeServiceReport } from "@theagentcompany/adapter-utils
 import type { Db } from "@theagentcompany/db";
 import { workspaceRuntimeServices } from "@theagentcompany/db";
 import { and, desc, eq, inArray } from "drizzle-orm";
+import { isRuntimeServicesEnabled } from "../cloud-mode.js";
 import { asNumber, asString, parseObject, renderTemplate } from "../adapters/utils.js";
 import { resolveHomeAwarePath } from "../home-paths.js";
 import type { WorkspaceOperationRecorder } from "./workspace-operations.js";
@@ -1277,6 +1278,11 @@ export async function ensureRuntimeServicesForRun(input: {
   adapterEnv: Record<string, string>;
   onLog?: (stream: "stdout" | "stderr", chunk: string) => Promise<void>;
 }): Promise<RuntimeServiceRef[]> {
+  // In cloud mode (or when explicitly disabled), skip local process spawning
+  if (!isRuntimeServicesEnabled()) {
+    return [];
+  }
+
   const runtime = parseObject(input.config.workspaceRuntime);
   const rawServices = Array.isArray(runtime.services)
     ? runtime.services.filter((entry): entry is Record<string, unknown> => typeof entry === "object" && entry !== null)

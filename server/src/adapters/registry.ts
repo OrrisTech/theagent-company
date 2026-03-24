@@ -1,5 +1,6 @@
 import type { ServerAdapterModule } from "./types.js";
 import { getAdapterSessionManagement } from "@theagentcompany/adapter-utils";
+import { isCloudMode } from "../cloud-mode.js";
 import {
   execute as claudeExecute,
   testEnvironment as claudeTestEnvironment,
@@ -90,6 +91,7 @@ const claudeLocalAdapter: ServerAdapterModule = {
   sessionManagement: getAdapterSessionManagement("claude_local") ?? undefined,
   models: claudeModels,
   supportsLocalAgentJwt: true,
+  localOnly: true,
   agentConfigurationDoc: claudeAgentConfigurationDoc,
   getQuotaWindows: claudeGetQuotaWindows,
 };
@@ -103,6 +105,7 @@ const codexLocalAdapter: ServerAdapterModule = {
   models: codexModels,
   listModels: listCodexModels,
   supportsLocalAgentJwt: true,
+  localOnly: true,
   agentConfigurationDoc: codexAgentConfigurationDoc,
   getQuotaWindows: codexGetQuotaWindows,
 };
@@ -116,6 +119,7 @@ const cursorLocalAdapter: ServerAdapterModule = {
   models: cursorModels,
   listModels: listCursorModels,
   supportsLocalAgentJwt: true,
+  localOnly: true,
   agentConfigurationDoc: cursorAgentConfigurationDoc,
 };
 
@@ -127,6 +131,7 @@ const geminiLocalAdapter: ServerAdapterModule = {
   sessionManagement: getAdapterSessionManagement("gemini_local") ?? undefined,
   models: geminiModels,
   supportsLocalAgentJwt: true,
+  localOnly: true,
   agentConfigurationDoc: geminiAgentConfigurationDoc,
 };
 
@@ -148,6 +153,7 @@ const openCodeLocalAdapter: ServerAdapterModule = {
   models: [],
   listModels: listOpenCodeModels,
   supportsLocalAgentJwt: true,
+  localOnly: true,
   agentConfigurationDoc: openCodeAgentConfigurationDoc,
 };
 
@@ -160,6 +166,7 @@ const piLocalAdapter: ServerAdapterModule = {
   models: [],
   listModels: listPiModels,
   supportsLocalAgentJwt: true,
+  localOnly: true,
   agentConfigurationDoc: piAgentConfigurationDoc,
 };
 
@@ -170,6 +177,7 @@ const hermesLocalAdapter: ServerAdapterModule = {
   sessionCodec: hermesSessionCodec,
   models: hermesModels,
   supportsLocalAgentJwt: true,
+  localOnly: true,
   agentConfigurationDoc: hermesAgentConfigurationDoc,
 };
 
@@ -229,6 +237,16 @@ export async function listAdapterModels(type: string): Promise<{ id: string; lab
 
 export function listServerAdapters(): ServerAdapterModule[] {
   return Array.from(adaptersByType.values());
+}
+
+/**
+ * Return adapters available for new member creation in the current deployment mode.
+ * In cloud mode, localOnly adapters are excluded since their CLI binaries are unavailable.
+ */
+export function getAvailableAdapters(): ServerAdapterModule[] {
+  const all = listServerAdapters();
+  if (!isCloudMode()) return all;
+  return all.filter((adapter) => !adapter.localOnly);
 }
 
 export function findServerAdapter(type: string): ServerAdapterModule | null {

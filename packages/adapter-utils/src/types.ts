@@ -218,6 +218,8 @@ export interface ServerAdapterModule {
   sessionCodec?: AdapterSessionCodec;
   sessionManagement?: import("./session-compaction.js").AdapterSessionManagement;
   supportsLocalAgentJwt?: boolean;
+  /** When true, this adapter requires local CLI binaries and is unavailable in cloud mode. */
+  localOnly?: boolean;
   models?: AdapterModel[];
   listModels?: () => Promise<AdapterModel[]>;
   agentConfigurationDoc?: string;
