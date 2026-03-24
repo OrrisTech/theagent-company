@@ -63,6 +63,14 @@ import {
   agentConfigurationDoc as hermesAgentConfigurationDoc,
   models as hermesModels,
 } from "hermes-paperclip-adapter";
+import {
+  execute as anthropicApiExecute,
+  testEnvironment as anthropicApiTestEnvironment,
+} from "@theagentcompany/adapter-anthropic-api/server";
+import {
+  agentConfigurationDoc as anthropicApiAgentConfigurationDoc,
+  models as anthropicApiModels,
+} from "@theagentcompany/adapter-anthropic-api";
 import { processAdapter } from "./process/index.js";
 import { httpAdapter } from "./http/index.js";
 
@@ -157,9 +165,19 @@ const hermesLocalAdapter: ServerAdapterModule = {
   agentConfigurationDoc: hermesAgentConfigurationDoc,
 };
 
+const anthropicApiAdapter: ServerAdapterModule = {
+  type: "anthropic_api",
+  execute: anthropicApiExecute,
+  testEnvironment: anthropicApiTestEnvironment,
+  models: anthropicApiModels,
+  supportsLocalAgentJwt: false,
+  agentConfigurationDoc: anthropicApiAgentConfigurationDoc,
+};
+
 const adaptersByType = new Map<string, ServerAdapterModule>(
   [
     claudeLocalAdapter,
+    anthropicApiAdapter,
     codexLocalAdapter,
     openCodeLocalAdapter,
     piLocalAdapter,
