@@ -323,11 +323,16 @@ export async function startServer(): Promise<StartedServer> {
       }
     };
   
+    // Use "paperclip" credentials for existing clusters (backward compat), "tac" for fresh installs.
+    const embeddedUser = clusterAlreadyInitialized ? "paperclip" : "tac";
+    const embeddedPassword = clusterAlreadyInitialized ? "paperclip" : "tac";
+    const embeddedDbName = clusterAlreadyInitialized ? "paperclip" : "tac";
+
     const runningPid = getRunningPid();
     if (runningPid) {
       logger.warn(`Embedded PostgreSQL already running; reusing existing process (pid=${runningPid}, port=${port})`);
     } else {
-      const configuredAdminConnectionString = `postgres://tac:tac@127.0.0.1:${configuredPort}/postgres`;
+      const configuredAdminConnectionString = `postgres://${embeddedUser}:${embeddedPassword}@127.0.0.1:${configuredPort}/postgres`;
       try {
         const actualDataDir = await getPostgresDataDirectory(configuredAdminConnectionString);
         if (
@@ -336,7 +341,7 @@ export async function startServer(): Promise<StartedServer> {
         ) {
           throw new Error("reachable postgres does not use the expected embedded data directory");
         }
-        await ensurePostgresDatabase(configuredAdminConnectionString, "tac");
+        await ensurePostgresDatabase(configuredAdminConnectionString, embeddedDbName);
         logger.warn(
           `Embedded PostgreSQL appears to already be reachable without a pid file; reusing existing server on configured port ${configuredPort}`,
         );
@@ -349,8 +354,8 @@ export async function startServer(): Promise<StartedServer> {
         logger.info(`Using embedded PostgreSQL because no DATABASE_URL set (dataDir=${dataDir}, port=${port})`);
         embeddedPostgres = new EmbeddedPostgres({
           databaseDir: dataDir,
-          user: "tac",
-          password: "tac",
+          user: embeddedUser,
+          password: embeddedPassword,
           port,
           persistent: true,
           initdbFlags: ["--encoding=UTF8", "--locale=C"],
@@ -383,13 +388,13 @@ export async function startServer(): Promise<StartedServer> {
       }
     }
   
-    const embeddedAdminConnectionString = `postgres://tac:tac@127.0.0.1:${port}/postgres`;
-    const dbStatus = await ensurePostgresDatabase(embeddedAdminConnectionString, "tac");
+    const embeddedAdminConnectionString = `postgres://${embeddedUser}:${embeddedPassword}@127.0.0.1:${port}/postgres`;
+    const dbStatus = await ensurePostgresDatabase(embeddedAdminConnectionString, embeddedDbName);
     if (dbStatus === "created") {
-      logger.info("Created embedded PostgreSQL database: tac");
+      logger.info(`Created embedded PostgreSQL database: ${embeddedDbName}`);
     }
   
-    const embeddedConnectionString = `postgres://tac:tac@127.0.0.1:${port}/tac`;
+    const embeddedConnectionString = `postgres://${embeddedUser}:${embeddedPassword}@127.0.0.1:${port}/${embeddedDbName}`;
     const shouldAutoApplyFirstRunMigrations = !clusterAlreadyInitialized || dbStatus === "created";
     if (shouldAutoApplyFirstRunMigrations) {
       logger.info("Detected first-run embedded PostgreSQL setup; applying pending migrations automatically");
