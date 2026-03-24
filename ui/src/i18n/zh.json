@@ -550,6 +550,21 @@
       "noMembersHint": "创建你的第一个 AI 团队成员开始使用。"
     }
   },
+  "roleTemplates": {
+    "chooseRole": "选择角色",
+    "chooseRoleDescription": "选择一个角色模板快速开始，或从零创建自定义成员。",
+    "searchPlaceholder": "搜索角色...",
+    "noResults": "没有匹配的角色。",
+    "customBlankSlate": "从零开始（自定义）",
+    "backToRoles": "返回角色选择",
+    "categories": {
+      "leadership": "管理层",
+      "engineering": "工程",
+      "product": "产品",
+      "marketing": "市场",
+      "operations": "运营"
+    }
+  },
   "pages": {
     "overview": {
       "title": "总览",

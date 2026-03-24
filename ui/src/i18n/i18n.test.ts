@@ -27,7 +27,7 @@ describe("i18n translation resources", () => {
   it("en.json has all required top-level sections", () => {
     const required = ["common", "sidebar", "theme", "branding", "language", "settings", "pages",
       "overview", "usage", "memory", "documents", "collaboration",
-      "models", "channels", "skills", "cron", "teamMember"];
+      "models", "channels", "skills", "cron", "teamMember", "roleTemplates"];
     for (const key of required) {
       expect(Object.keys(en), `en.json should have section '${key}'`).toContain(key);
     }
@@ -36,7 +36,7 @@ describe("i18n translation resources", () => {
   it("zh.json has all required top-level sections", () => {
     const required = ["common", "sidebar", "theme", "branding", "language", "settings", "pages",
       "overview", "usage", "memory", "documents", "collaboration",
-      "models", "channels", "skills", "cron", "teamMember"];
+      "models", "channels", "skills", "cron", "teamMember", "roleTemplates"];
     for (const key of required) {
       expect(Object.keys(zh), `zh.json should have section '${key}'`).toContain(key);
     }

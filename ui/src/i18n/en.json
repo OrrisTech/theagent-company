@@ -550,6 +550,21 @@
       "noMembersHint": "Create your first AI team member to get started."
     }
   },
+  "roleTemplates": {
+    "chooseRole": "Choose a Role",
+    "chooseRoleDescription": "Select a role template to get started quickly, or create a custom member from scratch.",
+    "searchPlaceholder": "Search roles...",
+    "noResults": "No roles match your search.",
+    "customBlankSlate": "Start from scratch (custom)",
+    "backToRoles": "Back to role selection",
+    "categories": {
+      "leadership": "Leadership",
+      "engineering": "Engineering",
+      "product": "Product",
+      "marketing": "Marketing",
+      "operations": "Operations"
+    }
+  },
   "pages": {
     "overview": {
       "title": "Overview",
