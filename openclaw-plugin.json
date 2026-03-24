@@ -1,0 +1,33 @@
+{
+  "name": "theagentcompany",
+  "version": "0.1.0",
+  "displayName": "The Agent Company",
+  "description": "AI agent orchestration platform — manage, monitor, and deploy AI agent teams",
+  "type": "service",
+  "homepage": "https://github.com/OrrisTech/theagent-company",
+  "repository": "https://github.com/OrrisTech/theagent-company",
+  "install": {
+    "docker": {
+      "compose": "docker-compose.yml",
+      "env": ["BETTER_AUTH_SECRET", "ANTHROPIC_API_KEY", "OPENAI_API_KEY"]
+    },
+    "npm": {
+      "package": "@theagentcompany/cli",
+      "command": "tac onboard"
+    }
+  },
+  "integration": {
+    "gateway": {
+      "adapter": "openclaw_gateway",
+      "autoConnect": true
+    },
+    "auth": {
+      "strategy": "openclaw_token",
+      "autoMap": true
+    }
+  },
+  "ports": {
+    "web": 3100
+  },
+  "healthCheck": "/api/health"
+}
