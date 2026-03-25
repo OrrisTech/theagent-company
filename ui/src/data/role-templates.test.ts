@@ -10,8 +10,8 @@ import {
 import { AGENT_ROLES, AGENT_ADAPTER_TYPES } from "@theagentcompany/shared";
 
 describe("Role Templates — data integrity", () => {
-  it("has at least 15 templates", () => {
-    expect(ROLE_TEMPLATES.length).toBeGreaterThanOrEqual(15);
+  it("has at least 23 templates", () => {
+    expect(ROLE_TEMPLATES.length).toBeGreaterThanOrEqual(23);
   });
 
   it("every template has a unique id", () => {
@@ -138,9 +138,11 @@ describe("Role Templates — covers expected roles", () => {
   it.each([
     "ceo", "cto", "coo", "cmo",
     "frontend-engineer", "backend-engineer", "fullstack-engineer", "devops-engineer",
-    "product-manager", "designer",
-    "content-writer", "growth-marketer", "seo-specialist",
-    "qa-engineer", "data-analyst",
+    "ai-engineer", "security-engineer", "mobile-engineer",
+    "product-manager", "designer", "ux-researcher",
+    "content-writer", "growth-marketer", "seo-specialist", "social-media-strategist",
+    "outbound-strategist",
+    "qa-engineer", "data-analyst", "technical-writer", "customer-success",
   ])("includes template: %s", (id) => {
     expect(templateIds.has(id)).toBe(true);
   });
